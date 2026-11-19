@@ -7,7 +7,7 @@ const fx = (f: string) => JSON.parse(fs.readFileSync(`fixtures/${f}`, "utf8"));
 describe("external payload schemas (against real saved fixtures)", () => {
   it("MET warnings fixture parses", () => expect(MetWarnings.safeParse(fx("weather-warning.json")).success).toBe(true));
   it("MET forecast fixture parses", () => expect(MetForecasts.safeParse(fx("weather-forecast.json")).success).toBe(true));
-  it("e-Solat fixture parses", () => expect(ESolat.safeParse(fx("esolat-PRK02.json")).success).toBe(true));
+  it("e-Solat fixture parses", () => expect(ESolat.safeParse(fx("esolat-month-PRK02.json")).success).toBe(true));
   it("rejects garbage", () => {
     expect(MetWarnings.safeParse({ hello: 1 }).success).toBe(false);
     expect(ESolat.safeParse({ status: "OK", zone: "X", prayerTime: [] }).success).toBe(false);
