@@ -1,0 +1,170 @@
+{
+  "routeId": "kl-ipoh",
+  "source": "OpenStreetMap via Overpass API",
+  "source_url": "https://overpass-api.de/",
+  "retrieved_at": "2026-11-19T17:08:19.751Z",
+  "verified": false,
+  "items": [
+    {
+      "id": "osm-way-307663997",
+      "name": "Kawasan Rehat Rawang Arah Utara",
+      "name_en": "Rawang Rest Area North Bound",
+      "kind": "rnr",
+      "direction": "north",
+      "lat": 3.329964,
+      "lng": 101.558312,
+      "distanceAlongRoute_km": 28.8,
+      "facilities": {
+        "surau": null,
+        "toilet": true,
+        "fuel": null,
+        "evCharger": null,
+        "food": null,
+        "atm": null
+      },
+      "facilities_source": "OpenStreetMap tags on the R&R + amenity nodes within 250 m. Unknown is null, never false.",
+      "verified": false,
+      "source_url": "https://www.openstreetmap.org/way/307663997",
+      "osm_url": "https://www.openstreetmap.org/way/307663997",
+      "retrieved_at": "2026-11-19T17:08:19.751Z"
+    },
+    {
+      "id": "osm-way-541712592",
+      "name": "Hentian Sebelah Tanjung Malim",
+      "name_en": "Tanjung Malim Layby",
+      "kind": "layby",
+      "direction": "north",
+      "lat": 3.676913,
+      "lng": 101.500388,
+      "distanceAlongRoute_km": 72.53,
+      "facilities": {
+        "surau": null,
+        "toilet": true,
+        "fuel": null,
+        "evCharger": null,
+        "food": null,
+        "atm": null
+      },
+      "facilities_source": "OpenStreetMap tags on the R&R + amenity nodes within 250 m. Unknown is null, never false.",
+      "verified": false,
+      "source_url": "https://www.openstreetmap.org/way/541712592",
+      "osm_url": "https://www.openstreetmap.org/way/541712592",
+      "retrieved_at": "2026-11-19T17:08:19.751Z"
+    },
+    {
+      "id": "osm-way-857846130",
+      "name": "Hentian Sebelah Behrang",
+      "name_en": null,
+      "kind": "layby",
+      "direction": "north",
+      "lat": 3.781972,
+      "lng": 101.446417,
+      "distanceAlongRoute_km": 86.02,
+      "facilities": {
+        "surau": null,
+        "toilet": true,
+        "fuel": null,
+        "evCharger": null,
+        "food": null,
+        "atm": null
+      },
+      "facilities_source": "OpenStreetMap tags on the R&R + amenity nodes within 250 m. Unknown is null, never false.",
+      "verified": false,
+      "source_url": "https://www.openstreetmap.org/way/857846130",
+      "osm_url": "https://www.openstreetmap.org/way/857846130",
+      "retrieved_at": "2026-11-19T17:08:19.751Z"
+    },
+    {
+      "id": "osm-way-339101032",
+      "name": "Hentian Sebelah Ladang Bikam",
+      "name_en": "Bikam Estate Layby Northbound",
+      "kind": "layby",
+      "direction": "north",
+      "lat": 4.0443,
+      "lng": 101.310674,
+      "distanceAlongRoute_km": 121.72,
+      "facilities": {
+        "surau": null,
+        "toilet": true,
+        "fuel": null,
+        "evCharger": null,
+        "food": null,
+        "atm": null
+      },
+      "facilities_source": "OpenStreetMap tags on the R&R + amenity nodes within 250 m. Unknown is null, never false.",
+      "verified": false,
+      "source_url": "https://www.openstreetmap.org/way/339101032",
+      "osm_url": "https://www.openstreetmap.org/way/339101032",
+      "retrieved_at": "2026-11-19T17:08:19.751Z"
+    },
+    {
+      "id": "osm-way-339101076",
+      "name": "Kawasan Rehat Tapah",
+      "name_en": "Tapah Rest Area",
+      "kind": "rnr",
+      "direction": "north",
+      "lat": 4.17884,
+      "lng": 101.289997,
+      "distanceAlongRoute_km": 137.27,
+      "facilities": {
+        "surau": null,
+        "toilet": true,
+        "fuel": null,
+        "evCharger": null,
+        "food": null,
+        "atm": null
+      },
+      "facilities_source": "OpenStreetMap tags on the R&R + amenity nodes within 250 m. Unknown is null, never false.",
+      "verified": false,
+      "source_url": "https://www.openstreetmap.org/way/339101076",
+      "osm_url": "https://www.openstreetmap.org/way/339101076",
+      "retrieved_at": "2026-11-19T17:08:19.751Z"
+    },
+    {
+      "id": "osm-way-339101040",
+      "name": "Kawasan Rehat RTC Perak",
+      "name_en": null,
+      "kind": "rnr",
+      "direction": "north",
+      "lat": 4.494796,
+      "lng": 101.153872,
+      "distanceAlongRoute_km": 178.17,
+      "facilities": {
+        "surau": null,
+        "toilet": null,
+        "fuel": null,
+        "evCharger": null,
+        "food": null,
+        "atm": null
+      },
+      "facilities_source": "OpenStreetMap tags on the R&R + amenity nodes within 250 m. Unknown is null, never false.",
+      "verified": false,
+      "source_url": "https://www.openstreetmap.org/way/339101040",
+      "osm_url": "https://www.openstreetmap.org/way/339101040",
+      "retrieved_at": "2026-11-19T17:08:19.751Z"
+    },
+    {
+      "id": "osm-way-339101034",
+      "name": "Hentian Sebelah Simpang Pulai Arah Utara",
+      "name_en": null,
+      "kind": "layby",
+      "direction": "north",
+      "lat": 4.499605,
+      "lng": 101.151733,
+      "distanceAlongRoute_km": 178.65,
+      "facilities": {
+        "surau": null,
+        "toilet": null,
+        "fuel": null,
+        "evCharger": null,
+        "food": null,
+        "atm": null
+      },
+      "facilities_source": "OpenStreetMap tags on the R&R + amenity nodes within 250 m. Unknown is null, never false.",
+      "verified": false,
+      "source_url": "https://www.openstreetmap.org/way/339101034",
+      "osm_url": "https://www.openstreetmap.org/way/339101034",
+      "retrieved_at": "2026-11-19T17:08:19.751Z"
+    }
+  ]
+}

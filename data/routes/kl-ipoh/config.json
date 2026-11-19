@@ -1,0 +1,52 @@
+{
+  "id": "kl-ipoh",
+  "name": {
+    "en": "Kuala Lumpur → Ipoh",
+    "bm": "Kuala Lumpur → Ipoh"
+  },
+  "highway": "North–South Expressway (E1) northbound",
+  "direction": "north",
+  "origin": {
+    "name": "Kuala Lumpur (Jalan Duta)",
+    "lat": 3.1757,
+    "lng": 101.6558
+  },
+  "destination": {
+    "name": "Ipoh",
+    "lat": 4.5975,
+    "lng": 101.0901
+  },
+  "via": [],
+  "prayerZones": [
+    {
+      "zone": "WLY01",
+      "label": "Kuala Lumpur",
+      "fromKm": 0
+    },
+    {
+      "zone": "SGR01",
+      "label": "Selangor: Gombak, Petaling, Hulu Selangor…",
+      "fromKm": 6
+    },
+    {
+      "zone": "PRK02",
+      "label": "Perak: Muallim, Batang Padang, Kampar, Kinta…",
+      "fromKm": 74
+    }
+  ],
+  "weatherLocations": [
+    "Ds058",
+    "Ds055",
+    "Ds057",
+    "Ds051",
+    "Ds045",
+    "Ds041",
+    "Ds035",
+    "Ds032"
+  ],
+  "links": {
+    "operatorTta": "https://www.plus.com.my/",
+    "tollRates": "https://www.plus.com.my/"
+  },
+  "prayerZonesNote": "Zone boundaries by km are approximate (state lines at the Sungai Buloh / Sungai Bernam crossings). Prayer times differ by only a few minutes between adjacent zones."
+}

@@ -1,0 +1,111 @@
+{
+  "routeId": "kl-ipoh",
+  "source": "OpenStreetMap barrier=toll_booth",
+  "retrieved_at": "2026-11-19T17:08:19.751Z",
+  "items": [
+    {
+      "id": "plaza-tol-jalan-duta",
+      "name": "Plaza Tol Jalan Duta",
+      "lat": 3.175515,
+      "lng": 101.655814,
+      "distanceAlongRoute_km": 0,
+      "source_url": "https://www.openstreetmap.org/node/300590193"
+    },
+    {
+      "id": "plaza-tol-sungai-buloh",
+      "name": "Plaza Tol Sungai Buloh",
+      "lat": 3.201626,
+      "lng": 101.586173,
+      "distanceAlongRoute_km": 11.34,
+      "source_url": "https://www.openstreetmap.org/node/264174125"
+    },
+    {
+      "id": "plaza-tol-rawang-selatan",
+      "name": "Plaza Tol Rawang Selatan",
+      "lat": 3.274437,
+      "lng": 101.550258,
+      "distanceAlongRoute_km": 21.37,
+      "source_url": "https://www.openstreetmap.org/node/12912162449"
+    },
+    {
+      "id": "plaza-tol-rawang",
+      "name": "Plaza Tol Rawang",
+      "lat": 3.304356,
+      "lng": 101.54874,
+      "distanceAlongRoute_km": 25.2,
+      "source_url": "https://www.openstreetmap.org/node/264168859"
+    },
+    {
+      "id": "plaza-tol-bukit-beruntung",
+      "name": "Plaza Tol Bukit Beruntung",
+      "lat": 3.424459,
+      "lng": 101.553392,
+      "distanceAlongRoute_km": 40.27,
+      "source_url": "https://www.openstreetmap.org/node/587752956"
+    },
+    {
+      "id": "plaza-tol-lembah-beringin",
+      "name": "Plaza Tol Lembah Beringin",
+      "lat": 3.574083,
+      "lng": 101.527396,
+      "distanceAlongRoute_km": 58.15,
+      "source_url": "https://www.openstreetmap.org/node/7911238516"
+    },
+    {
+      "id": "plaza-tol-behrang",
+      "name": "Plaza Tol Behrang",
+      "lat": 3.739894,
+      "lng": 101.459285,
+      "distanceAlongRoute_km": 81.07,
+      "source_url": "https://www.openstreetmap.org/node/1788035810"
+    },
+    {
+      "id": "plaza-tol-slim-river",
+      "name": "Plaza Tol Slim River",
+      "lat": 3.846653,
+      "lng": 101.396414,
+      "distanceAlongRoute_km": 96.11,
+      "source_url": "https://www.openstreetmap.org/node/1513954203"
+    },
+    {
+      "id": "plaza-tol-sungkai",
+      "name": "Plaza Tol Sungkai",
+      "lat": 3.989225,
+      "lng": 101.315726,
+      "distanceAlongRoute_km": 115.59,
+      "source_url": "https://www.openstreetmap.org/node/1754782432"
+    },
+    {
+      "id": "plaza-tol-bidor",
+      "name": "Plaza Tol Bidor",
+      "lat": 4.106899,
+      "lng": 101.297949,
+      "distanceAlongRoute_km": 128.97,
+      "source_url": "https://www.openstreetmap.org/node/1858318069"
+    },
+    {
+      "id": "plaza-tol-tapah",
+      "name": "Plaza Tol Tapah",
+      "lat": 4.214187,
+      "lng": 101.269326,
+      "distanceAlongRoute_km": 141.85,
+      "source_url": "https://www.openstreetmap.org/node/608261306"
+    },
+    {
+      "id": "plaza-tol-gopeng",
+      "name": "Plaza Tol Gopeng",
+      "lat": 4.453157,
+      "lng": 101.167518,
+      "distanceAlongRoute_km": 172.42,
+      "source_url": "https://www.openstreetmap.org/node/2187969903"
+    },
+    {
+      "id": "plaza-tol-simpang-pulai",
+      "name": "Plaza Tol Simpang Pulai",
+      "lat": 4.525501,
+      "lng": 101.132882,
+      "distanceAlongRoute_km": 182.39,
+      "source_url": "https://www.openstreetmap.org/node/485865934"
+    }
+  ]
+}

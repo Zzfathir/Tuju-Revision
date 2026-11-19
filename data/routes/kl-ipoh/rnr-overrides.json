@@ -1,0 +1,5 @@
+{
+  "_readme": "Add facts ONLY after checking an official/first-hand source. Key = R&R id from rnr.json. Fields you omit keep the OSM value. Then run: npx tsx scripts/build-pois.ts kl-ipoh",
+  "_example": { "osm-way-339101076": { "facilities": { "surau": true, "evCharger": true }, "source_url": "https://www.plus.com.my/...", "checked_at": "2026-11-20", "note": "who checked + how" } },
+  "overrides": {}
+}

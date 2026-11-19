@@ -1,0 +1,2559 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-07-24T11:04:51Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 33580020,
+  "lat": 3.2012652,
+  "lon": 101.5859435,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Sungai Buloh",
+    "name:en": "Sungai Buloh Toll Plaza",
+    "name:ms": "Plaza Tol Sungai Buloh"
+  }
+},
+{
+  "type": "node",
+  "id": 206190525,
+  "lat": 3.1236745,
+  "lon": 101.5280764,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "1.90 MYR/motorcar; 0.90 MYR/taxi; 1.40 MYR/bus; 3.80 MYR/goods; 5.70 MYR/hgv",
+    "is_in": "Bukit Jelutong, Shah Alam, Selangor, Malaysia",
+    "motorcycle": "no",
+    "name": "Plaza Tol Bukit Jelutong (Arah Utara)",
+    "name:en": "GCE Bukit Jelutong Toll Plaza (Northward)",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 206192045,
+  "lat": 3.2036513,
+  "lon": 101.5070907,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "1.90 MYR/motorcar; 0.90 MYR/taxi; 1.40 MYR/bus; 3.80 MYR/goods; 5.70 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Elmina (Arah Utara)",
+    "name:en": "GCE Elmina Toll Plaza (Northward)",
+    "operator": "GCE",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 206192287,
+  "lat": 3.2036525,
+  "lon": 101.5074430,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "1.90 MYR/motorcar; 0.90 MYR/taxi; 1.40 MYR/bus; 3.80 MYR/goods; 5.70 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Elmina (Arah Selatan)",
+    "name:en": "GCE Elmina Toll Plaza (Southward)",
+    "operator": "GCE",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 206192361,
+  "lat": 3.1237496,
+  "lon": 101.5285136,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "1.90 MYR/motorcar; 0.90 MYR/taxi; 1.40 MYR/bus; 3.80 MYR/goods; 5.70 MYR/hgv",
+    "is_in": "Bukit Jelutong, Shah Alam, Selangor, Malaysia",
+    "motorcycle": "no",
+    "name": "Plaza Tol Bukit Jelutong (Arah Selatan)",
+    "name:en": "GCE Bukit Jelutong Toll Plaza (Southward)",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 206201286,
+  "lat": 3.2623240,
+  "lon": 101.5389965,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "1.90 MYR/motorcar; 0.90 MYR/taxi; 1.40 MYR/bus; 3.80 MYR/goods; 5.70 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Lagong (Arah Utara)",
+    "name:en": "Lagong Toll Plaza (Northward)",
+    "operator": "Prolintas",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 206201345,
+  "lat": 3.2620501,
+  "lon": 101.5393133,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "1.90 MYR/motorcar; 0.90 MYR/taxi; 1.40 MYR/bus; 3.80 MYR/goods; 5.70 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Lagong (Arah Selatan)",
+    "name:en": "Lagong Toll Plaza (Southward)",
+    "operator": "Prolintas",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 206201433,
+  "lat": 3.2749543,
+  "lon": 101.5495861,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Rawang Selatan",
+    "name:en": "Rawang South Toll Plaza",
+    "name:zh": "万挠南区收费站",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 206201608,
+  "lat": 3.2748282,
+  "lon": 101.5497289,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Rawang Selatan (Plaza B)",
+    "name:en": "Rawang South Toll Plaza (Plaza B)",
+    "name:zh": "万挠南区收费站 (Plaza B)",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 206201899,
+  "lat": 3.2230759,
+  "lon": 101.5805623,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Hospital Sungai Buloh",
+    "name:en": "Hospital Sungai Buloh Toll Plaza",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 251017197,
+  "lat": 3.1555383,
+  "lon": 101.5890674,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Kota Damansara",
+    "name:en": "Kota Damansara Toll Plaza",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 251017902,
+  "lat": 3.1339114,
+  "lon": 101.6040204,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Damansara",
+    "name:en": "Damansara Toll Plaza",
+    "name:ms": "Plaza Tol Damansara",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 251018070,
+  "lat": 3.1306981,
+  "lon": 101.6387600,
+  "tags": {
+    "barrier": "toll_booth",
+    "destination": "Putrajaya;Puchong;SS24;Ipoh;Klang;Damansara Jaya",
+    "fee": "RM 1",
+    "name": "Plaza Tol Damansara (B)",
+    "name:en": "Damansara Toll Plaza B",
+    "operator": "Sistem Penyuraian Trafik KL Barat Sdn Bhd",
+    "ref": "Plaza B"
+  }
+},
+{
+  "type": "node",
+  "id": 257423539,
+  "lat": 3.1107229,
+  "lon": 101.7117373,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Salak Selatan"
+  }
+},
+{
+  "type": "node",
+  "id": 257423936,
+  "lat": 3.1105253,
+  "lon": 101.7120492,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Salak Selatan"
+  }
+},
+{
+  "type": "node",
+  "id": 264168466,
+  "lat": 3.3044284,
+  "lon": 101.5485373,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Rawang",
+    "name:en": "Rawang Toll Plaza",
+    "name:zh": "万挠收费站",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 264168859,
+  "lat": 3.3043558,
+  "lon": 101.5487405,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Rawang",
+    "name:en": "Rawang Toll Plaza",
+    "name:zh": "万挠收费站",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 264174125,
+  "lat": 3.2016259,
+  "lon": 101.5861726,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Sungai Buloh",
+    "name:en": "Sungai Buloh Toll Plaza",
+    "name:ms": "Plaza Tol Sungai Buloh"
+  }
+},
+{
+  "type": "node",
+  "id": 267300082,
+  "lat": 3.1341377,
+  "lon": 101.6040413,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Damansara",
+    "name:en": "Damansara Toll Plaza",
+    "name:ms": "Plaza Tol Damansara",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 267301023,
+  "lat": 3.1644497,
+  "lon": 101.6428945,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Bukit Kiara",
+    "name:en": "Bukit Kiara Toll Plaza",
+    "operator": "Sistem Penyuraian Trafik KL Barat Sdn Bhd"
+  }
+},
+{
+  "type": "node",
+  "id": 270861235,
+  "lat": 3.1029425,
+  "lon": 101.5903466,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Subang",
+    "name:en": "Subang Toll Plaza",
+    "name:ms": "Plaza Tol Subang",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 271154279,
+  "lat": 3.1776385,
+  "lon": 101.6190445,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "2.10 MYR/motorcar; 1.10 MYR/taxi; 1.60 MYR/bus; 4.20 MYR/goods; 6.30 MYR/hgv",
+    "name": "Plaza Tol Penchala (Arah Utara)",
+    "name:en": "Penchala Toll Plaza (North bound)",
+    "name:ms": "Plaza Tol Penchala (Arah Utara)",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 271154296,
+  "lat": 3.1776269,
+  "lon": 101.6195493,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "2.10 MYR/motorcar; 1.10 MYR/taxi; 1.60 MYR/bus; 4.20 MYR/goods; 6.30 MYR/hgv",
+    "currency:MYR": "yes",
+    "name": "Plaza Tol Penchala (Arah Selatan)",
+    "name:en": "Penchala Toll Plaza (South bound)",
+    "name:ms": "Plaza Tol Penchala (Arah Selatan)",
+    "payment:mastercard": "yes",
+    "payment:rfid": "yes",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "payment:visa": "yes",
+    "toll": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 271173139,
+  "lat": 3.1641093,
+  "lon": 101.6430224,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Bukit Kiara",
+    "name:en": "Bukit Kiara Toll Plaza",
+    "operator": "Sistem Penyuraian Trafik KL Barat Sdn Bhd"
+  }
+},
+{
+  "type": "node",
+  "id": 300590193,
+  "lat": 3.1755147,
+  "lon": 101.6558136,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Jalan Duta",
+    "name:en": "Jalan Duta Toll Plaza",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 300590811,
+  "lat": 3.1760208,
+  "lon": 101.6557106,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Jalan Duta",
+    "name:en": "Jalan Duta Toll Plaza",
+    "noref": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 318685997,
+  "lat": 3.1557989,
+  "lon": 101.5890034,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Kota Damansara",
+    "name:en": "Kota Damansara Toll Plaza",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 346193440,
+  "lat": 3.2419301,
+  "lon": 101.7272246,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "6.00 MYR/motorcar;3.00 MYR/taxi;5.00 MYR/bus;12.00 MYR/goods;18.00 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Gombak (Arah Barat)",
+    "name:en": "Gombak Toll Plaza (Westward)",
+    "name:ms": "Plaza Tol Gombak (Arah Barat)",
+    "payment:cash": "no",
+    "payment:contactless": "only",
+    "payment:debit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "payment:visa": "yes",
+    "toll": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 414616505,
+  "lat": 3.2420768,
+  "lon": 101.7271043,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "6.00 MYR/motorcar;3.00 MYR/taxi;5.00 MYR/bus;12.00 MYR/goods;18.00 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Gombak (Arah Timur)",
+    "name:en": "Gombak Toll Plaza (Eastward)",
+    "payment:cash": "no",
+    "payment:contactless": "only",
+    "payment:debit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "payment:visa": "yes",
+    "toll": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 414625951,
+  "lat": 3.1921545,
+  "lon": 101.6751933,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Batu"
+  }
+},
+{
+  "type": "node",
+  "id": 474940710,
+  "lat": 3.1028653,
+  "lon": 101.5907310,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Subang",
+    "name:en": "Subang Toll Plaza",
+    "name:ms": "Plaza Tol Subang",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 485865934,
+  "lat": 4.5255012,
+  "lon": 101.1328819,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Simpang Pulai",
+    "name:en": "Simpang Pulai Toll Plaza",
+    "name:zh": "新邦波赖收费站",
+    "operator": "PLUS Expressways Berhad"
+  }
+},
+{
+  "type": "node",
+  "id": 485865943,
+  "lat": 4.5256119,
+  "lon": 101.1328197,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Simpang Pulai",
+    "name:en": "Simpang Pulai Toll Plaza",
+    "name:zh": "新邦波赖收费站",
+    "operator": "PLUS Expressways Berhad"
+  }
+},
+{
+  "type": "node",
+  "id": 587752956,
+  "lat": 3.4244589,
+  "lon": 101.5533922,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Bukit Beruntung",
+    "name:en": "Bukit Beruntung Toll Plaza",
+    "name:zh": "武吉柏伦东收费站",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 608261306,
+  "lat": 4.2141868,
+  "lon": 101.2693261,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "foot": "no",
+    "horse": "no",
+    "motor_vehicle": "yes",
+    "name": "Plaza Tol Tapah",
+    "name:en": "Tapah Toll Plaza",
+    "name:zh": "打巴收费站",
+    "operator": "PLUS Expressways Berhad"
+  }
+},
+{
+  "type": "node",
+  "id": 632282420,
+  "lat": 3.4941539,
+  "lon": 101.5218965,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Bukit Tagar",
+    "name:en": "Bukit Tagar Toll Plaza",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 722528230,
+  "lat": 3.1964784,
+  "lon": 101.6995170,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Sentul Pasar"
+  }
+},
+{
+  "type": "node",
+  "id": 1058858936,
+  "lat": 4.5832552,
+  "lon": 101.1436744,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Ipoh Selatan",
+    "name:en": "Ipoh South Toll Plaza",
+    "operator": "PLUS Expressways Berhad"
+  }
+},
+{
+  "type": "node",
+  "id": 1495060789,
+  "lat": 3.8466697,
+  "lon": 101.3963213,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Slim River",
+    "name:en": "Slim River Toll Plaza",
+    "name:ms": "Plaza Tol Slim River",
+    "name:zh": "仕林河收费站",
+    "name:zh-Hans": "仕林河收费站",
+    "name:zh-Hant": "仕林河收費站",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 1496077680,
+  "lat": 3.2885943,
+  "lon": 101.5819956,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "2.50 MYR/motorcar;1.30 MYR/taxi;2.00 MYR/bus;5.00 MYR/goods;7.50 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Taman Rimba Templer (Arah Timur)",
+    "name:en": "LATAR Taman Rimba Templer Toll Plaza (Eastward)",
+    "name:ms": "Plaza Tol Taman Rimba Templer (Arah Timur)",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 1497282455,
+  "lat": 3.1292599,
+  "lon": 101.6418148,
+  "tags": {
+    "barrier": "toll_booth",
+    "destination": "Seksyen 17;Kuala Lumpur;Kepong;TTDI;Damansara Utama",
+    "fee": "RM 1",
+    "name": "Plaza Tol Damansara (A)",
+    "name:en": "Damansara Toll Plaza A",
+    "operator": "Sistem Penyuraian Trafik KL Barat Sdn Bhd",
+    "ref": "Plaza A"
+  }
+},
+{
+  "type": "node",
+  "id": 1512487260,
+  "lat": 3.2706393,
+  "lon": 101.5304328,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "1.30 MYR/motorcar; 0.70 MYR/taxi; 1.30 MYR/bus; 2.60 MYR/goods; 3.90 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Kuang Timur",
+    "name:en": "Kuang East Toll Plaza",
+    "operator": "LATAR",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "source": "survey",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 1513954203,
+  "lat": 3.8466530,
+  "lon": 101.3964141,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Slim River",
+    "name:en": "Slim River Toll Plaza",
+    "name:ms": "Plaza Tol Slim River",
+    "name:zh": "仕林河收费站",
+    "name:zh-Hans": "仕林河收费站",
+    "name:zh-Hant": "仕林河收費站",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 1513954313,
+  "lat": 4.2141370,
+  "lon": 101.2692212,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "foot": "no",
+    "horse": "no",
+    "motor_vehicle": "yes",
+    "name": "Plaza Tol Tapah",
+    "name:en": "Tapah Toll Plaza",
+    "name:zh": "打巴收费站",
+    "operator": "PLUS Expressways Berhad"
+  }
+},
+{
+  "type": "node",
+  "id": 1580749257,
+  "lat": 3.5740807,
+  "lon": 101.5276619,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Lembah Beringin",
+    "name:en": "Lembah Beringin Toll Plaza",
+    "name:zh": "榕树谷收费站",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 1619870086,
+  "lat": 3.2882998,
+  "lon": 101.5820588,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "2.50 MYR/motorcar;1.30 MYR/taxi;2.00 MYR/bus;5.00 MYR/goods;7.50 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Taman Rimba Templer (Arah Barat)",
+    "name:ms": "Plaza Tol Taman Rimba Templer (Arah Barat)",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 1712346299,
+  "lat": 3.3259610,
+  "lon": 101.7480693,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 1719099968,
+  "lat": 3.4943005,
+  "lon": 101.5218902,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Bukit Tagar",
+    "name:en": "Bukit Tagar Toll Plaza",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 1723784987,
+  "lat": 3.6593490,
+  "lon": 101.5346271,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Tanjung Malim",
+    "name:en": "Tanjung Malim Toll Plaza",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 1723784991,
+  "lat": 3.6594379,
+  "lon": 101.5345776,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Tanjung Malim",
+    "name:en": "Tanjung Malim Toll Plaza",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 1754782432,
+  "lat": 3.9892250,
+  "lon": 101.3157258,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Sungkai",
+    "name:en": "Sungkai Toll Plaza",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 1754782433,
+  "lat": 3.9893044,
+  "lon": 101.3156811,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Sungkai",
+    "name:en": "Sungkai Toll Plaza",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 1788035810,
+  "lat": 3.7398942,
+  "lon": 101.4592852,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Behrang",
+    "name:en": "Behrang Toll Plaza",
+    "name:ms": "Plaza Tol Behrang",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 1788035812,
+  "lat": 3.7399911,
+  "lon": 101.4592856,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Behrang",
+    "name:en": "Behrang Toll Plaza",
+    "name:ms": "Plaza Tol Behrang",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 1834889432,
+  "lat": 4.2980172,
+  "lon": 101.2521989,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 1858318069,
+  "lat": 4.1068986,
+  "lon": 101.2979493,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Bidor",
+    "name:en": "Bidor Toll Plaza",
+    "name:zh": "美罗收费站",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 1977422449,
+  "lat": 4.5852339,
+  "lon": 101.1447442,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Ipoh Selatan",
+    "name:en": "Ipoh South Toll Plaza",
+    "operator": "PLUS Expressways Berhad"
+  }
+},
+{
+  "type": "node",
+  "id": 2084225483,
+  "lat": 3.1077550,
+  "lon": 101.7020347,
+  "tags": {
+    "barrier": "toll_booth",
+    "maxheight": "2",
+    "name": "Plaza Toll SMART Sungai Besi",
+    "name:ms": "Plaza Toll SMART Sungai Besi"
+  }
+},
+{
+  "type": "node",
+  "id": 2084225484,
+  "lat": 3.1081757,
+  "lon": 101.7014097,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Toll SMART Sungai Besi",
+    "name:ms": "Plaza Toll SMART Sungai Besi"
+  }
+},
+{
+  "type": "node",
+  "id": 2187969903,
+  "lat": 4.4531566,
+  "lon": 101.1675185,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Gopeng",
+    "name:en": "Gopeng Toll Plaza",
+    "name:ms": "Plaza Tol Gopeng",
+    "operator": "PLUS Expressways Berhad"
+  }
+},
+{
+  "type": "node",
+  "id": 2187969906,
+  "lat": 4.4532432,
+  "lon": 101.1675125,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Gopeng",
+    "name:en": "Gopeng Toll Plaza",
+    "name:ms": "Plaza Tol Gopeng",
+    "operator": "PLUS Expressways Berhad"
+  }
+},
+{
+  "type": "node",
+  "id": 2338859046,
+  "lat": 3.1065454,
+  "lon": 101.7003716,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Toll SMART Sungai Besi",
+    "name:ms": "Plaza Toll SMART Sungai Besi"
+  }
+},
+{
+  "type": "node",
+  "id": 2338859060,
+  "lat": 3.1089030,
+  "lon": 101.7024543,
+  "tags": {
+    "barrier": "toll_booth",
+    "maxheight": "2",
+    "name": "Plaza Toll SMART Sungai Besi",
+    "name:ms": "Plaza Toll SMART Sungai Besi"
+  }
+},
+{
+  "type": "node",
+  "id": 2338859062,
+  "lat": 3.1089649,
+  "lon": 101.7023241,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Toll SMART Sungai Besi",
+    "name:ms": "Plaza Toll SMART Sungai Besi"
+  }
+},
+{
+  "type": "node",
+  "id": 2478641037,
+  "lat": 3.1910121,
+  "lon": 101.5083690,
+  "tags": {
+    "highway": "rest_area",
+    "name": "R&R Elmina"
+  }
+},
+{
+  "type": "node",
+  "id": 2497618861,
+  "lat": 4.1071432,
+  "lon": 101.2979392,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Bidor",
+    "name:en": "Bidor Toll Plaza",
+    "name:zh": "美罗收费站",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 2518636152,
+  "lat": 3.4242865,
+  "lon": 101.5533977,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Bukit Beruntung",
+    "name:en": "Bukit Beruntung Toll Plaza",
+    "name:zh": "武吉柏伦东收费站",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 2911228086,
+  "lat": 3.1205910,
+  "lon": 101.7248085,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "2.00 MYR/motorcar;2.00 MYR/taxi;2.00 MYR/bus;4.00 MYR/goods;4.00 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Loke Yew (Arah Barat)",
+    "name:en": "Loke Yew Toll Plaza (Westward)",
+    "name:ms": "Plaza Tol Loke Yew (Arah Barat)",
+    "name:zh": "陆佑收费站（西向）",
+    "name:zh-Hans": "陆佑收费站（西向）",
+    "name:zh-Hant": "陸佑收費站（西向）",
+    "operator": "Besraya Sdn. Bhd.",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2911228087,
+  "lat": 3.1209873,
+  "lon": 101.7246047,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "2.00 MYR/motorcar;2.00 MYR/taxi;2.00 MYR/bus;4.00 MYR/goods;4.00 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Loke Yew (Arah Timur)",
+    "name:en": "Loke Yew Toll Plaza (Eastward)",
+    "name:ms": "Plaza Tol Loke Yew (Arah Timur)",
+    "name:zh": "陆佑收费站（东向）",
+    "name:zh-Hans": "陆佑收费站（东向）",
+    "name:zh-Hant": "陸佑收費站（東向）",
+    "operator": "Besraya Sdn. Bhd.",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2977075291,
+  "lat": 3.2696396,
+  "lon": 101.5183830,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "1.30 MYR/motorcar; 0.70 MYR/taxi; 1.30 MYR/bus; 2.60 MYR/goods; 3.90 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Kundang Barat",
+    "name:en": "Kundang West Toll Plaza",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 3253694109,
+  "lat": 3.3731484,
+  "lon": 101.5496751,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Sungai Buaya",
+    "name:en": "Sungai Buaya Toll Plaza",
+    "name:zh": "双溪布亚收费站",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 3253694111,
+  "lat": 3.3729754,
+  "lon": 101.5496843,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Sungai Buaya",
+    "name:en": "Sungai Buaya Toll Plaza",
+    "name:zh": "双溪布亚收费站",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 3978125867,
+  "lat": 3.2423640,
+  "lon": 101.7271451,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "6.00 MYR/motorcar;3.00 MYR/taxi;5.00 MYR/bus;12.00 MYR/goods;18.00 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Gombak (Kws Rehat)",
+    "name:en": "Gombak Toll Plaza (Rest Stop)",
+    "name:ms": "Plaza Tol Gombak (Kws Rehat)",
+    "payment:cash": "no",
+    "payment:contactless": "only",
+    "payment:debit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "payment:visa": "yes",
+    "toll": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4966575453,
+  "lat": 3.1656320,
+  "lon": 101.7215102,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Dato' Keramat",
+    "name:en": "Dato' Keramat Toll Plaza",
+    "name:ms": "Plaza Tol Dato' Keramat"
+  }
+},
+{
+  "type": "node",
+  "id": 4966575454,
+  "lat": 3.1652422,
+  "lon": 101.7213633,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Dato' Keramat",
+    "name:en": "Dato' Keramat Toll Plaza",
+    "name:ms": "Plaza Tol Dato' Keramat"
+  }
+},
+{
+  "type": "node",
+  "id": 4975561262,
+  "lat": 3.1079722,
+  "lon": 101.7017342,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Toll SMART Sungai Besi",
+    "name:ms": "Plaza Toll SMART Sungai Besi"
+  }
+},
+{
+  "type": "node",
+  "id": 4975561276,
+  "lat": 3.1063190,
+  "lon": 101.7006591,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Toll SMART Sungai Besi",
+    "name:ms": "Plaza Toll SMART Sungai Besi"
+  }
+},
+{
+  "type": "node",
+  "id": 4975561288,
+  "lat": 3.1061237,
+  "lon": 101.7009089,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Toll SMART Sungai Besi",
+    "name:ms": "Plaza Toll SMART Sungai Besi"
+  }
+},
+{
+  "type": "node",
+  "id": 5430937521,
+  "lat": 3.1933441,
+  "lon": 101.6186925,
+  "tags": {
+    "highway": "rest_area",
+    "name": "Penchala",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5472689700,
+  "lat": 3.2715762,
+  "lon": 101.4761927,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "2.50 MYR/motorcar; 1.30 MYR/taxi; 2.00 MYR/bus; 5.00 MYR/goods; 7.50 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Kuang Barat",
+    "name:en": "Kuang West Toll Plaza",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 5472689757,
+  "lat": 3.2906750,
+  "lon": 101.3929646,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "2.50 MYR/motorcar; 1.30 MYR/taxi; 2.00 MYR/bus; 5.00 MYR/goods; 7.50 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Ijok (Arah Timur)",
+    "name:en": "LATAR Ijok Toll Plaza (Eastward)",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 5472689758,
+  "lat": 3.2903929,
+  "lon": 101.3930971,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "2.50 MYR/motorcar; 1.30 MYR/taxi; 2.00 MYR/bus; 5.00 MYR/goods; 7.50 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Ijok (Arah Barat)",
+    "name:en": "LATAR Ijok Toll Plaza (Westward)",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 5798395453,
+  "lat": 4.5942168,
+  "lon": 101.0791976,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 5806423853,
+  "lat": 4.4688191,
+  "lon": 101.3864262,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 5806423854,
+  "lat": 4.4686796,
+  "lon": 101.3875856,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 6380251537,
+  "lat": 3.1908540,
+  "lon": 101.6559081,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Segambut",
+    "name:ms": "Plaza Tol Segambut"
+  }
+},
+{
+  "type": "node",
+  "id": 6380251547,
+  "lat": 3.1910102,
+  "lon": 101.6557667,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Segambut",
+    "name:ms": "Plaza Tol Segambut"
+  }
+},
+{
+  "type": "node",
+  "id": 6380251565,
+  "lat": 3.1899214,
+  "lon": 101.6561065,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Segambut"
+  }
+},
+{
+  "type": "node",
+  "id": 6511778489,
+  "lat": 3.9415679,
+  "lon": 100.9938409,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Teluk Intan",
+    "name:en": "Teluk Intan Toll Plaza",
+    "name:ms": "Plaza Tol Teluk Intan"
+  }
+},
+{
+  "type": "node",
+  "id": 6511778490,
+  "lat": 3.9416168,
+  "lon": 100.9939973,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Teluk Intan",
+    "name:en": "Teluk Intan Toll Plaza",
+    "name:ms": "Plaza Tol Teluk Intan"
+  }
+},
+{
+  "type": "node",
+  "id": 6511778495,
+  "lat": 3.8242171,
+  "lon": 101.0004706,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Hutan Melintang",
+    "name:en": "Hutan Melintang Toll Plaza",
+    "name:ms": "Plaza Tol Hutan Melintang"
+  }
+},
+{
+  "type": "node",
+  "id": 6511778496,
+  "lat": 3.8242139,
+  "lon": 101.0006462,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Hutan Melintang",
+    "name:en": "Hutan Melintang Toll Plaza",
+    "name:ms": "Plaza Tol Hutan Melintang"
+  }
+},
+{
+  "type": "node",
+  "id": 6525260842,
+  "lat": 3.2361974,
+  "lon": 101.5416816,
+  "tags": {
+    "highway": "services",
+    "name": "Azbicentre Cawangan Sungai buloh",
+    "operator": "AZBICENTRE",
+    "website": "https://azbicentre.com.my/"
+  }
+},
+{
+  "type": "node",
+  "id": 6528140985,
+  "lat": 3.1763589,
+  "lon": 101.7084342,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 6568992696,
+  "lat": 3.1312664,
+  "lon": 101.6613863,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Pantai (B)",
+    "ref": "Plaza B"
+  }
+},
+{
+  "type": "node",
+  "id": 6569017599,
+  "lat": 3.1291099,
+  "lon": 101.6619008,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Pantai (A)",
+    "ref": "Plaza A"
+  }
+},
+{
+  "type": "node",
+  "id": 6569027651,
+  "lat": 3.1291020,
+  "lon": 101.6618210,
+  "tags": {
+    "barrier": "toll_booth",
+    "mapillary": "9v9ge4y2ec0px9ufy5f0bl",
+    "name": "Plaza Tol Pantai (A)",
+    "ref": "Plaza A"
+  }
+},
+{
+  "type": "node",
+  "id": 6569053055,
+  "lat": 3.2229541,
+  "lon": 101.5806628,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Hospital Sungai Buloh",
+    "name:en": "Hospital Sungai Buloh Toll Plaza"
+  }
+},
+{
+  "type": "node",
+  "id": 6569526771,
+  "lat": 3.1904763,
+  "lon": 101.6554743,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Segambut Toll Plaza",
+    "name:en": "Segambut Toll Plaza"
+  }
+},
+{
+  "type": "node",
+  "id": 6569526772,
+  "lat": 3.1902561,
+  "lon": 101.6555434,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Segambut Toll Plaza",
+    "name:en": "Segambut Toll Plaza"
+  }
+},
+{
+  "type": "node",
+  "id": 6804830539,
+  "lat": 3.1900952,
+  "lon": 101.6559977,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Segambut"
+  }
+},
+{
+  "type": "node",
+  "id": 6975864618,
+  "lat": 3.2024637,
+  "lon": 101.7355944,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Wangsa Maju",
+    "name:ms": "Plaza Tol Wangsa Maju"
+  }
+},
+{
+  "type": "node",
+  "id": 6979273330,
+  "lat": 3.1485691,
+  "lon": 101.5014680,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Denai Alam",
+    "name:en": "Denai Alam Toll Plaza"
+  }
+},
+{
+  "type": "node",
+  "id": 6979273351,
+  "lat": 3.1489237,
+  "lon": 101.5014223,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Denai Alam",
+    "name:en": "Denai Alam Toll Plaza"
+  }
+},
+{
+  "type": "node",
+  "id": 7152214166,
+  "lat": 3.1576152,
+  "lon": 101.5965504,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Kota Damansara (DASH)",
+    "name:en": "Kota Damansara (DASH) Toll Plaza"
+  }
+},
+{
+  "type": "node",
+  "id": 7171365204,
+  "lat": 4.2579643,
+  "lon": 101.1898682,
+  "tags": {
+    "highway": "rest_area",
+    "name": "Kawasan Rehat Temoh",
+    "name:ms": "Kawasan Rehat Temoh"
+  }
+},
+{
+  "type": "node",
+  "id": 7188342738,
+  "lat": 3.1227828,
+  "lon": 101.5287533,
+  "tags": {
+    "access": "no",
+    "barrier": "toll_booth",
+    "charge": "1.90 MYR/motorcar; 0.90 MYR/taxi; 1.40 MYR/bus; 3.80 MYR/goods; 5.70 MYR/hgv",
+    "motorcar": "yes",
+    "name": "Lorong Tol Berlapis GCE Bukit Jelutong",
+    "name:en": "GCE Bukit Jelutong Multi-layer Toll Lanes",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "no",
+    "payment:touchngo_smarttag": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 7223324450,
+  "lat": 3.1858437,
+  "lon": 101.7133267,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Ayer Panas"
+  }
+},
+{
+  "type": "node",
+  "id": 7245886263,
+  "lat": 3.1956793,
+  "lon": 101.6999802,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Sentul Pasar",
+    "name:en": "Sentul Pasar Toll Plaza"
+  }
+},
+{
+  "type": "node",
+  "id": 7261463941,
+  "lat": 3.1312437,
+  "lon": 101.6613189,
+  "tags": {
+    "barrier": "toll_booth",
+    "mapillary": "9v9ge4y2ec0px9ufy5f0bl",
+    "name": "Plaza Tol Pantai (B)",
+    "ref": "Plaza B"
+  }
+},
+{
+  "type": "node",
+  "id": 7770488481,
+  "lat": 3.1303508,
+  "lon": 101.3980443,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Bandar Bukit Raja Utara"
+  }
+},
+{
+  "type": "node",
+  "id": 7770488482,
+  "lat": 3.1302344,
+  "lon": 101.3978529,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Bandar Bukit Raja Utara"
+  }
+},
+{
+  "type": "node",
+  "id": 7770531560,
+  "lat": 3.2715886,
+  "lon": 101.5082927,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "1.30 MYR/motorcar; 0.70 MYR/taxi; 1.30 MYR/bus; 2.60 MYR/goods; 3.90 MYR/hgv",
+    "motorcycle": "no",
+    "name": "Plaza Tol Kundang Timur",
+    "name:en": "LATAR Kundang East Toll Plaza",
+    "payment:cash": "no",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes",
+    "toll": "yes",
+    "toll:motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 7911238516,
+  "lat": 3.5740832,
+  "lon": 101.5273964,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Lembah Beringin",
+    "name:en": "Lembah Beringin Toll Plaza",
+    "name:zh": "榕树谷收费站",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 8076756359,
+  "lat": 3.1502522,
+  "lon": 101.5645283,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol RRIM (Kwasa Damansara)",
+    "name:en": "RRIM (Kwasa Damansara) Toll Plaza"
+  }
+},
+{
+  "type": "node",
+  "id": 8076756411,
+  "lat": 3.1573251,
+  "lon": 101.5966191,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Kota Damansara (DASH)",
+    "name:en": "Kota Damansara (DASH) Toll Plaza"
+  }
+},
+{
+  "type": "node",
+  "id": 8076756715,
+  "lat": 3.1498045,
+  "lon": 101.5640483,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol RRIM (Kwasa Damansara)",
+    "name:en": "RRIM (Kwasa Damansara) Toll Plaza"
+  }
+},
+{
+  "type": "node",
+  "id": 8121234484,
+  "lat": 3.2022981,
+  "lon": 101.7354424,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Wangsa Maju",
+    "name:ms": "Plaza Tol Wangsa Maju"
+  }
+},
+{
+  "type": "node",
+  "id": 9517874527,
+  "lat": 3.1812631,
+  "lon": 101.7383714,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Setiawangsa (S)"
+  }
+},
+{
+  "type": "node",
+  "id": 9738812817,
+  "lat": 4.1782161,
+  "lon": 101.2892298,
+  "tags": {
+    "highway": "rest_area",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9912106181,
+  "lat": 3.1345600,
+  "lon": 101.6858117,
+  "tags": {
+    "highway": "rest_area",
+    "name": "Ruby Lounge",
+    "name:en": "Ruby Lounge",
+    "operator": "KTMB"
+  }
+},
+{
+  "type": "node",
+  "id": 10603590904,
+  "lat": 3.1800292,
+  "lon": 101.7374944,
+  "tags": {
+    "barrier": "toll_booth",
+    "currency:MYR": "yes",
+    "horse": "no",
+    "name": "Plaza Tol Setiawangsa (U)"
+  }
+},
+{
+  "type": "node",
+  "id": 10939878152,
+  "lat": 3.1727588,
+  "lon": 101.5193824,
+  "tags": {
+    "highway": "rest_area",
+    "name": "R&R Elmina"
+  }
+},
+{
+  "type": "node",
+  "id": 11254256983,
+  "lat": 3.1926191,
+  "lon": 101.6742780,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Batu Tambahan"
+  }
+},
+{
+  "type": "node",
+  "id": 11311071072,
+  "lat": 3.1284528,
+  "lon": 101.7170176,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "RM3.50",
+    "name": "Plaza Tol Chan Sow Lin"
+  }
+},
+{
+  "type": "node",
+  "id": 11311071073,
+  "lat": 3.1284942,
+  "lon": 101.7169536,
+  "tags": {
+    "barrier": "toll_booth",
+    "charge": "RM3.50",
+    "name": "Plaza Tol Chan Sow Lin"
+  }
+},
+{
+  "type": "node",
+  "id": 11311071074,
+  "lat": 3.1642496,
+  "lon": 101.7342037,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 11311071075,
+  "lat": 3.1640546,
+  "lon": 101.7366539,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 11311097428,
+  "lat": 3.3133726,
+  "lon": 101.3739540,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "foot": "no",
+    "motor_vehicle": "yes",
+    "name": "WCE Assam Jawa Toll Plaza (Inbound)",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11311097429,
+  "lat": 3.3133860,
+  "lon": 101.3736461,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "foot": "no",
+    "motor_vehicle": "yes",
+    "name": "WCE Assam Jawa Toll Plaza (Outbound)",
+    "payment:touchngo": "yes",
+    "payment:touchngo_rfid": "yes",
+    "payment:touchngo_smarttag": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12750764508,
+  "lat": 3.1776166,
+  "lon": 101.5480792,
+  "tags": {
+    "highway": "services",
+    "name": "Carcuzzi"
+  }
+},
+{
+  "type": "node",
+  "id": 12912162449,
+  "lat": 3.2744372,
+  "lon": 101.5502577,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Rawang Selatan (Plaza 'A')",
+    "name:en": "Rawang South Toll Plaza (Plaza 'A')",
+    "name:zh": "万挠南区收费站 (Plaza 'A')",
+    "operator": "PLUS Expressways"
+  }
+},
+{
+  "type": "node",
+  "id": 12912888482,
+  "lat": 3.6170685,
+  "lon": 101.4221603,
+  "tags": {
+    "highway": "rest_area",
+    "name": "R&R Pusat Perniagaan Dewan Semai Bakti"
+  }
+},
+{
+  "type": "node",
+  "id": 13278358605,
+  "lat": 3.1757515,
+  "lon": 101.6557596,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Plaza Tol Jalan Duta",
+    "name:en": "Jalan Duta Toll Plaza",
+    "noref": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13294178764,
+  "lat": 4.4993232,
+  "lon": 101.1515710,
+  "tags": {
+    "highway": "services"
+  }
+},
+{
+  "type": "node",
+  "id": 13294194693,
+  "lat": 4.5002858,
+  "lon": 101.1519304,
+  "tags": {
+    "highway": "services",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13298702024,
+  "lat": 3.2817410,
+  "lon": 101.4246066,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "currency:MYR": "yes",
+    "foot": "no",
+    "horse": "no",
+    "name": "Plaza Tol Eco Grandeur"
+  }
+},
+{
+  "type": "node",
+  "id": 13298702025,
+  "lat": 3.2818603,
+  "lon": 101.4244712,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "currency:MYR": "yes",
+    "foot": "no",
+    "horse": "no",
+    "name": "Plaza Tol Eco Grandeur"
+  }
+},
+{
+  "type": "node",
+  "id": 13335500747,
+  "lat": 3.1478543,
+  "lon": 101.5003091,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13335515405,
+  "lat": 3.1494210,
+  "lon": 101.4988795,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13338247740,
+  "lat": 3.1192846,
+  "lon": 101.5926576,
+  "tags": {
+    "highway": "services"
+  }
+},
+{
+  "type": "node",
+  "id": 13348038328,
+  "lat": 3.2410260,
+  "lon": 101.7164013,
+  "tags": {
+    "highway": "services"
+  }
+},
+{
+  "type": "node",
+  "id": 13348104631,
+  "lat": 3.1651832,
+  "lon": 101.6437805,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13348152334,
+  "lat": 3.3132844,
+  "lon": 101.3744733,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13348178406,
+  "lat": 3.2907618,
+  "lon": 101.3944718,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13348187190,
+  "lat": 3.2899544,
+  "lon": 101.3920994,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13350916950,
+  "lat": 3.2710531,
+  "lon": 101.4753136,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13350950297,
+  "lat": 3.2712097,
+  "lon": 101.5311331,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13350978069,
+  "lat": 3.2892676,
+  "lon": 101.5825228,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13351065893,
+  "lat": 3.1233314,
+  "lon": 101.5292327,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13351087035,
+  "lat": 3.2633436,
+  "lon": 101.5397215,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13351480696,
+  "lat": 3.1915342,
+  "lon": 101.6748773,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13353081577,
+  "lat": 3.2200617,
+  "lon": 101.7358111,
+  "tags": {
+    "highway": "services"
+  }
+},
+{
+  "type": "node",
+  "id": 13353113033,
+  "lat": 3.2107276,
+  "lon": 101.7437437,
+  "tags": {
+    "highway": "services"
+  }
+},
+{
+  "type": "node",
+  "id": 13353299545,
+  "lat": 3.1519371,
+  "lon": 101.7453054,
+  "tags": {
+    "highway": "services"
+  }
+},
+{
+  "type": "node",
+  "id": 13353305241,
+  "lat": 3.1131066,
+  "lon": 101.7460424,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13354899909,
+  "lat": 3.2507000,
+  "lon": 101.4711025,
+  "tags": {
+    "highway": "services"
+  }
+},
+{
+  "type": "node",
+  "id": 13360877256,
+  "lat": 4.6314052,
+  "lon": 101.0861908,
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "node",
+  "id": 13532388258,
+  "lat": 3.3252363,
+  "lon": 101.5156450,
+  "tags": {
+    "highway": "services",
+    "name": "Sungai Gong"
+  }
+},
+{
+  "type": "node",
+  "id": 13533527852,
+  "lat": 3.3264962,
+  "lon": 101.5181186,
+  "tags": {
+    "highway": "services",
+    "name": "Aras Kilat Sdn Bhd (Rawang)",
+    "opening_hours": "Mo-Fr 08:30-17:30",
+    "phone": "012-548 1548"
+  }
+},
+{
+  "type": "node",
+  "id": 13992224291,
+  "lat": 3.2816130,
+  "lon": 101.4247726,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "currency:MYR": "yes",
+    "foot": "no",
+    "horse": "no",
+    "name": "Plaza Tol Eco Grandeur"
+  }
+},
+{
+  "type": "way",
+  "id": 107913851,
+  "center": {
+    "lat": 3.1940249,
+    "lon": 101.6186254
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Hentian Sebelah Penchala",
+    "name:en": "Penchala Layby",
+    "name:ms": "Hentian Sebelah Penchala"
+  }
+},
+{
+  "type": "way",
+  "id": 305502140,
+  "center": {
+    "lat": 3.2235603,
+    "lon": 101.5769115
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Hentian Sebelah Sungai Buloh",
+    "name:en": "Sungai Buloh Layby",
+    "source": "https://openstreetcam.org/details/2190642/2618"
+  }
+},
+{
+  "type": "way",
+  "id": 307663997,
+  "center": {
+    "lat": 3.3299643,
+    "lon": 101.5583118
+  },
+  "tags": {
+    "area": "yes",
+    "highway": "services",
+    "name": "Kawasan Rehat Rawang Arah Utara",
+    "name:en": "Rawang Rest Area North Bound",
+    "name:ms": "Kawasan Rehat Rawang Arah Utara",
+    "name:zh": "万挠公路服务区",
+    "name:zh-Hans": "万挠公路服务区",
+    "name:zh-Hant": "萬撓公路服務區",
+    "short_name": "R&R Rawang",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 307686767,
+  "center": {
+    "lat": 3.1911926,
+    "lon": 101.5087505
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Kawasan Rehat dan Rawat Elmina Arah Utara"
+  }
+},
+{
+  "type": "way",
+  "id": 307686770,
+  "center": {
+    "lat": 3.2697723,
+    "lon": 101.5081387
+  },
+  "tags": {
+    "area": "yes",
+    "highway": "services",
+    "name": "Kawasan Rehat Kundang Barat",
+    "source": "https://openstreetcam.org/details/2398770/935"
+  }
+},
+{
+  "type": "way",
+  "id": 307686772,
+  "center": {
+    "lat": 3.1723472,
+    "lon": 101.5194951
+  },
+  "tags": {
+    "highway": "services",
+    "name": "RnR Elmina Selatan"
+  }
+},
+{
+  "type": "way",
+  "id": 307686774,
+  "center": {
+    "lat": 3.2709586,
+    "lon": 101.5078602
+  },
+  "tags": {
+    "area": "yes",
+    "highway": "services",
+    "name": "Kawasan Rehat Kundang (Timur)",
+    "source": "https://openstreetcam.org/details/2223670/128"
+  }
+},
+{
+  "type": "way",
+  "id": 307688168,
+  "center": {
+    "lat": 3.6635015,
+    "lon": 101.5192691
+  },
+  "tags": {
+    "area": "yes",
+    "highway": "services",
+    "name": "Kawasan Rehat Ulu Bernam",
+    "name:en": "Ulu Bernam Rest Area",
+    "name:zh": "乌鲁安南公路服务区",
+    "short_name": "R&R Ulu Bernam",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 339101032,
+  "center": {
+    "lat": 4.0443002,
+    "lon": 101.3106744
+  },
+  "tags": {
+    "highway": "services",
+    "name": "Hentian Sebelah Ladang Bikam",
+    "name:en": "Bikam Estate Layby Northbound",
+    "name:zh": "美金园丘休息站",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 339101033,
+  "center": {
+    "lat": 4.0436144,
+    "lon": 101.3116778
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Hentian Sebelah Ladang Bikam",
+    "name:en": "Bikam Estate Layby Southbound",
+    "name:zh": "美金园丘休息站",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 339101034,
+  "center": {
+    "lat": 4.4996050,
+    "lon": 101.1517326
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Hentian Sebelah Simpang Pulai Arah Utara",
+    "name:zh": "新邦波赖休息站（北向）",
+    "source": "Mapbox",
+    "source:name": "survey"
+  }
+},
+{
+  "type": "way",
+  "id": 339101035,
+  "center": {
+    "lat": 4.5002227,
+    "lon": 101.1518216
+  },
+  "tags": {
+    "addr:city": "Kampung Kepayang",
+    "addr:postcode": "31300",
+    "highway": "rest_area",
+    "name": "Hentian Sebelah Simpang Pulai Arah Selatan",
+    "name:zh": "新邦波赖休息站（南向）",
+    "source": "Mapbox",
+    "source:name": "survey"
+  }
+},
+{
+  "type": "way",
+  "id": 339101040,
+  "center": {
+    "lat": 4.4947965,
+    "lon": 101.1538717
+  },
+  "tags": {
+    "addr:housenumber": "KM 291 Arah Utara Gopeng",
+    "highway": "services",
+    "name": "Kawasan Rehat RTC Perak",
+    "name:zh": "霹雳务边乡区转型中心公路服务区",
+    "source": "Mapbox approx"
+  }
+},
+{
+  "type": "way",
+  "id": 339101076,
+  "center": {
+    "lat": 4.1788401,
+    "lon": 101.2899971
+  },
+  "tags": {
+    "area": "yes",
+    "highway": "services",
+    "name": "Kawasan Rehat Tapah",
+    "name:en": "Tapah Rest Area",
+    "name:zh": "打巴公路服务区",
+    "short_name": "R&R Tapah",
+    "toilet": "yes",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 339101077,
+  "center": {
+    "lat": 4.1803624,
+    "lon": 101.2899018
+  },
+  "tags": {
+    "alt_name": "Kawasan Rehat & Rawat Tapah (Arah Selatan)",
+    "area": "yes",
+    "highway": "services",
+    "name": "Kawasan Rehat Tapah",
+    "name:en": "Tapah Rest Area",
+    "name:zh": "打巴公路服务区",
+    "short_name": "R&R Tapah",
+    "source": "Mapbox;Bing 2012",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 394925162,
+  "center": {
+    "lat": 3.2427271,
+    "lon": 101.7288255
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Karak Highway Hentian Sebelah Gombak East Bound",
+    "name:ms": "Karak Highway Hentian Sebelah Gombak East Bound"
+  }
+},
+{
+  "type": "way",
+  "id": 445756354,
+  "center": {
+    "lat": 4.4266098,
+    "lon": 101.1993123
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Hentian Sebelah Gua Tempurung",
+    "name:en": "Gua Tempurung Layby",
+    "name:ms": "Hentian Sebelah Gua Tempurung",
+    "name:zh": "椰壳洞休息站",
+    "name:zh-Hans": "椰壳洞休息站",
+    "name:zh-Hant": "椰殼洞休息站"
+  }
+},
+{
+  "type": "way",
+  "id": 448229200,
+  "center": {
+    "lat": 3.3578632,
+    "lon": 101.5542787
+  },
+  "tags": {
+    "highway": "rest_area",
+    "internet_access": "wlan",
+    "name": "Hentian Sebelah Rawang Arah Selatan",
+    "name:en": "Rawang layby",
+    "source": "https://openstreetcam.org/details/2434034/374"
+  }
+},
+{
+  "type": "way",
+  "id": 472047792,
+  "center": {
+    "lat": 3.4248761,
+    "lon": 101.5540174
+  },
+  "tags": {
+    "area": "yes",
+    "highway": "services",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 541377133,
+  "center": {
+    "lat": 4.2173930,
+    "lon": 101.2375726
+  },
+  "tags": {
+    "addr:city": "Tapah",
+    "highway": "services",
+    "name": "Kawasan Rehat & Rawat Sungai Durian",
+    "name:en": "Sungai Durian Rest & Service Area",
+    "name:ms": "Kawasan Rehat & Rawat Sungai Durian",
+    "short_name": "R&R Sungai Durian",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 541712592,
+  "center": {
+    "lat": 3.6769131,
+    "lon": 101.5003879
+  },
+  "tags": {
+    "addr:city": "Tanjung Malim",
+    "addr:street": "Lebuhraya Utara–Selatan",
+    "area": "yes",
+    "highway": "services",
+    "name": "Hentian Sebelah Tanjung Malim",
+    "name:en": "Tanjung Malim Layby",
+    "name:zh": "丹绒马林休息站",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 543023095,
+  "center": {
+    "lat": 3.2544083,
+    "lon": 101.7279875
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Hentian Sebelah Gombak Barat",
+    "name:en": "Gombak Layby"
+  }
+},
+{
+  "type": "way",
+  "id": 561619865,
+  "center": {
+    "lat": 3.9643030,
+    "lon": 100.9768792
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Plaza Restoran & Rehat Jambatan Sultan Yusuf",
+    "name:en": "Sultan Yusuf Bridge Rest Area",
+    "name:ms": "Plaza Restoran & Rehat Jambatan Sultan Yusuf",
+    "short_name": "R&R Jambatan Sultan Yusuf"
+  }
+},
+{
+  "type": "way",
+  "id": 638958234,
+  "center": {
+    "lat": 3.3129012,
+    "lon": 101.4180378
+  },
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "way",
+  "id": 705094134,
+  "center": {
+    "lat": 4.5838893,
+    "lon": 101.1431678
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Hentian Rehat Tol Ipoh Selatan"
+  }
+},
+{
+  "type": "way",
+  "id": 764459908,
+  "center": {
+    "lat": 3.2350186,
+    "lon": 101.6899403
+  },
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "way",
+  "id": 807686613,
+  "center": {
+    "lat": 3.1766372,
+    "lon": 101.6561680
+  },
+  "tags": {
+    "highway": "rest_area"
+  }
+},
+{
+  "type": "way",
+  "id": 833841357,
+  "center": {
+    "lat": 3.1056152,
+    "lon": 101.7323040
+  },
+  "tags": {
+    "amenity": "fuel",
+    "brand": "Petronas",
+    "brand:wikidata": "Q221692",
+    "brand:wikipedia": "en:Petronas",
+    "compressed_air": "yes",
+    "fuel:diesel": "yes",
+    "fuel:octane_95": "yes",
+    "fuel:octane_97": "yes",
+    "highway": "services",
+    "name": "Petronas",
+    "name:en": "Petronas",
+    "name:ms": "Petronas",
+    "self_service": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 857846130,
+  "center": {
+    "lat": 3.7819717,
+    "lon": 101.4464175
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Hentian Sebelah Behrang",
+    "name:ms": "Hentian Sebelah Behrang",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 857846131,
+  "center": {
+    "lat": 3.7826762,
+    "lon": 101.4463836
+  },
+  "tags": {
+    "alt_name": "Hentian Sebelah Behrang Arah Selatan",
+    "highway": "rest_area",
+    "name": "Hentian Sebelah Behrang",
+    "name:ms": "Hentian Sebelah Behrang"
+  }
+},
+{
+  "type": "way",
+  "id": 1119899992,
+  "center": {
+    "lat": 3.1498638,
+    "lon": 101.5657509
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Hentian Sebelah RRIM (Kwasa Damansara)"
+  }
+},
+{
+  "type": "way",
+  "id": 1119899993,
+  "center": {
+    "lat": 3.1503776,
+    "lon": 101.5625574
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Hentian Sebelah RRIM (Kwasa Damansara)"
+  }
+},
+{
+  "type": "way",
+  "id": 1136688538,
+  "center": {
+    "lat": 4.2578147,
+    "lon": 101.1896832
+  },
+  "tags": {
+    "highway": "rest_area",
+    "name": "Kawasan Rehat Temoh",
+    "name:ms": "Kawasan Rehat Temoh"
+  }
+},
+{
+  "type": "way",
+  "id": 1259441125,
+  "center": {
+    "lat": 3.4086859,
+    "lon": 101.5629296
+  },
+  "tags": {
+    "addr:city": "Bandar Bukit Beruntung",
+    "addr:housenumber": "47",
+    "addr:postcode": "48300",
+    "addr:street": "Jalan Jenjarum 1E/1",
+    "highway": "services",
+    "name": "Sun SSD",
+    "note": "HINO Dealer and Service Center"
+  }
+},
+{
+  "type": "relation",
+  "id": 11949586,
+  "center": {
+    "lat": 3.1884050,
+    "lon": 101.5865946
+  },
+  "tags": {
+    "highway": "services",
+    "name": "Hentian Rehat & Restoran Jejantas Sungai Buloh",
+    "name:en": "Sungai Buloh Overhead Bridge Restaurant & Rest Area",
+    "name:ms": "Hentian Rehat & Restoran Jejantas Sungai Buloh",
+    "name:zh": "双溪毛糯天桥餐厅休息站",
+    "name:zh-Hans": "双溪毛糯天桥餐厅休息站",
+    "name:zh-Hant": "雙溪毛糯天橋餐廳休息站",
+    "operator": "PLUS Berhad",
+    "source": "https://openstreetcam.org/details/2257142/600",
+    "type": "multipolygon"
+  }
+}
+
+  ]
+}

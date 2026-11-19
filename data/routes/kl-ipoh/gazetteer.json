@@ -1,0 +1,116 @@
+{
+  "_note": "MET Malaysia forecast district (location_id) -> route km, anchored at the OSM toll plaza inside that district. District assignment is best-effort.",
+  "source_url": "https://api.data.gov.my/weather/forecast/",
+  "retrieved_at": "2026-11-20",
+  "verified": false,
+  "places": [
+    {
+      "id": "Ds058",
+      "name": "Kuala Lumpur",
+      "anchor": "Plaza Tol Jalan Duta",
+      "lat": 3.175515,
+      "lng": 101.655814,
+      "km": 0,
+      "state": "WP Kuala Lumpur"
+    },
+    {
+      "id": "Ds057",
+      "name": "Petaling",
+      "anchor": "Plaza Tol Sungai Buloh",
+      "lat": 3.201626,
+      "lng": 101.586173,
+      "km": 11.34,
+      "state": "Selangor"
+    },
+    {
+      "id": "Ds055",
+      "name": "Gombak",
+      "anchor": "Plaza Tol Rawang",
+      "lat": 3.304356,
+      "lng": 101.54874,
+      "km": 25.2,
+      "state": "Selangor"
+    },
+    {
+      "id": "Ds051",
+      "name": "Hulu Selangor",
+      "anchor": "Plaza Tol Bukit Beruntung",
+      "lat": 3.424459,
+      "lng": 101.553392,
+      "km": 40.27,
+      "state": "Selangor"
+    },
+    {
+      "id": "Ds051",
+      "name": "Hulu Selangor",
+      "anchor": "Plaza Tol Lembah Beringin",
+      "lat": 3.574083,
+      "lng": 101.527396,
+      "km": 58.15,
+      "state": "Selangor"
+    },
+    {
+      "id": "Ds045",
+      "name": "Muallim",
+      "anchor": "Plaza Tol Behrang",
+      "lat": 3.739894,
+      "lng": 101.459285,
+      "km": 81.07,
+      "state": "Perak"
+    },
+    {
+      "id": "Ds045",
+      "name": "Muallim",
+      "anchor": "Plaza Tol Slim River",
+      "lat": 3.846653,
+      "lng": 101.396414,
+      "km": 96.11,
+      "state": "Perak"
+    },
+    {
+      "id": "Ds041",
+      "name": "Batang Padang",
+      "anchor": "Plaza Tol Sungkai",
+      "lat": 3.989225,
+      "lng": 101.315726,
+      "km": 115.59,
+      "state": "Perak"
+    },
+    {
+      "id": "Ds041",
+      "name": "Batang Padang",
+      "anchor": "Plaza Tol Bidor",
+      "lat": 4.106899,
+      "lng": 101.297949,
+      "km": 128.97,
+      "state": "Perak"
+    },
+    {
+      "id": "Ds041",
+      "name": "Batang Padang",
+      "anchor": "Plaza Tol Tapah",
+      "lat": 4.214187,
+      "lng": 101.269326,
+      "km": 141.85,
+      "state": "Perak"
+    },
+    {
+      "id": "Ds035",
+      "name": "Kampar",
+      "anchor": "Plaza Tol Gopeng",
+      "lat": 4.453157,
+      "lng": 101.167518,
+      "km": 172.42,
+      "state": "Perak"
+    },
+    {
+      "id": "Ds032",
+      "name": "Kinta",
+      "anchor": "Plaza Tol Simpang Pulai",
+      "lat": 4.525501,
+      "lng": 101.132882,
+      "km": 182.39,
+      "state": "Perak"
+    }
+  ]
+}
