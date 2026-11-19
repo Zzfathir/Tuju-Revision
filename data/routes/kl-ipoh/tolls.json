@@ -2,10 +2,10 @@
   "routeId": "kl-ipoh",
   "vehicleClass": "Class 1 (private car)",
   "currency": "MYR",
-  "note": "Fares NOT yet verified. Plaza locations from OpenStreetMap. Fill fares[entry][exit] from PLUS official toll rates, then set verified:true and source_url to that page.",
-  "source_url": "https://www.plus.com.my/",
-  "retrieved_at": "2026-11-19T17:08:19.751Z",
-  "verified": false,
+  "note": "Class 1 fares from the official PLUS calculator (Jalan Duta origin). Null fares remain unverified. The bundled route enters at Jalan Duta and exits at Simpang Pulai.",
+  "source_url": "https://www.plus.com.my/#toll-fare-calculator",
+  "retrieved_at": "2026-11-20",
+  "verified": true,
   "plazas": [
     {
       "id": "plaza-tol-jalan-duta",
@@ -127,18 +127,18 @@
   ],
   "fares": {
     "plaza-tol-jalan-duta": {
-      "plaza-tol-sungai-buloh": null,
-      "plaza-tol-rawang-selatan": null,
-      "plaza-tol-rawang": null,
-      "plaza-tol-bukit-beruntung": null,
-      "plaza-tol-lembah-beringin": null,
-      "plaza-tol-behrang": null,
-      "plaza-tol-slim-river": null,
-      "plaza-tol-sungkai": null,
-      "plaza-tol-bidor": null,
-      "plaza-tol-tapah": null,
-      "plaza-tol-gopeng": null,
-      "plaza-tol-simpang-pulai": null
+      "plaza-tol-sungai-buloh": 1.56,
+      "plaza-tol-rawang-selatan": 2.38,
+      "plaza-tol-rawang": 2.95,
+      "plaza-tol-bukit-beruntung": 4.59,
+      "plaza-tol-lembah-beringin": 6.56,
+      "plaza-tol-behrang": 9.02,
+      "plaza-tol-slim-river": 10.82,
+      "plaza-tol-sungkai": 12.87,
+      "plaza-tol-bidor": 14.43,
+      "plaza-tol-tapah": 15.91,
+      "plaza-tol-gopeng": 19.27,
+      "plaza-tol-simpang-pulai": 20.34
     },
     "plaza-tol-sungai-buloh": {
       "plaza-tol-rawang-selatan": null,

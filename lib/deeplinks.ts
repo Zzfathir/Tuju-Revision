@@ -9,8 +9,8 @@ const ll = (p: LL) => `${p.lat},${p.lng}`;
 export function googleMapsUrl(origin: LL | null, destination: LL, waypoints: LL[] = []) {
   const q = new URLSearchParams({ api: "1", destination: ll(destination), travelmode: "driving" });
   if (origin) q.set("origin", ll(origin));
-  // Google allows up to 9 waypoints in URLs on mobile; we never plan more than that.
-  if (waypoints.length) q.set("waypoints", waypoints.slice(0, 9).map(ll).join("|"));
+  // Google supports three waypoints in mobile browsers. The caller splits longer trips into legs.
+  if (waypoints.length) q.set("waypoints", waypoints.slice(0, 3).map(ll).join("|"));
   return `https://www.google.com/maps/dir/?${q.toString()}`;
 }
 

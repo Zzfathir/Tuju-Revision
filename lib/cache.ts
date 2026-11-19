@@ -30,7 +30,7 @@ export async function cachedFetch<T>(opts: {
 }): Promise<Fetched<T>> {
   const now = Date.now();
   const hit = store.get(opts.key);
-  if (hit && hit.expires > now) return { ...(hit.value as Fetched<T>), status: hit.value.fixture ? "cached" : "live" };
+  if (hit && hit.expires > now) return hit.value as Fetched<T>;
   if (inflight.has(opts.key)) return inflight.get(opts.key) as Promise<Fetched<T>>;
 
   const p = (async (): Promise<Fetched<T>> => {
@@ -48,7 +48,11 @@ export async function cachedFetch<T>(opts: {
       return value;
     } catch (e) {
       const error = e instanceof Error ? e.message : String(e);
-      if (hit) return { ...(hit.value as Fetched<T>), status: "cached", error };
+      if (hit) {
+        const value = { ...(hit.value as Fetched<T>), status: "cached" as const, error };
+        store.set(opts.key, { value, expires: Date.now() + 60_000 });
+        return value;
+      }
       const fx = opts.schema.parse(await opts.fixture());
       const value: Fetched<T> = { data: fx, status: "cached", fixture: true, fetchedAt: opts.fixtureFetchedAt ?? "unknown", error };
       // cache fixture briefly so a dead upstream isn't hammered

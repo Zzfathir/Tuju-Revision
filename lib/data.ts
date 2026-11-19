@@ -30,7 +30,8 @@ export const DEFAULT_ROUTE: RouteId = "kl-ipoh";
 
 const cache = new Map<string, RouteBundle>();
 export function getRoute(id: string = DEFAULT_ROUTE): RouteBundle {
-  const key = (id in raw ? id : DEFAULT_ROUTE) as RouteId;
+  // explicit allowlist (not `in`, which would accept prototype keys like "toString")
+  const key: RouteId = (ROUTE_IDS as string[]).includes(id) ? (id as RouteId) : DEFAULT_ROUTE;
   if (cache.has(key)) return cache.get(key)!;
   const r = raw[key];
   const bundle: RouteBundle = {

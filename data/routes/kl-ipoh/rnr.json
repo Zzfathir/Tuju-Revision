@@ -19,14 +19,14 @@
         "toilet": true,
         "fuel": null,
         "evCharger": null,
-        "food": null,
+        "food": true,
         "atm": null
       },
-      "facilities_source": "OpenStreetMap tags on the R&R + amenity nodes within 250 m. Unknown is null, never false.",
-      "verified": false,
-      "source_url": "https://www.openstreetmap.org/way/307663997",
+      "facilities_source": "Hand-checked (2026-11-20): https://www.plus.com.my/cashless-rsa/; remaining fields from OpenStreetMap",
+      "verified": true,
+      "source_url": "https://www.plus.com.my/cashless-rsa/",
       "osm_url": "https://www.openstreetmap.org/way/307663997",
-      "retrieved_at": "2026-11-19T17:08:19.751Z"
+      "retrieved_at": "2026-11-20"
     },
     {
       "id": "osm-way-541712592",
@@ -40,16 +40,16 @@
       "facilities": {
         "surau": null,
         "toilet": true,
-        "fuel": null,
+        "fuel": true,
         "evCharger": null,
         "food": null,
         "atm": null
       },
-      "facilities_source": "OpenStreetMap tags on the R&R + amenity nodes within 250 m. Unknown is null, never false.",
-      "verified": false,
-      "source_url": "https://www.openstreetmap.org/way/541712592",
+      "facilities_source": "Hand-checked (2026-11-20): https://www.plus.com.my/our-facilities/; remaining fields from OpenStreetMap",
+      "verified": true,
+      "source_url": "https://www.plus.com.my/our-facilities/",
       "osm_url": "https://www.openstreetmap.org/way/541712592",
-      "retrieved_at": "2026-11-19T17:08:19.751Z"
+      "retrieved_at": "2026-11-20"
     },
     {
       "id": "osm-way-857846130",
@@ -107,18 +107,18 @@
       "lng": 101.289997,
       "distanceAlongRoute_km": 137.27,
       "facilities": {
-        "surau": null,
+        "surau": true,
         "toilet": true,
-        "fuel": null,
-        "evCharger": null,
-        "food": null,
-        "atm": null
+        "fuel": true,
+        "evCharger": true,
+        "food": true,
+        "atm": true
       },
-      "facilities_source": "OpenStreetMap tags on the R&R + amenity nodes within 250 m. Unknown is null, never false.",
-      "verified": false,
-      "source_url": "https://www.openstreetmap.org/way/339101076",
+      "facilities_source": "Hand-checked (2026-11-20): https://www.plus.com.my/our-facilities/; remaining fields from OpenStreetMap",
+      "verified": true,
+      "source_url": "https://www.plus.com.my/our-facilities/",
       "osm_url": "https://www.openstreetmap.org/way/339101076",
-      "retrieved_at": "2026-11-19T17:08:19.751Z"
+      "retrieved_at": "2026-11-20"
     },
     {
       "id": "osm-way-339101040",

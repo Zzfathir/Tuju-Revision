@@ -1,5 +1,35 @@
 {
-  "_readme": "Add facts ONLY after checking an official/first-hand source. Key = R&R id from rnr.json. Fields you omit keep the OSM value. Then run: npx tsx scripts/build-pois.ts kl-ipoh",
-  "_example": { "osm-way-339101076": { "facilities": { "surau": true, "evCharger": true }, "source_url": "https://www.plus.com.my/...", "checked_at": "2026-11-20", "note": "who checked + how" } },
-  "overrides": {}
+  "_readme": "Keep the source, date, and direction for each confirmed facility fact. Rebuild with npx tsx scripts/build-pois.ts kl-ipoh.",
+  "overrides": {
+    "osm-way-339101076": {
+      "facilities": {
+        "surau": true,
+        "toilet": true,
+        "food": true,
+        "fuel": true,
+        "evCharger": true,
+        "atm": true
+      },
+      "source_url": "https://www.plus.com.my/our-facilities/",
+      "checked_at": "2026-11-20",
+      "note": "PLUS directory under Tapah (Northbound), km 331.8."
+    },
+    "osm-way-541712592": {
+      "facilities": {
+        "toilet": true,
+        "fuel": true
+      },
+      "source_url": "https://www.plus.com.my/our-facilities/",
+      "checked_at": "2026-11-20",
+      "note": "PLUS directory under Tanjong Malim (Northbound), km 396.4. Only the listed filters count."
+    },
+    "osm-way-307663997": {
+      "facilities": {
+        "food": true
+      },
+      "source_url": "https://www.plus.com.my/cashless-rsa/",
+      "checked_at": "2026-11-20",
+      "note": "PLUS confirms northbound Rawang R&R as a cashless food-court location."
+    }
+  }
 }

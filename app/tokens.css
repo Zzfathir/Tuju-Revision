@@ -1,0 +1,58 @@
+/*
+ * DESIGN TOKENS — the ONLY place colours, spacing, type and sizes are defined.
+ * Designer: restyle the whole app by editing this file. Components reference only these vars.
+ * Current values are a deliberately flat greyscale WIREFRAME.
+ */
+:root {
+  /* colour */
+  --color-bg: #ffffff;
+  --color-surface: #f4f4f4;        /* panels, placeholders */
+  --color-text: #111111;
+  --color-text-muted: #555555;     /* ≥ 4.5:1 on white */
+  --color-border: #222222;
+  --color-border-subtle: #bbbbbb;
+  --color-accent: #111111;         /* primary button fill + focus outline only */
+  --color-accent-text: #ffffff;
+  --color-route: #111111;          /* map route line */
+  --color-stop: #ffffff;           /* map stop marker fill */
+
+  /* state hooks (greyscale for now; designer maps to colour) */
+  --color-state-live: var(--color-text);
+  --color-state-cached: var(--color-text-muted);
+  --color-state-estimate: var(--color-text-muted);
+  --color-state-unverified: var(--color-text-muted);
+  --color-state-stale: var(--color-text);
+  --color-state-error: var(--color-text);
+
+  /* spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* shape */
+  --radius: 0px;
+  --border-width: 1px;
+
+  /* type */
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-body);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 16px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --line: 1.4;
+
+  /* layout */
+  --tap-min: 44px;
+  --panel-max-h: 62vh;
+  --map-h: 38vh;
+  --map-line-width: 3;
+  --placeholder-min: 80px;
+  --content-max-w: 640px;
+  --focus-ring: 2px solid var(--color-accent);
+}

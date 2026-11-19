@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
-import { readStats } from "@/lib/counter";
 
 export const dynamic = "force-dynamic";
-export async function GET(req: Request) {
-  const key = new URL(req.url).searchParams.get("key");
-  if (!process.env.STATS_KEY || key !== process.env.STATS_KEY) return NextResponse.json({ error: "forbidden" }, { status: 403 });
-  return NextResponse.json(await readStats(), { headers: { "Cache-Control": "no-store" } });
+export function GET(req: Request) {
+  const url = new URL(req.url);
+  if (!process.env.STATS_KEY || url.searchParams.get("key") !== process.env.STATS_KEY) {
+    return NextResponse.json({ error: "forbidden" }, { status: 403, headers: { "Cache-Control": "no-store" } });
+  }
+  url.pathname = "/api/event";
+  return NextResponse.redirect(url, { headers: { "Cache-Control": "no-store", "Referrer-Policy": "no-referrer" } });
 }

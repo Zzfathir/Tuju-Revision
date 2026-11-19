@@ -10,6 +10,7 @@ export type CorridorWarning = {
   matched: string[]; // place names that matched (best-effort text match)
   scope: "corridor" | "state";
   text_en: string;
+  text_bm: string;
 };
 
 const STATE_ALIASES: Record<string, RegExp> = {
@@ -45,6 +46,7 @@ export function matchWarnings(warnings: Warning[], gaz: Gazetteer, now = new Dat
       matched: matched.length ? matched : stateMatched,
       scope: matched.length ? "corridor" : "state",
       text_en: (w.text_en ?? "").slice(0, 600),
+      text_bm: (w.text_bm ?? "").slice(0, 600),
     });
   }
   return out;

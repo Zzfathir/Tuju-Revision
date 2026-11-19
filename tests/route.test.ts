@@ -57,3 +57,11 @@ describe("planner on real KL→Ipoh data", () => {
     expect(res.ok).toBe(true);
   });
 });
+
+describe("route registry", () => {
+  it("rejects prototype keys and unknown ids by falling back to default", () => {
+    expect(getRoute("toString").config.id).toBe("kl-ipoh");
+    expect(getRoute("__proto__").config.id).toBe("kl-ipoh");
+    expect(getRoute("nope").config.id).toBe("kl-ipoh");
+  });
+});

@@ -34,6 +34,8 @@ export type Stop = z.infer<typeof Stop>;
 
 export const RnrFile = Provenance.extend({ routeId: z.string(), source: z.string(), items: z.array(Stop) });
 
+export type RnrFile = z.infer<typeof RnrFile>;
+
 export const TollPlaza = z.object({
   id: z.string(),
   name: z.string(),
@@ -50,7 +52,7 @@ export const TollFile = Provenance.extend({
   note: z.string(),
   plazas: z.array(TollPlaza),
   /** fares[entryId][exitId] = RM, or null if not confirmed */
-  fares: z.record(z.record(z.number().nullable())),
+  fares: z.record(z.string(), z.record(z.string(), z.number().nullable())),
 });
 export type TollFile = z.infer<typeof TollFile>;
 
@@ -64,7 +66,7 @@ export const RouteConfig = z.object({
   via: z.array(z.object({ name: z.string(), lat: z.number(), lng: z.number() })).default([]),
   prayerZones: z.array(z.object({ zone: z.string(), label: z.string(), fromKm: z.number() })),
   weatherLocations: z.array(z.string()),
-  links: z.record(z.string()),
+  links: z.record(z.string(), z.string()),
 });
 export type RouteConfig = z.infer<typeof RouteConfig>;
 
