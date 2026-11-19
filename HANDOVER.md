@@ -18,6 +18,10 @@ The release passed 38 automated tests and a production browser test with a host 
 
 The 65-second demo covers the original trip flow. The mobile comparison captures the perspective-map redesign. Both predate Group Arrival. [Demo video](../Jalan%20Pulang%20Demo.mp4) · [Mobile comparison](../Jalan%20Pulang%20Mobile%20Comparison.png)
 
+## First-visit flow
+
+`/` (landing) → `/onboarding` (vehicle, then needs; Skip available) → `/plan` (Plan → Road → Go). The landing is a map-first sheet showing the real distance, drive time and toll. Onboarding answers travel as URL parameters (`lang`, `vehicle`, `needs`) and pre-fill the planner. Tester links (`/?t=1`) show a tester strip on the landing and keep `t=1` through every step. A browser that finished onboarding once (`localStorage` flag `jalan-pulang-onboarded`) goes straight to `/plan`. Links with `?route=…` still redirect to `/plan`. Designers restyle everything through [tokens](app/tokens.css) and [landing styles](app/landing.css).
+
 ## What shipped
 
 - **Plan → Road → Go** covers the precomputed KL → Ipoh corridor, PLUS Class 1 toll lookup, and rest-stop planning for vehicle range, fuel, EV charging, facilities and prayer timing.
@@ -62,6 +66,7 @@ Open `http://localhost:3000`. Local Group Arrival rooms use process memory durin
 
 | Area | Files |
 | --- | --- |
+| Landing and onboarding (`/`, `/onboarding`) | [Landing](components/Landing.tsx), [Onboarding](components/Onboarding.tsx), [preference parsing](lib/onboarding.ts), [styles](app/landing.css) and the copy keys `landing*` / `onb*` in [i18n](lib/i18n.ts) |
 | Main trip, map and mobile layout | [Trip](components/Trip.tsx), [RouteMap](components/RouteMap.tsx), [journey styles](app/journey.css) and [design tokens](app/tokens.css) |
 | Group Arrival | [Room and create screens](components/GroupArrival.tsx), [API](app/api/group-arrival/route.ts), [event rules](lib/group-arrival.ts) and [storage](lib/group-store.ts) |
 | Data and planner | [Route bundle](data/routes/kl-ipoh), [data registry](lib/data.ts), [planner](lib/planner.ts) and [fixtures](fixtures) |

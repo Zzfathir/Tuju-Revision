@@ -1,5 +1,5 @@
-const cacheName = "jalan-pulang-v2";
-const shell = ["/", "/?t=1", "/share", "/about", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"];
+const cacheName = "jalan-pulang-v3";
+const shell = ["/", "/?t=1", "/plan", "/onboarding", "/share", "/about", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"];
 const dataPaths = new Set(["/api/weather", "/api/prayer"]);
 
 self.addEventListener("install", (event) => {
@@ -48,9 +48,10 @@ async function serve(request, asset, navigation, api) {
     }
     if (!saved || response.status < 500) return response;
   } catch {
-    if (!saved && navigation && new URL(request.url).pathname === "/") {
-      const home = await cache.match("/");
-      if (home) return home;
+    const { pathname } = new URL(request.url);
+    if (!saved && navigation && (pathname === "/" || pathname === "/plan")) {
+      const page = await cache.match(pathname);
+      if (page) return page;
     }
   }
   if (saved && api) {
@@ -69,6 +70,6 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET" || url.origin !== self.location.origin) return;
   const api = dataPaths.has(url.pathname);
   const asset = url.pathname.startsWith("/_next/static/") || url.pathname.startsWith("/icon-");
-  const navigation = request.mode === "navigate" && ["/", "/about", "/share"].includes(url.pathname);
+  const navigation = request.mode === "navigate" && ["/", "/plan", "/onboarding", "/about", "/share"].includes(url.pathname);
   if (asset || navigation || api) event.respondWith(serve(request, asset, navigation, api));
 });

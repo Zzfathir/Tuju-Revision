@@ -42,3 +42,9 @@
 /* planner masthead: brand links back to the landing */
 .map-masthead h1 { pointer-events: auto; }
 .map-masthead h1 a { color: inherit; text-decoration: none; display: flex; align-items: center; min-height: var(--tap-min); }
+
+/* tester tasks collapse after the first step so the trip leads */
+.tester-compact > summary { display: flex; align-items: center; min-height: var(--tap-min); padding: 0 var(--space-3); border: var(--border-width) solid var(--color-border-subtle); border-radius: var(--control-radius); background: var(--color-surface); font-weight: 600; cursor: pointer; }
+.tester-compact[open] > summary { margin-bottom: var(--space-3); }
+.chip, .landing-cta { -webkit-tap-highlight-color: transparent; }
+.chip { user-select: none; }

@@ -195,7 +195,7 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
         </dl>
       </header>
       {!online && <p className="banner" data-kind="offline" role="status">{t(lang, "offline", { t: offlineDate ? offlineDate.slice(0, 10) + " " + fmtTime(new Date(offlineDate)) + " MYT" : "—" })}</p>}
-      {tester && <TesterTasks lang={lang} />}
+      {tester && <TesterTasks lang={lang} compact={step > 0} />}
       {step === 0 && <section className="stack trip-content" data-testid="screen-plan">
         <div className="row trip-details-header">
           <h3 className="grow">{t(lang, "tripDetails")}</h3>

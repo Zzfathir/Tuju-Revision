@@ -7,7 +7,7 @@ import { Card } from "./ui/Card";
 
 const tasks = [1, 2, 3] as const;
 
-export function TesterTasks({ lang }: { lang: Lang }) {
+export function TesterTasks({ lang, compact = false }: { lang: Lang; compact?: boolean }) {
   const [done, setDone] = useState<number[]>([]);
   const [pending, setPending] = useState<number[]>([]);
   const [failed, setFailed] = useState(false);
@@ -50,7 +50,7 @@ export function TesterTasks({ lang }: { lang: Lang }) {
     setSending(false);
   };
 
-  return <Card id="tester-tasks" title={t(lang, "testerTitle")}>
+  const card = <Card id="tester-tasks" title={t(lang, "testerTitle")}>
     <ol className="task-list">
       {tasks.map((task) => <li key={task}>
         {t(lang, `task${task}`)}{" "}
@@ -68,4 +68,9 @@ export function TesterTasks({ lang }: { lang: Lang }) {
     </form>)}
     {failed && <p role="alert">{t(lang, "eventFailed")}</p>}
   </Card>;
+  // Beyond the first step the trip itself leads; tasks stay one tap away.
+  return compact ? <details className="tester-compact">
+    <summary>{t(lang, "testerTitle")} · {done.length}/{tasks.length}</summary>
+    {card}
+  </details> : card;
 }
