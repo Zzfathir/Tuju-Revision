@@ -2,6 +2,8 @@
 
 Jalan Pulang is a phone-friendly trip planner for Kuala Lumpur → Ipoh via the North–South Expressway. Plan a stop, check toll and weather, and hand off navigation to Google Maps or Waze. The interface is a bilingual greyscale wireframe.
 
+[Open Jalan Pulang](https://jalan-pulang.vercel.app/) · [Tester mode](https://jalan-pulang.vercel.app/?t=1) · [Printable tester QR](https://jalan-pulang.vercel.app/qr)
+
 ## Run locally
 
 Use Node.js 22 or 24 and npm.
@@ -46,6 +48,6 @@ Location is snapped in the browser and stays there. Map tiles are fetched from t
 
 Draft post
 
-> We built Jalan Pulang for balik kampung trips from Kuala Lumpur to Ipoh. Check the toll, find a surau and EV charging stop, see the weather along the way, then open Google Maps or Waze. No account needed. Try the three tasks at [tester link]. #BalikKampung #JalanPulang
+> We built Jalan Pulang for balik kampung trips from Kuala Lumpur to Ipoh. Check the toll, find a surau and EV charging stop, see the weather along the way, then open Google Maps or Waze. No account needed. Try the three tasks at https://jalan-pulang.vercel.app/?t=1. #BalikKampung #JalanPulang
 
 Add the verified tester count after the testing round.
