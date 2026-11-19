@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { Landing } from "@/components/Landing";
 import { getRoute } from "@/lib/data";
+import { parsePrefs } from "@/lib/onboarding";
 import { routeLengthKm } from "@/lib/route";
 import { quoteToll } from "@/lib/tolls";
 
@@ -19,6 +20,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<Que
   const { line, tolls } = getRoute();
   const km = routeLengthKm(line);
   const quote = quoteToll(tolls, tolls.plazas[0]?.id ?? "", tolls.plazas.at(-1)?.id ?? "");
-  return <Landing km={km} tollRm={quote.ok ? quote.fare : null} tester={query.t === "1"}
+  return <Landing km={km} tollRm={quote.ok ? quote.fare : null} tester={query.t === "1"} initialLang={parsePrefs(query).lang}
     driveMinutes={Number(line.properties?.duration_s_freeflow) / 60 || km / 90 * 60} />;
 }

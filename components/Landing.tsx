@@ -7,10 +7,10 @@ import { prefsQuery } from "@/lib/onboarding";
 
 const steps = [["stepPlan", "landingStepPlan"], ["stepRoad", "landingStepRoad"], ["stepGo", "landingStepGo"]] as const;
 
-export function Landing({ km, driveMinutes, tollRm, tester }: {
-  km: number; driveMinutes: number; tollRm: number | null; tester: boolean;
+export function Landing({ km, driveMinutes, tollRm, tester, initialLang }: {
+  km: number; driveMinutes: number; tollRm: number | null; tester: boolean; initialLang: Lang;
 }) {
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLang] = useState<Lang>(initialLang);
   const [returning, setReturning] = useState(false);
   useEffect(() => {
     try { setReturning(localStorage.getItem("jalan-pulang-onboarded") === "1"); }
