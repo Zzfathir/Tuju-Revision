@@ -80,7 +80,7 @@ export function GroupCreate({ lang, defaultStart }: { lang: Lang; defaultStart: 
   }
 
   return <main className="page stack group-page" lang={lang === "bm" ? "ms" : "en"}>
-    <a className="btn" href="/">{t(lang, "backToPlan")}</a>
+    <a className="btn" href="/plan">{t(lang, "backToPlan")}</a>
     <h1>{label("title")}</h1>
     <p>{label("intro")}</p>
     <form className="card stack" onSubmit={create}>

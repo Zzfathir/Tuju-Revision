@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { prefsQuery, type Prefs } from "@/lib/onboarding";
 import { t, fmtDur, fmtTime, type Lang } from "@/lib/i18n";
 import { planStops, type Need } from "@/lib/planner";
 import { APPROX, windowsFor } from "@/lib/prayer";
@@ -31,17 +32,17 @@ async function request<T>(url: string, signal: AbortSignal): Promise<T> {
   return response.json();
 }
 
-export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta }: {
+export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, initial }: {
   config: RouteConfig; line: RouteLine; rnr: RnrFile; tolls: TollFile;
-  routeKm: number; date: string; tester: boolean; eta?: EtaGrid;
+  routeKm: number; date: string; tester: boolean; eta?: EtaGrid; initial: Prefs;
 }) {
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLang] = useState<Lang>(initial.lang);
   const [step, setStep] = useState(0);
   const [departure, setDeparture] = useState(date + "T09:00");
-  const [vehicle, setVehicle] = useState<"petrol" | "ev">("petrol");
-  const [range, setRange] = useState("500");
+  const [vehicle, setVehicle] = useState<"petrol" | "ev">(initial.vehicle);
+  const [range, setRange] = useState(initial.vehicle === "ev" ? "250" : "500");
   const [maxDrive, setMaxDrive] = useState(120);
-  const [needs, setNeeds] = useState<Partial<Record<Need, boolean>>>({});
+  const [needs, setNeeds] = useState<Partial<Record<Need, boolean>>>(() => Object.fromEntries(initial.needs.map((need) => [need, true])));
   const [prayerAware, setPrayerAware] = useState(false);
   const routeEntry = tolls.plazas[0]?.id ?? "";
   const routeExit = tolls.plazas.at(-1)?.id ?? "";
@@ -171,7 +172,7 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta }: {
         places={[origin ?? config.origin.name, destination ?? config.destination.name]} online={online}
         preview={config.id === "kl-ipoh" && !process.env.NEXT_PUBLIC_TILE_URL ? "/kl-ipoh-drive-preview.webp" : undefined} />
       <header className="map-masthead">
-        <h1>{t(lang, "appName")}</h1>
+        <h1><a href={"/" + prefsQuery({ lang }, tester ? { t: "1" } : {})} className="home-link">{t(lang, "appName")}</a></h1>
         <button type="button" className="btn language-button" data-testid="btn-lang"
           aria-label={t(lang, "langToggle")} onClick={() => setLang(lang === "en" ? "bm" : "en")}>{lang === "en" ? "BM" : "EN"}</button>
       </header>

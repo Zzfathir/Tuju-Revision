@@ -22,7 +22,7 @@ export default function States() {
         {state === "unverified" && <div className="row">{[true, false, null].map((value) =>
           <span className="badge" key={String(value)} data-on={String(value)}>{t("en", "toilet")}</span>)}</div>}
       </Card>)}
-    <div className="row"><a className="btn" data-variant="primary" href="/">Open Plan</a><button type="button" className="btn" disabled>Unavailable</button></div>
+    <div className="row"><a className="btn" data-variant="primary" href="/plan">Open Plan</a><button type="button" className="btn" disabled>Unavailable</button></div>
     <div className="placeholder">[ TRIP CARD IMAGE 1080×1350 ]</div>
   </main>;
 }

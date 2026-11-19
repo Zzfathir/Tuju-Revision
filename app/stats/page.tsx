@@ -11,6 +11,6 @@ export default async function Stats({ searchParams }: { searchParams: Promise<{ 
   return <main className="page stack" data-testid="screen-stats">
     <h1>Tester stats</h1>
     <StatsTable />
-    <a className="btn" href="/">Back to Plan</a>
+    <a className="btn" href="/plan">Back to Plan</a>
   </main>;
 }

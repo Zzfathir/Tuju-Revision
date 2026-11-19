@@ -51,6 +51,6 @@ export function SharePage() {
       <label className="field">{t(lang, "caption")}<textarea className="input caption" readOnly value={text} rows={7} /></label>
     </> : <p>{t(lang, "shareEmpty")}</p>}
     {status && <p role="status">{t(lang, status)}</p>}
-    <a className="btn" href="/">{t(lang, "backToPlan")}</a>
+    <a className="btn" href="/plan">{t(lang, "backToPlan")}</a>
   </main>;
 }

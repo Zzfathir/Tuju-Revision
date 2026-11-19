@@ -16,6 +16,6 @@ export function QrPage() {
     <h1>{t("en", "testerQr")}</h1>
     <div>{image && <img className="print-qr" src={image} alt={t("en", "testerQr")} width={512} height={512} />}</div>
     <p><a href="/?t=1">{url || t("en", "testLink")}</a></p>
-    <a href="/" className="btn">{t("en", "backToPlan")}</a>
+    <a href="/plan" className="btn">{t("en", "backToPlan")}</a>
   </main>;
 }
