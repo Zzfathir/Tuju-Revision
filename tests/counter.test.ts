@@ -54,4 +54,15 @@ describe("blob-backed tester counters", () => {
     // The rival tester's write (+10 visits) survived our retry.
     expect(stats.rows.find((row) => row.event === "visit")?.count).toBe(10);
   });
+  it("recovers from a corrupt or malformed counter blob instead of failing forever", async () => {
+    for (const body of ["{not json", "null", '{"counts":[],"sessions":5,"feedback":"x"}']) {
+      files.set("stats/counters.json", { body, etag: 7 });
+      vi.resetModules();
+      const counter = await import("@/lib/counter");
+      await counter.record("share");
+      const stats = await counter.readStats();
+      expect(stats.rows.find((row) => row.event === "share")?.count).toBe(1);
+      expect(stats.feedback).toEqual([]);
+    }
+  });
 });

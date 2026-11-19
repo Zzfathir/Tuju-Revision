@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { prefsQuery, type Prefs } from "@/lib/onboarding";
+import { parsePrefs, prefsQuery, type Prefs } from "@/lib/onboarding";
 import { t, fmtDur, fmtTime, type Lang } from "@/lib/i18n";
 import { planStops, type Need } from "@/lib/planner";
 import { APPROX, windowsFor } from "@/lib/prayer";
@@ -37,6 +37,7 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
   routeKm: number; date: string; tester: boolean; eta?: EtaGrid; initial: Prefs;
 }) {
   const [lang, setLang] = useState<Lang>(initial.lang);
+  const [testerOn, setTesterOn] = useState(tester);
   const [step, setStep] = useState(0);
   const [departure, setDeparture] = useState(date + "T09:00");
   const [vehicle, setVehicle] = useState<"petrol" | "ev">(initial.vehicle);
@@ -63,6 +64,19 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
   const visited = useRef(false);
   const weather = weatherResult?.date === selectedDate ? weatherResult.data : null;
   const prayers = useMemo(() => prayerResult?.date === selectedDate ? prayerResult.data : [], [prayerResult, selectedDate]);
+
+  // The offline fallback serves a cached bare /plan; the address bar still holds the real choices.
+  useEffect(() => {
+    const params = Object.fromEntries(new URLSearchParams(window.location.search));
+    const fromUrl = parsePrefs(params);
+    if (JSON.stringify(fromUrl) !== JSON.stringify(initial)) {
+      setLang(fromUrl.lang);
+      setVehicle(fromUrl.vehicle);
+      setRange(fromUrl.vehicle === "ev" ? "250" : "500");
+      setNeeds(Object.fromEntries(fromUrl.needs.map((need) => [need, true])));
+    }
+    if (params.t === "1") setTesterOn(true);
+  }, [initial]);
 
   useEffect(() => {
     if (!visited.current) { visited.current = true; track("visit"); }
@@ -172,7 +186,7 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
         places={[origin ?? config.origin.name, destination ?? config.destination.name]} online={online}
         preview={config.id === "kl-ipoh" && !process.env.NEXT_PUBLIC_TILE_URL ? "/kl-ipoh-drive-preview.webp" : undefined} />
       <header className="map-masthead">
-        <h1><a href={"/" + prefsQuery({ lang }, tester ? { t: "1" } : {})} className="home-link">{t(lang, "appName")}</a></h1>
+        <h1><a href={"/" + prefsQuery({ lang }, testerOn ? { t: "1" } : {})} className="home-link">{t(lang, "appName")}</a></h1>
         <button type="button" className="btn language-button" data-testid="btn-lang"
           aria-label={t(lang, "langToggle")} onClick={() => setLang(lang === "en" ? "bm" : "en")}>{lang === "en" ? "BM" : "EN"}</button>
       </header>
@@ -195,7 +209,7 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
         </dl>
       </header>
       {!online && <p className="banner" data-kind="offline" role="status">{t(lang, "offline", { t: offlineDate ? offlineDate.slice(0, 10) + " " + fmtTime(new Date(offlineDate)) + " MYT" : "—" })}</p>}
-      {tester && <TesterTasks lang={lang} compact={step > 0} />}
+      {testerOn && <TesterTasks lang={lang} compact={step > 0} />}
       {step === 0 && <section className="stack trip-content" data-testid="screen-plan">
         <div className="row trip-details-header">
           <h3 className="grow">{t(lang, "tripDetails")}</h3>

@@ -27,8 +27,15 @@ function apply(state: State, event: EventName, bucket: number | null) {
 async function loadBlob() {
   const result = await get(blobPath, { access: "private", useCache: false, abortSignal: AbortSignal.timeout(5000) });
   if (!result?.stream) return null;
-  const raw = await new Response(result.stream).json() as Partial<State>;
-  const state: State = { counts: raw.counts ?? {}, sessions: raw.sessions ?? {}, feedback: raw.feedback ?? [] };
+  // A truncated or hand-edited file must not stop counting: treat it as empty, keep its ETag, overwrite on write.
+  const raw: unknown = await new Response(result.stream).json().catch(() => null);
+  const plain = (value: unknown) => value !== null && typeof value === "object" && !Array.isArray(value);
+  const saved = (plain(raw) ? raw : {}) as Partial<State>;
+  const state: State = {
+    counts: plain(saved.counts) ? saved.counts! : {},
+    sessions: plain(saved.sessions) ? saved.sessions! : {},
+    feedback: Array.isArray(saved.feedback) ? saved.feedback : [],
+  };
   return { state, version: result.blob.etag };
 }
 

@@ -49,7 +49,7 @@ async function serve(request, asset, navigation, api) {
     if (!saved || response.status < 500) return response;
   } catch {
     const { pathname } = new URL(request.url);
-    if (!saved && navigation && (pathname === "/" || pathname === "/plan")) {
+    if (!saved && navigation && ["/", "/plan", "/onboarding"].includes(pathname)) {
       const page = await cache.match(pathname);
       if (page) return page;
     }
