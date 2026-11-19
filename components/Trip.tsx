@@ -13,9 +13,9 @@ import type { EtaGrid } from "@/lib/eta-grid";
 import type { RouteLine } from "@/lib/route";
 import { LeaveTimeBar, TollPicker } from "./PlanCards";
 import { PrayerCard, StopCard, WeatherCard, type PrayerResponse, type WeatherResponse } from "./RoadCards";
-import { RouteMap } from "./RouteMap";
+import { RouteMap, type Replay } from "./RouteMap";
 
-import { GoCards } from "./GoCards";
+import { GoCards, type DriveMode } from "./GoCards";
 import { TesterTasks } from "./TesterTasks";
 import { Card } from "./ui/Card";
 import { Source } from "./ui/Source";
@@ -54,6 +54,9 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta }: {
   const [weatherAttempt, setWeatherAttempt] = useState(0);
   const [prayerAttempt, setPrayerAttempt] = useState(0);
   const [position, setPosition] = useState<[number, number] | null>(null);
+  const [replay, setReplay] = useState<Replay | null>(null);
+  const [driveMode, setDriveMode] = useState<DriveMode>("idle");
+  const sheet = useRef<HTMLDivElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const visited = useRef(false);
   const weather = weatherResult?.date === selectedDate ? weatherResult.data : null;
@@ -127,9 +130,16 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta }: {
 
   const move = (target: number) => {
     if (target === 2) track("plan_made");
-    if (target !== 2) setPosition(null);
+    if (target !== 2) {
+      setPosition(null);
+      setReplay(null);
+      setDriveMode("idle");
+    }
     setStep(target);
-    requestAnimationFrame(() => heading.current?.focus());
+    requestAnimationFrame(() => {
+      sheet.current?.scrollIntoView({ block: "start" });
+      heading.current?.focus({ preventScroll: true });
+    });
   };
 
   const share = () => {
@@ -152,26 +162,41 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta }: {
     .filter((value): value is string => Boolean(value && Number.isFinite(Date.parse(value))))
     .sort((a, b) => Date.parse(b) - Date.parse(a))[0];
 
+  const routeQuote = quoteToll(tolls, routeEntry, routeExit);
+  const [origin, destination] = config.name[lang].split(" → ");
   return <main className="app" lang={lang}>
-    <RouteMap line={line} stops={rnr.items} position={position} lang={lang} />
-    <div className="panel">
-      <header className="stack">
-        <div className="row"><h1 className="grow">{t(lang, "appName")}</h1>
-          <button type="button" className="btn" data-testid="btn-lang" onClick={() => setLang(lang === "en" ? "bm" : "en")}>{t(lang, "langToggle")}</button>
-        </div>
-        <p>{t(lang, "tagline")}</p>
+    <div className="map-stage">
+      <RouteMap line={line} stops={rnr.items} position={position} replay={replay} replayFinished={driveMode === "finished"} lang={lang}
+        places={[origin ?? config.origin.name, destination ?? config.destination.name]} online={online}
+        preview={config.id === "kl-ipoh" && !process.env.NEXT_PUBLIC_TILE_URL ? "/kl-ipoh-drive-preview.webp" : undefined} />
+      <header className="map-masthead">
+        <h1>{t(lang, "appName")}</h1>
+        <button type="button" className="btn language-button" data-testid="btn-lang"
+          aria-label={t(lang, "langToggle")} onClick={() => setLang(lang === "en" ? "bm" : "en")}>{lang === "en" ? "BM" : "EN"}</button>
+      </header>
+    </div>
+    <div className="panel" ref={sheet}>
+      <ol className="step-progress" aria-label={t(lang, "steps")}>
+        {steps.map((name, index) => <li key={name} aria-current={index === step ? "step" : undefined}
+          data-reached={index <= step}>{index < step
+            ? <button type="button" onClick={() => move(index)}>{t(lang, name)}</button>
+            : <span>{t(lang, name)}</span>}</li>)}
+      </ol>
+      <h2 ref={heading} tabIndex={-1} className="sr-only">{t(lang, steps[step])}</h2>
+      <header className="trip-heading">
+        <p className="trip-highway">{config.highway.replace(/northbound$/i, t(lang, "northbound"))}</p>
+        <p className="trip-title">{config.name[lang]}</p>
+        <dl className="trip-metrics">
+          <div><dt>{t(lang, "distance")}</dt><dd>{Math.round(routeKm)} km</dd></div>
+          <div><dt>{t(lang, "estimatedDrive")}</dt><dd>{fmtDur(baseMinutes)}</dd></div>
+          <div><dt>{t(lang, "classOneToll")}</dt><dd>{routeQuote.ok ? "RM " + routeQuote.fare.toFixed(2) : "—"}</dd></div>
+        </dl>
       </header>
       {!online && <p className="banner" data-kind="offline" role="status">{t(lang, "offline", { t: offlineDate ? offlineDate.slice(0, 10) + " " + fmtTime(new Date(offlineDate)) + " MYT" : "—" })}</p>}
       {tester && <TesterTasks lang={lang} />}
-      <hr className="hr" />
-      <div className="step-header">
-        <h2 tabIndex={-1} ref={heading}>{t(lang, steps[step])}</h2>
-        <span>{t(lang, "step", { n: step + 1 })}</span>
-      </div>
-      {step === 0 && <section className="stack" data-testid="screen-plan">
-        <h3>{config.name[lang]}</h3>
-        <Source label="OSRM / OpenStreetMap" ts={String(line.properties?.retrieved_at ?? "")}
-          url={String(line.properties?.source_url ?? "https://www.openstreetmap.org/")} lang={lang} />
+      {step === 0 && <section className="stack trip-content" data-testid="screen-plan">
+        <h3>{t(lang, "tripDetails")}</h3>
+        <div className="trip-fields">
         <label className="field">{t(lang, "departure")} (MYT)
           <input className="input" type="datetime-local" data-testid="departure" value={departure}
             onChange={(event) => { if (event.target.value && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(event.target.value)) setDeparture(event.target.value); }} />
@@ -191,7 +216,8 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta }: {
             {[60, 90, 120, 150, 180].map((n) => <option key={n} value={n}>{t(lang, "minutes", { n })}</option>)}
           </select>
         </label>
-        <fieldset><legend>{t(lang, "needs")}</legend>
+        </div>
+        <fieldset className="trip-needs"><legend>{t(lang, "needs")}</legend>
           {needsList.map((need) => <label className="check" key={need}>
             <input type="checkbox" checked={Boolean(needs[need])} data-testid={"need-" + need}
               onChange={(event) => setNeeds({ ...needs, [need]: event.target.checked })} />
@@ -202,7 +228,7 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta }: {
         <TollPicker {...{ tolls, entry, exit, setEntry, setExit, lang }} />
         <LeaveTimeBar {...{ config, departure, setDeparture, baseMinutes, eta, lang }} />
       </section>}
-      {step === 1 && <section className="stack" data-testid="screen-road">
+      {step === 1 && <section className="stack trip-content" data-testid="screen-road">
         <Card id="card-plan" title={t(lang, "planTitle")}
           source={<Source label="Jalan Pulang / OpenStreetMap" status="estimate" ts={rnr.retrieved_at} lang={lang} />}
           state={!plan ? "loading" : !plan.ok ? "error" : plan.stops.length ? "default" : "empty"}>
@@ -222,19 +248,30 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta }: {
         <p className="small">{t(lang, "facilitiesUnknown")}</p>
         <ul className="list">{rnr.items.map((stop) => <li key={stop.id}><StopCard {...{ stop, lang }} /></li>)}</ul>
       </section>}
-      {step === 2 && plan?.ok && <GoCards {...{ config, line, rnr, tolls, routeKm, lang, setPosition }} entry={routeEntry}
+      {step === 2 && plan?.ok && <GoCards {...{ config, line, rnr, tolls, routeKm, lang, setPosition, setReplay }} entry={routeEntry} mode={driveMode} setMode={setDriveMode}
         stops={plan.stops.map(({ stop }) => stop)} onShare={share} />}
       {step < 2 && <nav className="step-nav" aria-label={t(lang, "steps")}>
         {step > 0 && <button type="button" className="btn" data-testid="btn-back" onClick={() => move(0)}>{t(lang, "back")}</button>}
         <button type="button" className="btn" data-variant="primary" data-testid="btn-next" onClick={() => move(step + 1)}
           disabled={step === 0 ? Number(range) < 1 || Number(range) > 2000 : !plan?.ok}>
-          {t(lang, "next")} · {t(lang, steps[step + 1])}
+          {t(lang, step === 0 ? "reviewRoute" : "continueToGo")} <span aria-hidden="true">→</span>
         </button>
       </nav>}
       {step === 2 && <nav className="step-nav" aria-label={t(lang, "steps")}>
         <button type="button" className="btn" data-testid="btn-back" onClick={() => move(1)}>{t(lang, "back")}</button>
+        {(driveMode === "sim" || driveMode === "finished") && <button type="button" className="btn" data-variant="primary" data-testid="btn-stop-replay"
+          onClick={() => { setDriveMode("idle"); setReplay(null); }}>{t(lang, driveMode === "finished" ? "endSimulation" : "stopSimulation")}</button>}
       </nav>}
-      <footer className="row foot"><a href={"/about?lang=" + lang}>{t(lang, "dataPrivacy")}</a><a href="/qr">{t(lang, "testerQr")}</a></footer>
+      <footer className="stack foot trip-footer">
+        <p>{t(lang, "tagline")}</p>
+        <div className="row"><a href={"/about?lang=" + lang}>{t(lang, "dataPrivacy")}</a><a href="/qr">{t(lang, "testerQr")}</a></div>
+        <div className="row">
+          <Source label="OSRM / OpenStreetMap" ts={String(line.properties?.retrieved_at ?? "")}
+            url={String(line.properties?.source_url ?? "https://www.openstreetmap.org/")} lang={lang} />
+          {routeQuote.ok && <Source label="PLUS" ts={tolls.retrieved_at} url={tolls.source_url}
+            status={routeQuote.verified ? undefined : "unverified"} lang={lang} />}
+        </div>
+      </footer>
     </div>
   </main>;
 }

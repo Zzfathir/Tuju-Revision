@@ -1,19 +1,19 @@
 /*
  * DESIGN TOKENS — the ONLY place colours, spacing, type and sizes are defined.
  * Designer: restyle the whole app by editing this file. Components reference only these vars.
- * Current values are a deliberately flat greyscale WIREFRAME.
+ * Journey controls use warm white surfaces and a deep teal accent.
  */
 :root {
   /* colour */
   --color-bg: #ffffff;
-  --color-surface: #f4f4f4;        /* panels, placeholders */
-  --color-text: #111111;
-  --color-text-muted: #555555;     /* ≥ 4.5:1 on white */
-  --color-border: #222222;
-  --color-border-subtle: #bbbbbb;
-  --color-accent: #111111;         /* primary button fill + focus outline only */
+  --color-surface: #f1f6f4;        /* panels, placeholders */
+  --color-text: #152a25;
+  --color-text-muted: #48645c;     /* ≥ 4.5:1 on white */
+  --color-border: #77918a;
+  --color-border-subtle: #d4dfda;
+  --color-accent: #114d42;         /* primary button fill + focus outline only */
   --color-accent-text: #ffffff;
-  --color-route: #111111;          /* map route line */
+  --color-route: #168873;          /* map route line */
   --color-stop: #ffffff;           /* map stop marker fill */
 
   /* state hooks (greyscale for now; designer maps to colour) */
@@ -33,7 +33,7 @@
   --space-6: 32px;
 
   /* shape */
-  --radius: 0px;
+  --radius: 11px;
   --border-width: 1px;
 
   /* type */
@@ -54,5 +54,23 @@
   --map-line-width: 3;
   --placeholder-min: 80px;
   --content-max-w: 640px;
+  --control-radius: 13px;
+  --small-radius: 8px;
+  --sheet-radius: 22px;
+  --map-paper: #dfede7;
+  --map-grid: #b7d0c480;
+  --map-horizon: #f4f9f7;
+  --map-live: #2675c4;
+  --map-route-halo: #f9fffc;
+  --map-route-shine: #8ee3c9;
+  --map-control-border: #adc5bc;
+  --map-control-shadow: 0 3px 10px #16392d20;
+  --sheet-shadow: 0 -4px 18px #183f3320;
+  --journey-map-height: clamp(300px, 51svh, 580px);
+  --journey-plan-width: clamp(405px, 38vw, 560px);
+  --journey-button-height: 52px;
+  --journey-actions-height: 70px;
+  --trip-title-size: clamp(23px, 6vw, 34px);
+  --metric-size: clamp(14px, 4vw, 19px);
   --focus-ring: 2px solid var(--color-accent);
 }

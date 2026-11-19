@@ -10,17 +10,21 @@ import type { RnrFile, RouteConfig, Stop, TollFile } from "@/lib/schemas";
 import { Facilities } from "./RoadCards";
 import { Card } from "./ui/Card";
 import { Source } from "./ui/Source";
+import type { Replay } from "./RouteMap";
 
 type Position = [number, number];
-type Mode = "idle" | "gps" | "sim" | "finished";
+export type DriveMode = "idle" | "gps" | "sim" | "finished";
 const plusLine = { number: "1-800-88-0000", source_url: "https://www.plus.com.my/customer-feedback/", retrieved_at: "2026-11-20" };
 
-export function GoCards({ config, line, routeKm, rnr, tolls, entry, stops, lang, onShare, setPosition }: {
+export function GoCards({ config, line, routeKm, rnr, tolls, entry, stops, lang, onShare, setPosition, setReplay, mode, setMode }: {
   config: RouteConfig; line: RouteLine; routeKm: number; rnr: RnrFile; tolls: TollFile;
-  entry: string; stops: Stop[]; lang: Lang; onShare: () => void; setPosition: (point: Position | null) => void;
+  entry: string; stops: Stop[]; lang: Lang; onShare: () => void;
+  setPosition: (point: Position | null) => void; setReplay: (replay: Replay | null) => void;
+  mode: DriveMode; setMode: (mode: DriveMode) => void;
 }) {
-  const [mode, setMode] = useState<Mode>("idle");
-  const [km, setKm] = useState<number | null>(null);
+
+  const [currentKm, setKm] = useState<number | null>(null);
+  const km = mode === "idle" ? null : currentKm;
   const [offRoute, setOffRoute] = useState(0);
   const [gpsError, setGpsError] = useState(false);
   const legs = wazeLegs(config.destination, stops);
@@ -39,7 +43,7 @@ export function GoCards({ config, line, routeKm, rnr, tolls, entry, stops, lang,
       let progress = 0;
       const update = () => {
         setKm(progress);
-        setPosition(pointAt(line, progress));
+        setReplay({ point: pointAt(line, progress), ahead: pointAt(line, Math.min(routeKm, progress + 0.55)) });
         if (progress >= routeKm) setMode("finished");
       };
       update();
@@ -66,17 +70,21 @@ export function GoCards({ config, line, routeKm, rnr, tolls, entry, stops, lang,
       }, { enableHighAccuracy: true, timeout: 12_000, maximumAge: 5000 });
       return () => { active = false; navigator.geolocation.clearWatch(watch); };
     }
-  }, [line, mode, routeKm, setPosition]);
+  }, [line, mode, routeKm, setPosition, setReplay, setMode]);
 
-  useEffect(() => () => setPosition(null), [setPosition]);
+  useEffect(() => () => { setPosition(null); setReplay(null); }, [setPosition, setReplay]);
 
-  const choose = (next: Mode) => {
+  const choose = (next: DriveMode) => {
     setKm(null);
     setPosition(null);
+    setReplay(null);
     setOffRoute(0);
     setGpsError(false);
     if (next === "gps" && !navigator.geolocation) { setGpsError(true); return; }
-    if (next === "sim") track("sim_drive");
+    if (next === "sim") {
+      track("sim_drive");
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
     setMode(next);
   };
 
@@ -84,7 +92,7 @@ export function GoCards({ config, line, routeKm, rnr, tolls, entry, stops, lang,
   const nextToll = km === null ? undefined : plazasAhead(tolls, km)[0];
   const toll = nextToll ? quoteToll(tolls, entry, nextToll.id) : null;
 
-  return <section className="stack" data-testid="screen-go">
+  return <section className="stack trip-content" data-testid="screen-go">
     <Card id="card-handoff" title={t(lang, "goTitle")}>
       <p>{t(lang, "goExplain")}</p>
       {googleLegs.map(({ destination, url }, index) =>

@@ -1,6 +1,6 @@
 # Jalan Pulang
 
-Jalan Pulang is a phone-friendly trip planner for Kuala Lumpur → Ipoh via the North–South Expressway. Plan a stop, check toll and weather, and hand off navigation to Google Maps or Waze. The interface is a bilingual greyscale wireframe.
+Jalan Pulang is a phone-friendly trip planner for Kuala Lumpur → Ipoh via the North–South Expressway. Plan a stop, check toll and weather, and hand off navigation to Google Maps or Waze. The bilingual interface pairs a perspective map with a phone-sized planning sheet.
 
 [Open Jalan Pulang](https://jalan-pulang.vercel.app/) · [Tester mode](https://jalan-pulang.vercel.app/?t=1) · [Printable tester QR](https://jalan-pulang.vercel.app/qr)
 
@@ -14,7 +14,7 @@ npm test
 npm run dev
 ```
 
-Open http://localhost:3000. For service-worker testing, run `npm run build` and `npm start`. A secure context is required for installation and phone GPS. The route outline loads first. Tap Open street map to load MapLibre on a WebGL2 device. The outline works without tiles or WebGL.
+Open http://localhost:3000. For service-worker testing, run `npm run build` and `npm start`. A secure context is required for installation and phone GPS. A lightweight preview captured from the 3D map renders first. Tap a map control to open the interactive street map in perspective on a compatible device. The simulated drive follows the saved line. The outline works without tiles or WebGL.
 
 - `/?t=1` opens the three tester tasks and optional anonymous feedback.
 - `/qr` generates a printable QR code for the tester link.
@@ -37,7 +37,7 @@ Open http://localhost:3000. For service-worker testing, run `npm run build` and 
 
 Weather and prayer upstreams can be checked with `npm run probe`. The `--save` flag refreshes the fixtures. Update the fixture retrieval timestamps in the corresponding API handlers when refreshing them. The route and POI scripts run offline against saved inputs or explicitly request fresh data. Keep changes to a route bundled together under `data/routes/<id>` and add it to `lib/data.ts`.
 
-Location is snapped in the browser and stays there. Map tiles are fetched from the configured tile host. Anonymous analytics accepts an event type and an optional random tab token, which is folded into an aggregate session count. Feedback is optional free text. The app does not store IPs, cookies or browser fingerprints.
+Location is snapped in the browser and stays there. Map tiles use OpenFreeMap with OpenStreetMap data by default. Set NEXT_PUBLIC_TILE_URL to override it with a raster tile endpoint. The raster map preserves camera tilt. Building height is available with the vector map at close zoom where mapped. Browser GPS updates only the on-device position marker. The camera follows the bundled route during simulation. Anonymous analytics accepts an event type and an optional random tab token, which is folded into an aggregate session count. Feedback is optional free text. The app does not store IPs, cookies or browser fingerprints.
 
 ## Demo and social post
 

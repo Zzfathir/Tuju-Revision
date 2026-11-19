@@ -74,7 +74,7 @@ fieldset { border: var(--border-width) solid var(--color-border-subtle); border-
 .seg > .btn[aria-pressed="true"] { background: var(--color-accent); color: var(--color-accent-text); }
 
 /* badges / source */
-.source { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); white-space: nowrap; }
+.source { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted); white-space: normal; overflow-wrap: anywhere; min-width: 0; }
 .source[data-status="live"] { color: var(--color-state-live); }
 .source[data-status="stale"] { color: var(--color-state-stale); font-weight: 700; }
 .badge { display: inline-block; border: var(--border-width) solid var(--color-border-subtle); padding: 0 var(--space-1); font-size: var(--text-xs); border-radius: var(--radius); }

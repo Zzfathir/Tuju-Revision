@@ -151,6 +151,21 @@ export const dict = {
   "testLink": { en: "Open tester mode", bm: "Buka mod penguji" },
   "adviceNote": { en: "Rough pattern for the selected day type. See the operator’s travel advisory in the PLUS app.", bm: "Corak anggaran untuk jenis hari yang dipilih. Lihat nasihat perjalanan dalam aplikasi PLUS." },
   "gpsUnavailable": { en: "Location is unavailable. Use Simulate drive instead.", bm: "Lokasi tidak tersedia. Guna Simulasi pemanduan." },
+  endSimulation: { en: "End simulation", bm: "Tamatkan simulasi" },
+  exploreMap: { en: "Explore 3D map", bm: "Terokai peta 3D" },
+  mapView: { en: "Map view", bm: "Paparan peta" },
+  perspective: { en: "3D perspective", bm: "Perspektif 3D" },
+  driveView: { en: "Drive view", bm: "Pandangan pemanduan" },
+  routeOverview: { en: "Route overview", bm: "Gambaran laluan" },
+  fullRoute: { en: "Full route", bm: "Laluan penuh" },
+  routeOutline: { en: "Route outline", bm: "Garisan laluan" },
+  northbound: { en: "northbound", bm: "arah utara" },
+  distance: { en: "Distance", bm: "Jarak" },
+  estimatedDrive: { en: "Drive estimate", bm: "Anggaran pandu" },
+  classOneToll: { en: "Class 1 toll", bm: "Tol kelas 1" },
+  tripDetails: { en: "Trip details", bm: "Butiran perjalanan" },
+  reviewRoute: { en: "Review route", bm: "Semak laluan" },
+  continueToGo: { en: "Continue to Go", bm: "Terus ke Mula" },
 } as const;
 
 export type Key = keyof typeof dict;
