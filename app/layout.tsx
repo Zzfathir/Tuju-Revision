@@ -3,6 +3,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import "./tokens.css";
 import "./wireframe.css";
 import "./journey.css";
+import "./landing.css";
 import { AppShell } from "@/components/AppShell";
 
 export const metadata: Metadata = {

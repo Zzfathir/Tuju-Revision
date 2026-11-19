@@ -1,0 +1,24 @@
+/* Landing + onboarding. Mobile-first; uses only tokens from tokens.css. */
+.landing, .onboarding { display: flex; flex-direction: column; min-height: 100dvh; position: relative; background: var(--color-surface); }
+.landing-hero { position: absolute; inset: 0 0 auto 0; width: 100%; height: 62dvh; object-fit: cover; object-position: 50% 54%; }
+.landing-top { position: absolute; z-index: 2; inset-inline: var(--space-4); top: calc(var(--space-3) + env(safe-area-inset-top)); display: flex; justify-content: space-between; align-items: center; }
+.landing-brand { margin: 0; padding: var(--space-2) var(--space-3); border-radius: var(--control-radius); background: var(--color-bg); font-weight: 700; box-shadow: var(--map-control-shadow); }
+.landing .language-button { min-width: var(--tap-min); min-height: var(--tap-min); border-radius: var(--control-radius); box-shadow: var(--map-control-shadow); }
+.landing-sheet {
+  position: relative; z-index: 1; margin-top: auto; background: var(--color-bg);
+  border-radius: var(--sheet-radius) var(--sheet-radius) 0 0; box-shadow: var(--sheet-shadow);
+  padding: var(--space-5) var(--space-4) calc(var(--space-4) + env(safe-area-inset-bottom));
+  max-width: var(--content-max-w); width: 100%; align-self: center;
+}
+.landing-sheet h1 { font-size: var(--text-xl); margin-bottom: var(--space-2); }
+.landing-sub { color: var(--color-text-muted); }
+.landing-tester { margin: 0 0 var(--space-3); padding: var(--space-2) var(--space-3); border-radius: var(--small-radius); background: var(--color-surface); font-size: var(--text-sm); font-weight: 600; }
+.landing-steps { list-style: none; margin: var(--space-3) 0 var(--space-4); padding: 0; display: grid; gap: var(--space-2); font-size: var(--text-sm); }
+.landing-steps li { display: flex; gap: var(--space-3); align-items: center; }
+.landing-step-n { flex: 0 0 var(--space-5); height: var(--space-5); display: grid; place-items: center; border-radius: 50%; background: var(--color-accent); color: var(--color-accent-text); font-weight: 700; font-size: var(--text-sm); }
+.landing-cta { display: flex; justify-content: center; align-items: center; gap: var(--space-2); width: 100%; min-height: calc(var(--tap-min) + var(--space-2)); border-radius: var(--control-radius); text-decoration: none; font-weight: 700; }
+.landing-friends { margin: var(--space-3) 0 0; text-align: center; font-size: var(--text-sm); }
+@media (min-width: 720px) {
+  .landing-hero { height: 70dvh; }
+  .landing-sheet { border-radius: var(--sheet-radius); margin-bottom: var(--space-5); }
+}
