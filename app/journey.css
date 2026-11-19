@@ -313,3 +313,8 @@
   .map-legend { bottom: var(--space-5); inset-inline-start: var(--space-5); }
   .map-credit { bottom: var(--space-5); }
 }
+.trip-details-header h3 { margin: 0; font-size: var(--text-lg); }
+.trip-details-header .btn { padding-inline: var(--space-3); font-size: var(--text-sm); }
+.group-page { overflow-wrap: anywhere; padding-bottom: calc(var(--space-5) + env(safe-area-inset-bottom)); }
+.group-page .input { min-width: 0; max-width: 100%; }
+.group-page .banner h2 { margin: 0; }

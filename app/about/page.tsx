@@ -19,6 +19,8 @@ export default async function About({ searchParams }: { searchParams: Promise<{ 
       "Your browser processes GPS and saves your trip card in this tab. We store usage totals and optional written feedback. Leave names and contact details out of feedback."}</p>
     <p>{bm ? "Peta jalan dimuatkan daripada penyedia jubin peta. Google Maps atau Waze menerima destinasi dan hentian apabila anda membuka pautan." :
       "The street map loads from the map tile provider. Google Maps or Waze receives the destination and stops when you open a navigation link."}</p>
+    <p>{bm ? "Ketibaan kumpulan menyimpan nama panggilan, laporan ketibaan dan butiran acara supaya tetamu dengan pautan jemputan boleh membaca kemas kini. Pautan ditutup dua hari selepas waktu mula acara." :
+      "Group Arrival stores nicknames, arrival reports and event details so guests with the invite link can see updates. Event links close two days after the scheduled start."}</p>
     <a href="/" className="btn">{t(lang, "backToPlan")}</a>
   </main>;
 }

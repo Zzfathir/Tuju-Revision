@@ -17,10 +17,13 @@ npm run dev
 Open http://localhost:3000. For service-worker testing, run `npm run build` and `npm start`. A secure context is required for installation and phone GPS. A lightweight preview captured from the 3D map renders first. Tap a map control to open the interactive street map in perspective on a compatible device. The simulated drive follows the saved line. The outline works without tiles or WebGL.
 
 - `/?t=1` opens the three tester tasks and optional anonymous feedback.
+- `/group-arrival` creates a meetup invite and private host link. Group Arrival requires a private Vercel Blob store in production and runs in memory during local development.
 - `/qr` generates a printable QR code for the tester link.
 - `/share` previews the trip card created in Go and offers PNG sharing or download and caption copy.
 - `/about` lists sources and privacy practices. `/states` and [DESIGN_HANDOFF.md](DESIGN_HANDOFF.md) document the wireframe.
 - `/stats?key=…` uses a private deployment value for `STATS_KEY`. Keep the link private. Counts are approximate tabs, with a separate total for each event. Use optional Upstash REST credentials for durable counters. Without Redis, each server process keeps its own temporary totals and feedback.
+
+The [feature checklist](FEATURES.md) maps this build to the original brief.
 
 ## Data and limitations
 

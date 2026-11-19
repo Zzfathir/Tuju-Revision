@@ -1,0 +1,45 @@
+import type { Lang } from "./i18n";
+
+const words = {
+  title: ["Group Arrival", "Ketibaan kumpulan"],
+  intro: ["Share arrival updates for a meetup when traffic delays the group.", "Kongsi kemas kini ketibaan apabila trafik melambatkan kumpulan."],
+  name: ["Event name", "Nama acara"],
+  venue: ["Meeting place", "Tempat pertemuan"],
+  start: ["Start time (MYT)", "Masa mula (MYT)"],
+  create: ["Create event", "Cipta acara"],
+  invite: ["Guest invite link", "Pautan jemputan tetamu"],
+  copy: ["Copy invite link", "Salin pautan jemputan"],
+  copyHost: ["Copy private host link", "Salin pautan hos peribadi"],
+  hostLink: ["Private host link", "Pautan hos peribadi"],
+  hostHint: ["Keep the host link private. Share the guest link with everyone else.", "Rahsiakan pautan hos. Kongsi pautan tetamu dengan orang lain."],
+  copied: ["Link copied.", "Pautan disalin."],
+  copyFailed: ["Copy the link from the field below.", "Salin pautan daripada medan di bawah."],
+  nickname: ["Nickname", "Nama panggilan"],
+  join: ["Join event", "Sertai acara"],
+  guestList: ["Arrival updates", "Kemas kini ketibaan"],
+  empty: ["No guests have joined yet.", "Belum ada tetamu yang menyertai."],
+  report: ["Delayed by traffic", "Lewat kerana trafik"],
+  reportHint: ["Update your arrival once you’re safely stopped, or ask a passenger.", "Kemas kini ketibaan apabila anda sudah berhenti dengan selamat, atau minta penumpang membantu."],
+  eta: ["Expected arrival (MYT)", "Anggaran tiba (MYT)"],
+  stretch: ["Road stretch or area (optional)", "Bahagian jalan atau kawasan (pilihan)"],
+  reportSave: ["Share arrival update", "Kongsi kemas kini ketibaan"],
+  onTime: ["On track", "Mengikut jadual"],
+  arrived: ["Arrived", "Sudah tiba"],
+  delayed: ["Traffic delay", "Kelewatan trafik"],
+  change: ["Change start time", "Ubah masa mula"],
+  publish: ["Publish new start time", "Umumkan masa mula baharu"],
+  refresh: ["Refresh", "Muat semula"],
+  saved: ["Update shared.", "Kemas kini dikongsi."],
+  invalid: ["Check the fields and try again.", "Semak medan dan cuba lagi."],
+  timeError: ["Choose a valid time for this event.", "Pilih masa yang sah untuk acara ini."],
+  closed: ["This event has closed or the invite link is invalid.", "Acara ini telah ditutup atau pautan jemputan tidak sah."],
+  busy: ["Someone else updated this event. Try again.", "Orang lain mengemas kini acara ini. Cuba lagi."],
+  full: ["This event has reached its guest limit.", "Acara ini telah mencapai had tetamu."],
+  forbidden: ["This link or device doesn’t have permission for that update.", "Pautan atau peranti ini tiada kebenaran untuk kemas kini itu."],
+  unavailable: ["Couldn’t connect. Try again when you’re online.", "Sambungan gagal. Cuba lagi apabila anda dalam talian."],
+  privacy: ["Guests share only their nickname and arrival updates. Event links close two days after the scheduled start.", "Tetamu hanya berkongsi nama panggilan dan kemas kini ketibaan. Pautan acara ditutup dua hari selepas masa mula yang dijadualkan."],
+} as const;
+
+export function groupCopy(lang: Lang, key: keyof typeof words) {
+  return words[key][lang === "bm" ? 1 : 0];
+}

@@ -15,6 +15,7 @@ import { LeaveTimeBar, TollPicker } from "./PlanCards";
 import { PrayerCard, StopCard, WeatherCard, type PrayerResponse, type WeatherResponse } from "./RoadCards";
 import { RouteMap, type Replay } from "./RouteMap";
 
+import { groupCopy } from "@/lib/group-copy";
 import { GoCards, type DriveMode } from "./GoCards";
 import { TesterTasks } from "./TesterTasks";
 import { Card } from "./ui/Card";
@@ -195,7 +196,10 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta }: {
       {!online && <p className="banner" data-kind="offline" role="status">{t(lang, "offline", { t: offlineDate ? offlineDate.slice(0, 10) + " " + fmtTime(new Date(offlineDate)) + " MYT" : "—" })}</p>}
       {tester && <TesterTasks lang={lang} />}
       {step === 0 && <section className="stack trip-content" data-testid="screen-plan">
-        <h3>{t(lang, "tripDetails")}</h3>
+        <div className="row trip-details-header">
+          <h3 className="grow">{t(lang, "tripDetails")}</h3>
+          <a href={"/group-arrival" + (lang === "bm" ? "?lang=bm" : "")} className="btn">{groupCopy(lang, "title")}</a>
+        </div>
         <div className="trip-fields">
         <label className="field">{t(lang, "departure")} (MYT)
           <input className="input" type="datetime-local" data-testid="departure" value={departure}
