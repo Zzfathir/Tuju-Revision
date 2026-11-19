@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { BlobPreconditionFailedError, get, put } from "@vercel/blob";
 
 const redisUrl = process.env.UPSTASH_REDIS_REST_URL ?? process.env.KV_REST_API_URL;
 const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
@@ -9,11 +10,47 @@ type Command = (string | number)[];
 export const EVENTS = ["visit", "task_done:1", "task_done:2", "task_done:3", "plan_made", "handoff_google", "handoff_waze", "share", "sim_drive"] as const;
 export type EventName = (typeof EVENTS)[number];
 
-const memory = {
-  counts: new Map<EventName, number>(),
-  sessions: new Map<EventName, Uint8Array>(),
-  feedback: [] as Feedback[],
-};
+// Counter state shared by the Blob and in-memory backends. `sessions` holds occupied sketch buckets only.
+type State = { counts: Partial<Record<EventName, number>>; sessions: Partial<Record<EventName, number[]>>; feedback: Feedback[] };
+const blobBacked = Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
+const memory: State = { counts: {}, sessions: {}, feedback: [] };
+const blobPath = "stats/counters.json";
+
+function apply(state: State, event: EventName, bucket: number | null) {
+  state.counts[event] = (state.counts[event] ?? 0) + 1;
+  if (bucket === null) return;
+  const used = new Set(state.sessions[event] ?? []);
+  used.add(bucket);
+  state.sessions[event] = [...used];
+}
+
+async function loadBlob() {
+  const result = await get(blobPath, { access: "private", useCache: false, abortSignal: AbortSignal.timeout(5000) });
+  if (!result?.stream) return null;
+  const raw = await new Response(result.stream).json() as Partial<State>;
+  const state: State = { counts: raw.counts ?? {}, sessions: raw.sessions ?? {}, feedback: raw.feedback ?? [] };
+  return { state, version: result.blob.etag };
+}
+
+/** Read-modify-write with an ETag guard so concurrent testers do not overwrite each other. */
+async function mutateBlob(change: (state: State) => void) {
+  for (let attempt = 0; attempt < 6; attempt++) {
+    const current = await loadBlob();
+    const state = current?.state ?? { counts: {}, sessions: {}, feedback: [] };
+    change(state);
+    try {
+      await put(blobPath, JSON.stringify(state), {
+        access: "private", contentType: "application/json", addRandomSuffix: false,
+        allowOverwrite: Boolean(current), ifMatch: current?.version, abortSignal: AbortSignal.timeout(5000),
+      });
+      return;
+    } catch (error) {
+      // Another tester saved first (or created the file first): reload and reapply.
+      if (!(error instanceof BlobPreconditionFailedError) && !/already exists/i.test(String(error))) throw error;
+    }
+  }
+  throw new Error("Counter store busy");
+}
 
 async function redis(commands: Command[], mode: "multi-exec" | "pipeline") {
   const response = await fetch(new URL("/" + mode, redisUrl), {
@@ -38,12 +75,9 @@ export async function record(event: EventName, sid?: string) {
     await redis(commands, "multi-exec");
     return;
   }
-  memory.counts.set(event, (memory.counts.get(event) ?? 0) + 1);
-  if (session) {
-    const bitmap = memory.sessions.get(event) ?? new Uint8Array(bitmapSize);
-    bitmap[session.readUInt32BE() % bitmapSize] = 1;
-    memory.sessions.set(event, bitmap);
-  }
+  const bucket = session ? session.readUInt32BE() % bitmapSize : null;
+  if (blobBacked) await mutateBlob((state) => apply(state, event, bucket));
+  else apply(memory, event, bucket);
 }
 
 export async function addFeedback(text: string) {
@@ -53,8 +87,9 @@ export async function addFeedback(text: string) {
   if (durable) {
     await redis([["LPUSH", "feedback", JSON.stringify(item)], ["LTRIM", "feedback", 0, 199]], "multi-exec");
   } else {
-    memory.feedback.unshift(item);
-    memory.feedback.length = Math.min(memory.feedback.length, 200);
+    const add = (state: State) => { state.feedback = [item, ...state.feedback].slice(0, 200); };
+    if (blobBacked) await mutateBlob(add);
+    else add(memory);
   }
 }
 
@@ -68,11 +103,12 @@ export async function readStats() {
     const feedback = ((result.at(-1) ?? []) as string[]).map((item) => JSON.parse(item) as Feedback);
     return { rows, feedback, durable };
   }
+  const state = blobBacked ? (await loadBlob())?.state ?? memory : memory;
   const rows = EVENTS.map((event) => {
-    const count = memory.counts.get(event) ?? 0;
-    const used = memory.sessions.get(event)?.reduce((total, bit) => total + bit, 0) ?? 0;
-    const sessions = Math.min(count, Math.round(-bitmapSize * Math.log1p(-used / bitmapSize)));
+    const count = state.counts[event] ?? 0;
+    const used = new Set(state.sessions[event] ?? []).size;
+    const sessions = Math.min(count, Math.round(-bitmapSize * Math.log1p(-Math.min(used, bitmapSize - 1) / bitmapSize)));
     return { event, count, sessions };
   });
-  return { rows, feedback: memory.feedback.slice(0, 50), durable };
+  return { rows, feedback: state.feedback.slice(0, 50), durable: durable || blobBacked };
 }
