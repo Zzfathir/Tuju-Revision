@@ -13,7 +13,7 @@ import type { RnrFile, RouteConfig, TollFile } from "@/lib/schemas";
 import type { EtaGrid } from "@/lib/eta-grid";
 import type { RouteLine } from "@/lib/route";
 import { LeaveTimeBar, TollPicker } from "./PlanCards";
-import { PrayerCard, StopCard, WeatherCard, type PrayerResponse, type WeatherResponse } from "./RoadCards";
+import { Facilities, PrayerCard, StopCard, WeatherCard, type PrayerResponse, type WeatherResponse } from "./RoadCards";
 import { RouteMap, type Replay } from "./RouteMap";
 
 import { groupCopy } from "@/lib/group-copy";
@@ -59,6 +59,7 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
   const [position, setPosition] = useState<[number, number] | null>(null);
   const [replay, setReplay] = useState<Replay | null>(null);
   const [driveMode, setDriveMode] = useState<DriveMode>("idle");
+  const [selectedStopId, setSelectedStopId] = useState<string | null>(null);
   const sheet = useRef<HTMLDivElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const visited = useRef(false);
@@ -92,6 +93,13 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
       window.removeEventListener("offline", update);
     };
   }, []);
+
+  useEffect(() => {
+    if (!selectedStopId) return;
+    const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") setSelectedStopId(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [selectedStopId]);
 
   const roadOpen = step > 0;
   useEffect(() => {
@@ -146,6 +154,7 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
 
   const move = (target: number) => {
     if (target === 2) track("plan_made");
+    setSelectedStopId(null);
     if (target !== 2) {
       setPosition(null);
       setReplay(null);
@@ -156,6 +165,13 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
       sheet.current?.scrollIntoView({ block: "start" });
       heading.current?.focus({ preventScroll: true });
     });
+  };
+
+  const selectedStop = rnr.items.find((stop) => stop.id === selectedStopId) ?? null;
+  const selectedPlan = plan?.ok ? plan.stops.find((item) => item.stop.id === selectedStopId) : undefined;
+  const showStop = (id: string) => {
+    setSelectedStopId(id);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const share = () => {
@@ -184,19 +200,36 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
     <div className="map-stage">
       <RouteMap line={line} stops={rnr.items} position={position} replay={replay} replayFinished={driveMode === "finished"} lang={lang}
         places={[origin ?? config.origin.name, destination ?? config.destination.name]} online={online}
+        selectedStopId={selectedStopId} onSelectStop={setSelectedStopId}
         preview={config.id === "kl-ipoh" && !process.env.NEXT_PUBLIC_TILE_URL ? "/kl-ipoh-drive-preview.webp" : undefined} />
       <header className="map-masthead">
         <h1><a href={"/" + prefsQuery({ lang }, testerOn ? { t: "1" } : {})} className="home-link">{t(lang, "appName")}</a></h1>
         <button type="button" className="btn language-button" data-testid="btn-lang"
           aria-label={t(lang, "langToggle")} onClick={() => setLang(lang === "en" ? "bm" : "en")}>{lang === "en" ? "BM" : "EN"}</button>
       </header>
+      {selectedStop && <aside className="map-callout" data-testid="map-callout" aria-label={selectedStop.name}>
+        <div className="map-callout-head">
+          <strong>{selectedStop.name}</strong>
+          <button type="button" className="map-control" data-testid="map-callout-close" aria-label={t(lang, "closeCard")}
+            onClick={() => setSelectedStopId(null)}>✕</button>
+        </div>
+        <p className="small">{t(lang, "kmFromStart", { n: selectedStop.distanceAlongRoute_km })}
+          {selectedPlan && <> · {t(lang, "stopAt", { t: fmtTime(selectedPlan.arrive), m: Math.round((selectedPlan.depart.getTime() - selectedPlan.arrive.getTime()) / 60_000) })}</>}</p>
+        <Facilities stop={selectedStop} lang={lang} />
+      </aside>}
     </div>
     <div className="panel" ref={sheet}>
       <ol className="step-progress" aria-label={t(lang, "steps")}>
-        {steps.map((name, index) => <li key={name} aria-current={index === step ? "step" : undefined}
-          data-reached={index <= step}>{index < step
-            ? <button type="button" onClick={() => move(index)}>{t(lang, name)}</button>
-            : <span>{t(lang, name)}</span>}</li>)}
+        {steps.map((name, index) => {
+          // Any step is reachable once the inputs it needs are valid; the current one is plain text.
+          const rangeOk = Number(range) >= 1 && Number(range) <= 2000;
+          const allowed = index <= step || (index === 1 ? rangeOk : rangeOk && plan?.ok === true);
+          return <li key={name} aria-current={index === step ? "step" : undefined} data-reached={index <= step}>
+            {index === step ? <span>{t(lang, name)}</span>
+              : <button type="button" data-testid={"tab-" + ["plan", "road", "go"][index]} disabled={!allowed}
+                title={allowed ? undefined : t(lang, "tabLocked")} onClick={() => move(index)}>{t(lang, name)}</button>}
+          </li>;
+        })}
       </ol>
       <h2 ref={heading} tabIndex={-1} className="sr-only">{t(lang, steps[step])}</h2>
       <header className="trip-heading">
@@ -254,7 +287,7 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
           {!plan ? <p role="status">{t(lang, "loading")}</p> : !plan.ok ? <><p><strong>{t(lang, "infeasible")}</strong></p>
             <p>{t(lang, ("plan_" + plan.reason) as "plan_range" | "plan_max-driving" | "plan_needs" | "plan_prayer" | "plan_no-stops")}</p></> : <>
             <p>{t(lang, "arrive", { t: fmtTime(plan.arrival) })} MYT · {t(lang, "totalTime", { d: fmtDur(plan.totalMinutes) })}</p>
-            {plan.stops.length ? <ul className="list">{plan.stops.map((item) => <li key={item.stop.id}><StopCard stop={item.stop} planned={item} lang={lang} /></li>)}</ul> :
+            {plan.stops.length ? <ul className="list">{plan.stops.map((item) => <li key={item.stop.id}><StopCard stop={item.stop} planned={item} lang={lang} onShow={() => showStop(item.stop.id)} /></li>)}</ul> :
               <p>{t(lang, "planNone")}</p>}
             {prayerAware && <p className="small">{t(lang, "prayerPlanningNote")}</p>}
           </>}
@@ -265,7 +298,7 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
           retry={() => { setWeatherResult(undefined); setWeatherAttempt((n) => n + 1); }} />
         <h3>{t(lang, "allStops")}</h3>
         <p className="small">{t(lang, "facilitiesUnknown")}</p>
-        <ul className="list">{rnr.items.map((stop) => <li key={stop.id}><StopCard {...{ stop, lang }} /></li>)}</ul>
+        <ul className="list">{rnr.items.map((stop) => <li key={stop.id}><StopCard {...{ stop, lang }} onShow={() => showStop(stop.id)} /></li>)}</ul>
       </section>}
       {step === 2 && plan?.ok && <GoCards {...{ config, line, rnr, tolls, routeKm, lang, setPosition, setReplay }} entry={routeEntry} mode={driveMode} setMode={setDriveMode}
         stops={plan.stops.map(({ stop }) => stop)} onShare={share} />}

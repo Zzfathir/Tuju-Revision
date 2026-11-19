@@ -23,7 +23,7 @@ export function Facilities({ stop, lang }: { stop: Stop; lang: Lang }) {
   )}</div>;
 }
 
-export function StopCard({ stop, planned, lang }: { stop: Stop; planned?: PlannedStop; lang: Lang }) {
+export function StopCard({ stop, planned, lang, onShow }: { stop: Stop; planned?: PlannedStop; lang: Lang; onShow?: () => void }) {
   const reasonText = (reason: string) => {
     if (reason.startsWith("pray:")) return t(lang, "reason_pray", { p: reason.slice(5) });
     const key = ({ charge: "reason_charge", refuel: "reason_refuel", break: "reason_break", ev: "evCharger" } as Record<string, Key>)[reason];
@@ -36,6 +36,7 @@ export function StopCard({ stop, planned, lang }: { stop: Stop; planned?: Planne
       t: fmtTime(planned.arrive), m: Math.round((planned.depart.getTime() - planned.arrive.getTime()) / 60_000),
     })} · {planned.reasons.map(reasonText).join(", ")}</p>}
     <Facilities stop={stop} lang={lang} />
+    {onShow && <button type="button" className="btn" data-size="sm" data-testid="stop-show-on-map" onClick={onShow}>{t(lang, "showOnMap")}</button>}
   </Card>;
 }
 

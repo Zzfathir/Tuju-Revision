@@ -48,3 +48,29 @@
 .tester-compact[open] > summary { margin-bottom: var(--space-3); }
 .chip, .landing-cta { -webkit-tap-highlight-color: transparent; }
 .chip { user-select: none; }
+
+/* map interaction */
+.map-pin { padding: 0; cursor: pointer; position: relative; }
+.map-pin::after { content: ""; position: absolute; inset: calc(-1 * var(--space-4)); }
+.map-endpoint { cursor: default; }
+.map-endpoint::after { display: none; }
+.map-pin[data-selected="true"] { background: var(--color-accent); border-color: var(--color-accent); outline: 3px solid var(--map-route-shine); }
+.map-zoom button { font-size: var(--text-lg); line-height: 1; }
+.map-angle button:disabled { opacity: 0.45; cursor: default; }
+.map-preview { cursor: pointer; }
+.map-callout {
+  position: absolute; z-index: 3; inset-inline: var(--space-4); bottom: calc(var(--space-5) + var(--tap-min) + var(--space-3));
+  max-width: 420px; padding: var(--space-3) var(--space-4); border-radius: var(--control-radius);
+  background: var(--color-bg); border: 1px solid var(--map-control-border); box-shadow: var(--map-control-shadow);
+}
+.map-callout p { margin: var(--space-1) 0 var(--space-2); }
+.map-callout-head { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); }
+.map-callout .map-control { flex: 0 0 auto; }
+.step-progress button:disabled { opacity: 0.5; cursor: not-allowed; }
+.step-progress button:not(:disabled):hover { color: var(--color-accent); }
+@media (min-width: 900px) { .map-callout { inset-inline-start: var(--space-5); } }
+@media (max-width: 899px) {
+  /* keep the callout clear of the map controls and the attribution */
+  .map-callout { inset-inline-end: calc(var(--space-4) + 8rem); bottom: calc(var(--space-4) + 2.5rem); }
+  .map-stage:has(.map-callout) .map-legend { display: none; }
+}

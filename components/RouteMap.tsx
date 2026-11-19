@@ -39,14 +39,18 @@ async function streetStyle(): Promise<{ style: StyleSpecification; vector: boole
   }
 }
 
-export function RouteMap({ line, stops, position, replay, replayFinished, lang, places, online, preview }: {
+export function RouteMap({ line, stops, position, replay, replayFinished, lang, places, online, preview, selectedStopId, onSelectStop }: {
   line: RouteLine; stops: Stop[]; position: Point | null; replay: Replay | null; lang: Lang; replayFinished: boolean;
   places: [string, string]; online: boolean; preview?: string;
+  selectedStopId: string | null; onSelectStop: (id: string | null) => void;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const liveMarker = useRef<MapMarker | null>(null);
   const replayMarker = useRef<MapMarker | null>(null);
   const didReplay = useRef(false);
+  const pins = useRef(new Map<string, HTMLElement>());
+  const onSelect = useRef(onSelectStop);
+  onSelect.current = onSelectStop;
   const [map, setMap] = useState<MapInstance | null>(null);
   const [failed, setFailed] = useState(false);
   const [requested, setRequested] = useState(false);
@@ -86,6 +90,15 @@ useEffect(() => {
     setRequested(false);
   }, [map, online]);
 
+  // Load the live map on its own so the first view is never a dead picture. Slow or Save-Data connections keep the tap-to-load preview.
+  useEffect(() => {
+    if (!online || failed || requested) return;
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    if (connection?.saveData || /(^|-)[23]g$/.test(connection?.effectiveType ?? "")) return;
+    const timer = window.setTimeout(() => setRequested(true), 800);
+    return () => window.clearTimeout(timer);
+  }, [failed, online, requested]);
+
   useEffect(() => {
     if (!requested) return;
     let active = true;
@@ -95,12 +108,14 @@ useEffect(() => {
       if (!active || !container.current) return;
       libre.setWorkerUrl(new URL("maplibre-gl/dist/maplibre-gl-worker.mjs", import.meta.url).toString());
       libre.setWorkerCount(1);
+      // Beside the page (wide screen + mouse) the wheel can zoom; on phones two fingers move the map so the page still scrolls.
+      const wide = window.matchMedia("(min-width: 900px) and (pointer: fine)").matches;
       const css = getComputedStyle(container.current);
       const token = (name: string) => css.getPropertyValue(name).trim();
       instance = new libre.Map({
         container: container.current, style,
         center: line.geometry.coordinates[0] as Point, zoom: 14.5,
-        attributionControl: false, scrollZoom: false, cooperativeGestures: true, maxPitch: 72,
+        attributionControl: false, scrollZoom: wide, cooperativeGestures: !wide, maxPitch: 72,
       });
       const current = instance;
       const basemapSource = vector ? "openmaptiles" : "street";
@@ -141,9 +156,14 @@ useEffect(() => {
           }, insertBefore);
         }
         for (const stop of stops) {
-          const pin = document.createElement("span");
+          const pin = document.createElement("button");
+          pin.type = "button";
           pin.className = "map-pin";
           pin.title = stop.name;
+          pin.setAttribute("aria-label", stop.name);
+          pin.dataset.testid = "map-stop-" + stop.id;
+          pin.addEventListener("click", (event) => { event.stopPropagation(); onSelect.current(stop.id); });
+          pins.current.set(stop.id, pin);
           new libre.Marker({ element: pin }).setLngLat([stop.lng, stop.lat]).addTo(current);
         }
         for (const [index, point] of [line.geometry.coordinates[0], line.geometry.coordinates.at(-1)!].entries()) {
@@ -171,6 +191,7 @@ useEffect(() => {
       replayMarker.current?.remove();
       liveMarker.current = null;
       replayMarker.current = null;
+      pins.current.clear();
       instance?.remove();
     };
   }, [attempt, line, requested, stops]);
@@ -216,6 +237,28 @@ useEffect(() => {
     didReplay.current = true;
   }, [angled, map, replay]);
 
+  useEffect(() => {
+    if (selectedStopId && online && !failed) setRequested(true);
+  }, [failed, online, selectedStopId]);
+
+  useEffect(() => {
+    for (const [id, pin] of pins.current) pin.dataset.selected = String(id === selectedStopId);
+    const stop = stops.find((item) => item.id === selectedStopId);
+    if (!map || !stop || isReplaying) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    map.easeTo({ center: [stop.lng, stop.lat], zoom: Math.max(map.getZoom(), 13), duration: reduceMotion ? 0 : 600 });
+  }, [isReplaying, map, selectedStopId, stops]);
+
+  // Expose the zoom level on the map element (used by the browser checks).
+  useEffect(() => {
+    const wrap = container.current?.parentElement;
+    if (!map || !wrap) return;
+    const sync = () => { wrap.dataset.zoom = map.getZoom().toFixed(2); };
+    sync();
+    map.on("zoom", sync);
+    return () => { map.off("zoom", sync); };
+  }, [map]);
+
   const outlinePosition = replay?.point ?? position;
   const showPreview = preview && online && !map && !failed && angled && !overview && !outlinePosition;
   return <section className="map-wrap" aria-label={t(lang, "map")} data-testid="route-map"
@@ -238,7 +281,7 @@ useEffect(() => {
         {outlinePosition && <circle className="outline-position" cx={geometry.project(outlinePosition)[0]} cy={geometry.project(outlinePosition)[1]} r="8" />}
       </svg>
     </div>
-    {showPreview && <img className="map-preview" src={preview} alt="" fetchPriority="high" width={760} height={848} />}
+    {showPreview && <img className="map-preview" src={preview} alt="" fetchPriority="high" width={760} height={848} onClick={() => setRequested(true)} />}
     <div ref={container} className="map-canvas" data-visible={Boolean(map) && online && !failed} />
     <div className="map-tools" aria-label={t(lang, "mapView")} role="group">
       <div className="map-angle" role="group" aria-label={t(lang, "perspective")}>
@@ -249,6 +292,10 @@ useEffect(() => {
             {perspective ? "3D" : "2D"}
           </button>
         ))}
+      </div>
+      <div className="map-angle map-zoom" role="group" aria-label={t(lang, "mapView")}>
+        <button type="button" data-testid="map-zoom-in" aria-label={t(lang, "mapZoomIn")} disabled={!map} onClick={() => map?.zoomIn({ duration: 250 })}>+</button>
+        <button type="button" data-testid="map-zoom-out" aria-label={t(lang, "mapZoomOut")} disabled={!map} onClick={() => map?.zoomOut({ duration: 250 })}>−</button>
       </div>
       <button type="button" className="map-control" data-testid="map-frame" disabled={!online || failed || Boolean(replay)}
         onClick={() => { setOverview(!overview); if (online) setRequested(true); }}>

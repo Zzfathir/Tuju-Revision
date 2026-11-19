@@ -4,7 +4,7 @@ Based on the numbered features and engagement requirements in `CLAUDE_CODE_PROMP
 
 | Brief | What is available |
 | --- | --- |
-| F1 · Route corridor | Saved KL → Ipoh GeoJSON along the North–South Expressway, with an interactive 2D/3D map and full-route overview. |
+| F1 · Route corridor | Saved KL → Ipoh GeoJSON along the North–South Expressway, with an interactive 2D/3D map (loads on its own, wheel and button zoom, tappable stop pins with a details callout, "Show on map" from the stops list) and full-route overview. |
 | F2 · Toll calculator | Entry and exit selection with verified PLUS Class 1 fares where available. Unknown fare pairs show a PLUS lookup link. |
 | F3 · R&R planner | Rest, vehicle range, fuel, EV charging, toilets, surau and food preferences. Optional prayer-aware planning with JAKIM times and a labelled approximate fallback. |
 | F4 · Corridor weather | MET Malaysia forecasts and best-effort route warning matching with cache, source and freshness labels. |

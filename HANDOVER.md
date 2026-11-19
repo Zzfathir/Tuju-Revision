@@ -22,6 +22,8 @@ The 65-second demo covers the original trip flow. The mobile comparison captures
 
 `/` (landing) → `/onboarding` (vehicle, then needs; Skip available) → `/plan` (Plan → Road → Go). The landing is a map-first sheet showing the real distance, drive time and toll. Onboarding answers travel as URL parameters (`lang`, `vehicle`, `needs`) and pre-fill the planner. Tester links (`/?t=1`) show a tester strip on the landing and keep `t=1` through every step. A browser that finished onboarding once (`localStorage` flag `jalan-pulang-onboarded`) goes straight to `/plan`. Links with `?route=…` still redirect to `/plan`. Designers restyle everything through [tokens](app/tokens.css) and [landing styles](app/landing.css).
 
+Map and tabs: the live map loads automatically (the static preview stays for Save-Data or 2G/3G connections, and tapping it loads the map). On wide screens with a mouse the wheel zooms; on phones two fingers move the map so the page still scrolls, and the +/− buttons always work. Stop pins are buttons that open a callout, and each stop in the Road list has **Show on map**. Plan, Road and Go are real tabs, locked only while the inputs they need are invalid.
+
 ## What shipped
 
 - **Plan → Road → Go** covers the precomputed KL → Ipoh corridor, PLUS Class 1 toll lookup, and rest-stop planning for vehicle range, fuel, EV charging, facilities and prayer timing.
