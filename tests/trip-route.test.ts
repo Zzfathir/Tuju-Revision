@@ -51,6 +51,13 @@ describe("buildTripRoute", () => {
     expect(String(trip.line.properties?.source)).toMatch(/OSRM/);
   });
 
+  it("never labels an OSRM-derived line as verified, and says how the toll plazas were matched", () => {
+    const trip = build(kl, ipoh, optionFrom(curated.line.geometry.coordinates));
+    expect(trip.line.properties?.verified).toBe(false);
+    expect(trip.tolls.note).toMatch(/matched to this route automatically/i);
+    expect(trip.tolls.fares["plaza-tol-jalan-duta"]["plaza-tol-simpang-pulai"]).toBe(20.34); // real fares stay
+  });
+
   it("produces data that passes the same schemas the curated files do", () => {
     for (const trip of [build(kl, ipoh, optionFrom(curated.line.geometry.coordinates)), build(johor, muar, optionFrom([[103.7, 1.49], [102.5, 2.0]]))]) {
       expect(() => RouteConfig.parse(trip.config)).not.toThrow();

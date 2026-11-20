@@ -1,19 +1,16 @@
 import { lineString, simplify } from "@turf/turf";
 import { z } from "zod";
+import { inMalaysia } from "./bounds";
 
 export type Point = { lat: number; lng: number };
 export type RouteOption = { id: string; distance_m: number; duration_s: number; geometry: { type: "LineString"; coordinates: number[][] } };
-
-// Malaysia (peninsula, Sabah and Sarawak) with a little margin. Anything outside is not our journey.
-const BOUNDS = { minLat: 0.8, maxLat: 7.5, minLng: 99.4, maxLng: 119.5 };
 
 export function parsePoint(text: string | null): Point | null {
   if (!text) return null;
   const parts = text.split(",");
   if (parts.length !== 2 || parts.some((part) => part.trim() === "")) return null;
   const [lat, lng] = parts.map(Number);
-  if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
-  if (lat < BOUNDS.minLat || lat > BOUNDS.maxLat || lng < BOUNDS.minLng || lng > BOUNDS.maxLng) return null;
+  if (!inMalaysia(lat, lng)) return null;
   const round = (value: number) => Math.round(value * 1e4) / 1e4;
   return { lat: round(lat), lng: round(lng) };
 }

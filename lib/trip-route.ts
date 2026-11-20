@@ -8,6 +8,9 @@ import type { RnrFile, RouteConfig, TollFile } from "./schemas";
 /** Weather and prayer zones come from the curated corridor, so they only apply when the trip mostly follows it. */
 const CORRIDOR_SHARE = 0.6;
 
+/** The verified corridor the app ships with. The weather gazetteer stays on the server. */
+export type CuratedBundle = Pick<RouteBundle, "config" | "line" | "rnr" | "tolls">;
+
 export type TripRoute = {
   key: string;
   config: RouteConfig;
@@ -26,18 +29,18 @@ export type TripRoute = {
 
 /** Two places plus a route option become the exact bundle the trip planner already understands. */
 export function buildTripRoute({ from, to, option, source, fetchedAt, curated }: {
-  from: Place; to: Place; option: RouteOption; source: string; fetchedAt: string; curated: RouteBundle;
+  from: Place; to: Place; option: RouteOption; source: string; fetchedAt: string; curated: CuratedBundle;
 }): TripRoute {
   const key = `${from.lat},${from.lng}>${to.lat},${to.lng}#${option.id}`;
   const line: RouteLine = {
     type: "Feature",
     properties: {
       routeId: key, distance_m: option.distance_m, duration_s_freeflow: option.duration_s,
-      source, source_url: "https://project-osrm.org/", retrieved_at: fetchedAt, verified: true,
+      source, source_url: "https://project-osrm.org/", retrieved_at: fetchedAt, verified: false,
     },
     geometry: { type: "LineString", coordinates: option.geometry.coordinates },
   };
-  const found = enrichRoute(line, { rnr: curated.rnr, tolls: curated.tolls });
+  const found = enrichRoute(line, curated);
   const hasPlazas = found.tolls.plazas.length > 0;
   const corridorWeather = overlapShare(line, curated.line) >= CORRIDOR_SHARE;
   const name = `${from.name} → ${to.name}`;
@@ -57,7 +60,7 @@ export function buildTripRoute({ from, to, option, source, fetchedAt, curated }:
   return {
     key, config, line,
     rnr: { ...curated.rnr, routeId: key, items: found.stops },
-    tolls: { ...found.tolls, routeId: key },
+    tolls: { ...found.tolls, routeId: key, note: found.tolls.note + " Plazas matched to this route automatically; fares only where PLUS published them." },
     routeKm: routeLengthKm(line),
     curated: found.stops.length > 0 || found.tolls.plazas.length >= 2,
     hasVerifiedStops: found.stops.length > 0,

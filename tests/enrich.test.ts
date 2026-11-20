@@ -6,7 +6,7 @@ import { routeLengthKm, type RouteLine } from "@/lib/route";
 import { quoteToll } from "@/lib/tolls";
 
 const r = getRoute("kl-ipoh");
-const curated = { rnr: r.rnr, tolls: r.tolls };
+const curated = { rnr: r.rnr, tolls: r.tolls, line: r.line };
 const reversed: RouteLine = { ...r.line, geometry: { type: "LineString", coordinates: [...r.line.geometry.coordinates].reverse() } };
 const slice = (from: number, to: number): RouteLine => turf.lineSliceAlong(r.line, from, to, { units: "kilometers" }) as RouteLine;
 const shifted = (dLat: number): RouteLine => ({ ...r.line, geometry: { type: "LineString", coordinates: r.line.geometry.coordinates.map(([x, y]) => [x, y + dLat]) } });
@@ -47,6 +47,28 @@ describe("enrichRoute", () => {
     const parallel = enrichRoute(turf.lineOffset(r.line, 1.5, { units: "kilometers" }) as RouteLine, curated); // a true parallel road 1.5 km away
     expect(parallel.stops).toEqual([]);
     expect(parallel.tolls.plazas).toEqual([]);
+  });
+
+  it("a road running just beside the highway is not the highway: no tolls and no stops from it", () => {
+    const beside = enrichRoute(turf.lineOffset(r.line, 0.3, { units: "kilometers" }) as RouteLine, curated); // 300 m away
+    expect(beside.stops).toEqual([]);
+    expect(beside.tolls.plazas).toEqual([]);
+  });
+
+  it("judges a long straight segment along its whole length, not by one point", () => {
+    const coords = r.line.geometry.coordinates;
+    const chord = turf.lineString([coords[0], coords[coords.length - 1]]) as RouteLine;
+    const length = routeLengthKm(chord);
+    let near = 0, count = 0;
+    for (let km = 0; km <= length; km += 5) { // independent, slower measurement with turf
+      const spot = turf.nearestPointOnLine(r.line, turf.along(chord, km, { units: "kilometers" }), { units: "kilometers" });
+      if ((spot.properties.dist as number) * 1000 <= 600) near++;
+      count++;
+    }
+    const truth = near / count;
+    expect(truth).toBeGreaterThan(0.05); // fractional, so an all-or-nothing answer would be wrong
+    expect(truth).toBeLessThan(0.95);
+    expect(Math.abs(overlapShare(chord, r.line) - truth)).toBeLessThan(0.08);
   });
 
   it("never mutates the curated data", () => {
