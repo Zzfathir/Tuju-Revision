@@ -1,11 +1,25 @@
 import { pointAt, type RouteLine } from "./route";
 
 export type DrivePoint = [number, number];
-export type DriveFrame = {
-  point: DrivePoint; course: number | null; fraction: number | null;
+export type DrivePose = {
+  point: DrivePoint; course: number | null;
   /** Current speed, used to zoom out a little as the car goes faster. Absent for plain route replays. */
   speedKmh?: number;
 };
+export type DriveFrame = DrivePose & {
+  fraction: number | null;
+  replay?: { startedAt: number; sampleMs: number; poses: DrivePose[] };
+};
+
+export function interpolateDrivePose(from: DrivePose, to: DrivePose, progress: number): DrivePose {
+  const mix = (a: number, b: number) => a + (b - a) * progress;
+  return {
+    point: [mix(from.point[0], to.point[0]), mix(from.point[1], to.point[1])],
+    course: from.course === null || to.course === null ? to.course
+      : from.course + (((to.course - from.course + 540) % 360) - 180) * progress,
+    speedKmh: from.speedKmh === undefined || to.speedKmh === undefined ? to.speedKmh : mix(from.speedKmh, to.speedKmh),
+  };
+}
 
 export function bearingBetween(from: DrivePoint, to: DrivePoint) {
   const north = to[1] - from[1];

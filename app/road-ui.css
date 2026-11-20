@@ -1,0 +1,180 @@
+.road-ui { --road-home-dock: calc(264px + env(safe-area-inset-bottom)); }
+.road-ui h2, .road-ui h3 { letter-spacing: -.02em; }
+.road-ui .panel, .road-ui .sheet-handle, .road-ui .step-nav, .road-ui .route-card, .road-ui .place-search { background: var(--color-surface); }
+.road-ui .panel[hidden] { display: none; }
+.road-ui .btn, .road-filters button {
+  border: 0; border-radius: var(--radius-pill); background: var(--color-surface-muted); color: var(--color-link); font-weight: 650;
+}
+.road-ui .btn[data-variant="primary"] { background: var(--color-accent); color: var(--color-accent-text); }
+.road-ui .btn:disabled { opacity: .55; cursor: default; }
+.road-ui .card, .road-ui .trip-content .list > li .card, .road-ui .route-option, .road-ui .trip-disclosure {
+  border: 0; border-radius: var(--radius); background: var(--color-surface); box-shadow: var(--card-shadow);
+}
+.road-ui .trip-metrics > div, .road-ui .place-field .input, .road-ui .go-drive { background: var(--color-surface-muted); }
+.road-ui .trip-needs .check { border: 0; background: var(--color-surface-muted); color: var(--color-link); }
+.road-ui .trip-needs .check:has(input:checked) { background: var(--color-surface-selected); color: var(--color-link); }
+.road-ui .trip-needs .check:has(input:checked)::before { content: "✓"; }
+.road-ui .route-option[data-selected="true"], .road-ui .place-item:hover { background: var(--color-surface-selected); }
+.road-ui .place-search { inset: auto 0 0; height: min(83%, 720px); border-radius: var(--sheet-radius) var(--sheet-radius) 0 0; box-shadow: var(--sheet-shadow); }
+.road-ui .place-pin::after, .road-ui .route-dot-from { border-color: var(--color-action); }
+.road-ui .place-pin::after { background: var(--color-action); }
+.road-ui .leavebar button { background: var(--color-chart); }
+.road-ui .leavebar button[aria-pressed="true"] { background: var(--color-action); }
+.road-ui button:focus-visible, .road-ui a:focus-visible, .road-ui input:focus-visible { outline: var(--focus-ring); outline-offset: 2px; }
+.road-icon { display: block; flex: 0 0 auto; }
+
+.road-map-head, .road-sheet-map-nav { position: absolute; inset: calc(env(safe-area-inset-top) + var(--space-4)) var(--space-4) auto; z-index: 6; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
+.road-map-head > button, .road-sheet-map-nav > button { pointer-events: auto; }
+.road-map-head-actions { display: flex; gap: var(--space-2); pointer-events: auto; }
+.road-map-head-actions a { display: grid; padding-inline: 0; place-items: center; }
+.road-map-head .language-button { min-width: var(--tap-min); background: var(--color-surface); box-shadow: var(--map-control-shadow); }
+.road-xp { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 34px; padding: 5px 14px 5px 6px; border: 0; border-radius: var(--radius-pill); background: var(--color-hud); color: var(--color-hud-text); box-shadow: var(--map-control-shadow); line-height: 1; }
+button.road-xp { min-height: var(--tap-min); cursor: pointer; }
+.road-xp > b { display: grid; min-width: 29px; min-height: 24px; padding-inline: 3px; place-items: center; border-radius: var(--radius-pill); background: var(--color-xp); color: var(--color-hud); font-size: var(--text-md); }
+.road-xp > span { display: grid; gap: 4px; min-width: 83px; font-size: 10px; font-weight: 650; text-transform: uppercase; letter-spacing: .05em; }
+.road-xp progress, .road-ui .drive-progress { display: block; width: 100%; height: 5px; border: 0; border-radius: var(--radius-pill); background: var(--color-border); overflow: hidden; appearance: none; }
+.road-xp progress::-webkit-progress-bar, .road-ui .drive-progress::-webkit-progress-bar { border-radius: inherit; background: var(--color-border); }
+.road-xp progress::-webkit-progress-value { background: var(--color-xp); }
+.road-xp progress::-moz-progress-bar { background: var(--color-xp); }
+.road-ui .drive-progress::-webkit-progress-value { background: var(--color-route); }
+.road-ui .drive-progress::-moz-progress-bar { background: var(--color-route); }
+
+.app.road-ui[data-browsing="true"] { --sheet-h: var(--road-home-dock); }
+.app.road-ui[data-browsing="true"] .panel { inset: auto 0 0; height: var(--road-home-dock); padding: 0 var(--space-5); border-radius: var(--sheet-radius) var(--sheet-radius) 0 0; }
+.app.road-ui[data-browsing="true"] .sheet-handle { border-radius: var(--sheet-radius) var(--sheet-radius) 0 0; }
+.road-ui .map-dock { gap: var(--space-4); }
+.road-ui .map-dock-search { border-radius: var(--radius-pill); background: var(--color-surface-muted); color: var(--color-text-muted); font-size: var(--text-sm); font-weight: 450; }
+.road-quick { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: var(--space-2); margin-inline: calc(-1 * var(--space-2)); }
+.road-quick button { display: flex; min-width: 0; flex-direction: column; align-items: center; gap: var(--space-1); border: 0; border-radius: var(--radius); background: transparent; color: var(--color-text); font: 500 var(--text-xs)/1.3 var(--font-body); cursor: pointer; white-space: nowrap; }
+.road-quick button > span { display: grid; width: clamp(44px, 16vw, 60px); aspect-ratio: 1; margin-bottom: var(--space-1); place-items: center; border-radius: 50%; background: var(--color-surface-muted); }
+.road-quick button:first-child > span { background: var(--color-surface-selected); }
+.road-quick button:nth-child(2) > span { background: var(--color-quest); }
+.road-quick small { max-width: 100%; overflow: hidden; color: var(--color-text-muted); font-size: var(--text-xs); text-overflow: ellipsis; }
+.road-quick button:nth-child(3) small { text-transform: capitalize; }
+.app.road-ui[data-browsing="true"] .map-tools { top: calc(env(safe-area-inset-top) + var(--space-4)); bottom: auto; }
+.road-ui .map-control, .road-ui .map-angle { box-shadow: var(--map-control-shadow); }
+.road-ui .map-control, .road-ui .map-angle button { border: 0; border-radius: var(--radius-pill); min-width: var(--tap-min); min-height: var(--tap-min); background: var(--color-surface); color: var(--color-link); }
+.road-ui .map-angle { padding: 3px; border: 0; gap: 2px; border-radius: var(--radius-pill); background: var(--color-surface); }
+.road-ui .map-angle button[aria-pressed="true"], .road-ui .map-perspective-toggle { background: var(--color-accent); color: var(--color-hud-text); }
+.road-map-icon { display: grid; place-items: center; }
+.road-locate-error { position: absolute; top: 125px; right: 62px; z-index: 3; max-width: 210px; padding: var(--space-2); border-radius: var(--small-radius); background: var(--color-surface); box-shadow: var(--card-shadow); font-size: var(--text-xs); }
+.road-ui .map-vehicle { background-image: url('/road-ui/map-car.svg'); }
+.road-ui .map-vehicle[data-plate]:not([data-plate=""])::after { position: absolute; bottom: -2px; left: 50%; translate: -50%; padding: 1px 4px; border-radius: 4px; background: var(--color-hud); color: var(--color-hud-text); font: 700 10px/1.2 var(--font-body); white-space: nowrap; content: attr(data-plate); }
+.road-ui .map-vehicle, .road-outline-car { filter: var(--map-car-paint, none) var(--car-glow, opacity(1)); }
+.road-ui .pin-diamond, .road-ui .pin-legend { display: none; }
+.road-ui .map-pin[data-quest="true"] { width: 44px; height: 52px; box-shadow: none; border: 0; border-radius: 0; background: url('/road-ui/quest-marker.svg') center / contain no-repeat; }
+.road-ui .map-pin[data-quest="true"]::before, .road-ui .map-pin[data-quest="true"]::after, .road-ui .map-pin[data-selected="true"]::before, .road-ui .map-pin[data-selected="true"]::after { display: none; }
+.road-ui .map-pin[data-selected="true"]:not([data-quest="true"]) { width: 46px; height: 59px; border: 0; border-radius: 0; box-shadow: none; background: url('/road-ui/place-pin.svg') center / contain no-repeat; }
+.road-ui[data-browsing="true"] .map-pin:not([data-quest="true"]):not([data-selected="true"]), .road-ui[data-driving="true"] .map-pin[data-quest="true"]:not([data-quest-active="true"]) { visibility: hidden; }
+.road-ui .map-outline { background: var(--map-paper); }
+.road-ui .map-outline::before { opacity: .36; }
+.road-ui[data-browsing="true"] .map-outline svg { height: calc(100% - var(--road-home-dock)); }
+
+.road-sheet { --road-detail-height: 64%; position: absolute; z-index: 9; inset: auto 0 0; display: flex; flex-direction: column; gap: var(--space-3); height: var(--road-detail-height); min-height: 280px; overflow-y: auto; overscroll-behavior: contain; padding: 0 var(--space-5) max(34px, env(safe-area-inset-bottom)); border-radius: var(--sheet-radius) var(--sheet-radius) 0 0; background: var(--color-surface); box-shadow: var(--sheet-shadow); }
+.road-sheet[data-screen="quests"] { --road-detail-height: 68%; }
+.road-sheet[data-screen="quest"] { --road-detail-height: 61%; }
+.road-sheet[data-screen="place"], .road-sheet[data-screen="quest-place"] { --road-detail-height: 66%; padding-inline: var(--space-4); }
+.road-sheet h2 { margin: 0; font-size: var(--text-lg); line-height: 32px; }
+.road-sheet[data-screen="place"] h2, .road-sheet[data-screen="quest-place"] h2 { font-size: 20px; line-height: 25px; }
+.road-sheet h3 { margin: 0; padding-top: var(--space-3); border-top: 1px solid var(--color-border); font-size: var(--text-sm); }
+.road-sheet p { margin: 0; }
+.road-sheet-grabber { flex: 0 0 auto; width: 36px; height: 5px; margin: var(--space-2) auto 0; border-radius: var(--radius-pill); background: var(--color-border); }
+.road-sheet-head, .road-garage-top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+.road-sheet-head small, .road-preview-label, .road-quest-overline, .road-tracker small, .road-reward small { color: var(--color-text-muted); font-size: 10px; font-weight: 650; letter-spacing: .06em; line-height: 1.3; text-transform: uppercase; }
+.road-close { display: grid; width: var(--tap-min); height: var(--tap-min); flex: 0 0 auto; place-items: center; border-radius: 50%; border: 0; background: var(--color-surface-muted); color: var(--color-text-muted); font: 500 24px/1 var(--font-body); cursor: pointer; }
+.road-sheet-map-nav .road-close { background: var(--color-hud); color: var(--color-hud-text); }
+.road-sheet-actions { position: sticky; bottom: 0; z-index: 1; display: flex; gap: var(--space-3); margin-top: auto; padding-top: var(--space-3); background: var(--color-surface); }
+.road-sheet-actions .btn { flex: 1; min-height: var(--journey-button-height); text-align: center; }
+.road-sheet-actions .btn[data-variant="primary"] { flex-grow: 2; }
+.road-filters { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.road-filters button { min-height: var(--tap-min); padding: 0 var(--space-4); font: 650 var(--text-sm)/1 var(--font-body); cursor: pointer; }
+.road-filters button[aria-pressed="true"] { background: var(--color-surface-selected); }
+.road-quest-list, .road-objectives { display: grid; gap: var(--space-2); padding: 0; margin: 0; list-style: none; }
+.road-quest-row { display: grid; width: 100%; grid-template-columns: 48px 1fr 18px; align-items: center; gap: var(--space-3); padding: var(--space-3); border: 0; border-radius: var(--radius); background: var(--color-surface); color: var(--color-text); box-shadow: var(--card-shadow); font: inherit; text-align: start; cursor: pointer; }
+.road-quest-row strong, .road-extra strong { display: block; font-size: var(--text-sm); line-height: 20px; }
+.road-quest-meta, .road-extra small { display: block; margin-top: 2px; color: var(--color-text-muted); font-size: var(--text-xs); }
+.road-quest-glyph { display: grid; height: 32px; place-items: center; border-radius: var(--radius-pill); background: var(--color-surface-warning); overflow: hidden; }
+.road-quest-glyph img[src$="quest-marker.svg"] { scale: .55; margin-block: -10px; }
+.road-quest-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--space-1); }
+.road-quest-tags b, .road-quest-tags small { padding: 2px 7px; border-radius: var(--radius-pill); background: var(--color-xp); font-size: 10px; font-weight: 650; }
+.road-quest-tags small { background: var(--color-surface-muted); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: .045em; }
+.road-facts { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: var(--space-2); margin: 0; }
+.road-facts > div { display: flex; flex-direction: column-reverse; gap: var(--space-1); padding: var(--space-3); border-radius: var(--radius); background: var(--color-surface-muted); }
+.road-facts dt { color: var(--color-text-muted); font-size: var(--text-xs); }
+.road-facts dd { margin: 0; color: var(--color-link); font-size: var(--text-md); font-weight: 750; }
+.road-objectives li { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); }
+.road-objectives li > span { display: grid; width: 22px; height: 22px; flex: 0 0 auto; place-items: center; border: 2px solid var(--color-border); border-radius: 50%; }
+.road-objectives li > span[data-done="true"] { border-color: var(--color-xp); background: var(--color-xp); font-weight: 800; }
+.road-quest-overline { color: var(--color-warning-text); }
+.road-text-action, .road-back { display: inline-flex; align-items: center; align-self: flex-start; gap: var(--space-2); min-height: var(--tap-min); padding: 0; border: 0; background: none; color: var(--color-link); font: inherit; cursor: pointer; }
+.road-place-actions { display: flex; justify-content: space-between; align-items: center; }
+.road-place-category { display: grid; width: 56px; height: 56px; place-items: center; border-radius: 50%; background: var(--color-surface); box-shadow: var(--map-control-shadow); }
+.road-place-category img[src$="quest-marker.svg"] { scale: .62; }
+
+.road-sheet[data-screen="garage"] { inset: 0; height: auto; padding: calc(env(safe-area-inset-top) + var(--space-5)) var(--space-5) max(22px, env(safe-area-inset-bottom)); border-radius: 0; background: var(--color-bg); }
+.road-garage-caption { margin-top: calc(-1 * var(--space-2)) !important; font-size: var(--text-xs); }
+.road-garage-preview { position: relative; display: flex; isolation: isolate; min-height: 240px; align-items: center; justify-content: center; flex-direction: column; gap: var(--space-2); overflow: hidden; border-radius: var(--sheet-radius); background: linear-gradient(var(--color-surface), var(--color-border)); box-shadow: var(--card-shadow); }
+.road-preview-label { position: absolute; top: var(--space-4); left: var(--space-4); z-index: 1; padding: 5px var(--space-2); border-radius: var(--radius-pill); background: var(--color-hud); color: var(--color-hud-text); }
+.road-turntable { position: relative; display: grid; max-width: 100%; height: 150px; align-items: center; justify-items: center; padding: 0; border: 0; background: transparent; cursor: grab; touch-action: pan-y; perspective: 400px; }
+.road-turntable > img { grid-area: 1 / 1; pointer-events: none; }
+.road-turntable > img:first-child { align-self: end; }
+.road-turntable > img:last-child { transform: rotateY(var(--angle)) scale(var(--garage-scale-x, 1), var(--garage-scale-y, 1)); filter: var(--garage-paint, none); }
+.road-turn-hint { display: flex; align-items: center; gap: var(--space-2); padding: 7px var(--space-3); border-radius: var(--radius-pill); background: var(--color-surface); box-shadow: var(--map-control-shadow); font-size: var(--text-xs); }
+.road-swatches { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2); }
+.road-swatches button { width: var(--tap-min); height: var(--tap-min); border: 3px solid var(--color-surface); border-radius: 50%; background: var(--paint); box-shadow: var(--card-shadow); cursor: pointer; }
+.road-swatches button[aria-pressed="true"] { outline: 2px solid var(--color-action); outline-offset: 1px; }
+.road-extra { display: flex; align-items: center; justify-content: space-between; min-height: 60px; padding: var(--space-3) var(--space-4); border-radius: var(--radius); background: var(--color-surface); box-shadow: var(--card-shadow); }
+.road-extra input { width: 24px; height: 24px; accent-color: var(--color-accent); }
+.road-garage-extra > summary { list-style: none; cursor: pointer; }
+.road-garage-extra > summary::-webkit-details-marker { display: none; }
+.road-plate-field { display: grid; gap: var(--space-1); padding: var(--space-3) var(--space-4); color: var(--color-text-muted); font-size: var(--text-xs); }
+.road-sheet[data-screen="garage"] .road-sheet-actions { background: var(--color-bg); }
+[data-car-paint="blue"] { --paint: var(--color-action); --map-car-paint: hue-rotate(55deg); }
+[data-car-paint="red"] { --paint: var(--color-danger); --garage-paint: hue-rotate(132deg); --map-car-paint: hue-rotate(208deg) saturate(2.4); }
+[data-car-paint="white"] { --paint: var(--color-surface); --garage-paint: grayscale(1) brightness(1.45); --map-car-paint: grayscale(1) brightness(1.35); }
+[data-car-paint="black"] { --paint: var(--color-hud); --garage-paint: grayscale(1) brightness(.48); --map-car-paint: grayscale(1) brightness(.62); }
+[data-car-paint="yellow"] { --paint: var(--color-quest); --garage-paint: hue-rotate(203deg) saturate(1.4); --map-car-paint: hue-rotate(248deg) saturate(2); }
+[data-car-paint="green"] { --paint: var(--color-xp); --garage-paint: hue-rotate(285deg); --map-car-paint: saturate(1.8); }
+[data-car-body="hatchback"] { --garage-scale-x: .83; --garage-scale-y: .97; --drive-car-width: 49px; }
+[data-car-body="suv"] { --garage-scale-y: 1.13; --drive-car-width: 62px; }
+[data-car-trail="true"] { --car-glow: drop-shadow(0 5px 5px var(--color-hud-street)); }
+
+.app.road-ui[data-driving="true"] { --drive-top-clearance: 154px; --drive-bottom-clearance: 192px; }
+.road-ui .cruise-banner { width: 100%; max-width: 420px; border-radius: var(--sheet-radius); background: var(--color-hud-banner); color: var(--color-hud-text); animation: none; }
+.road-ui .cruise-banner[data-level="3"] { box-shadow: inset 4px 0 var(--color-danger), var(--map-control-shadow); }
+.road-ui .cruise-banner[data-level="off"] { box-shadow: inset 4px 0 var(--color-quest), var(--map-control-shadow); }
+.road-ui .cruise-banner .drive-place { color: var(--color-hud-street); font-size: var(--text-md); line-height: 1.2; }
+.road-ui .cruise-banner .drive-mode { font-size: var(--text-xs); letter-spacing: 0; text-transform: none; }
+.road-ui .cruise-banner .drive-next > strong { font-size: var(--text-xl); }
+.road-ui .cruise-strip { border: 0; border-radius: var(--sheet-radius); background: var(--color-surface); box-shadow: var(--sheet-shadow); }
+.road-ui .cruise-stats strong, .road-ui .cruise-stats > div:first-child strong { font-size: var(--text-md); }
+.road-ui .cruise-actions .btn { min-height: 44px; }
+.road-ui .cruise-actions .drive-end { min-width: 85px; background: var(--color-stop-button); color: var(--color-text); }
+.road-ui .cruise-actions .drive-end[data-testid="btn-stop-replay"] { background: var(--color-surface-muted); color: var(--color-link); }
+.road-ui .cruise-actions .drive-end[data-armed="true"] { background: var(--color-hud); color: var(--color-hud-text); }
+.road-ui .cruise-round { height: 44px; width: 44px; color: var(--color-link); background: var(--color-surface); }
+.road-ui .cruise-controls { gap: var(--space-2); }
+.road-ui .cruise-notice, .road-ui .cruise-card { background: var(--color-surface); }
+.road-drive-xp { position: absolute; bottom: calc(env(safe-area-inset-bottom) + var(--drive-bottom-clearance) + var(--space-2)); left: 0; }
+.road-tracker, .road-reward { max-width: min(100%, 250px); padding: var(--space-3) var(--space-4); border-radius: var(--radius); background: var(--color-hud); color: var(--color-hud-text); box-shadow: var(--map-control-shadow); }
+.road-tracker { display: grid; gap: 2px; }
+.road-tracker strong { font-size: var(--text-sm); }
+.road-tracker small, .road-reward small { color: var(--color-quest); }
+.road-tracker > span { font-size: var(--text-xs); }
+.road-reward { display: flex; align-items: center; gap: var(--space-2); border-radius: var(--radius-pill); }
+.road-reward strong { display: block; font-size: var(--text-md); }
+.road-ui[data-map-sheet] .map-legend, .road-ui[data-map-sheet] .map-tools { display: none; }
+.road-ui[data-map-sheet] .map-credit { bottom: calc(68% + 3px); }
+.road-ui.app-empty .map-legend { bottom: var(--space-5); }
+.road-ui.app-empty .map-credit { bottom: var(--space-1); }
+
+@container app-screen (min-width: 720px) {
+  .app.road-ui[data-browsing="true"] .panel { inset: auto auto var(--space-4) var(--space-4); margin: 0; width: min(420px, 45%); height: auto; min-height: 224px; padding-bottom: var(--space-5); border-radius: var(--sheet-radius); }
+  .app.road-ui[data-browsing="true"] .map-credit { inset-inline: auto var(--space-4); bottom: var(--space-4); }
+  .road-ui .road-sheet { width: min(430px, 48%); height: auto; max-height: calc(100% - 110px); inset: auto auto var(--space-4) var(--space-4); border-radius: var(--sheet-radius); }
+  .road-ui .road-sheet[data-screen="garage"] { inset: var(--space-4) auto var(--space-4) var(--space-4); height: auto; max-height: none; border-radius: var(--sheet-radius); }
+  .road-ui .road-sheet[data-screen="garage"] .road-sheet-actions { position: static; }
+  .road-ui .road-sheet-map-nav { right: auto; gap: var(--space-3); }
+  .road-ui .place-search { inset: var(--space-4) auto var(--space-4) var(--space-4); width: min(440px, 48%); height: auto; border-radius: var(--sheet-radius); }
+  .road-ui .cruise-banner { max-width: 420px; }
+}

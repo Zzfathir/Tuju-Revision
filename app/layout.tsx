@@ -7,6 +7,8 @@ import "./landing.css";
 import "./map-first.css";
 import "./presentation.css";
 import "./cruise.css";
+import "./road-ui.css";
+import { Geist } from "next/font/google";
 import { AppShell } from "@/components/AppShell";
 
 export const metadata: Metadata = {
@@ -16,10 +18,12 @@ export const metadata: Metadata = {
   appleWebApp: { capable: true },
   icons: { apple: "/icon-192.png" },
 };
-export const viewport: Viewport = { themeColor: "#f5faf8", viewportFit: "cover" };
+export const viewport: Viewport = { themeColor: "#F2F3F7", viewportFit: "cover" };
+
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
 
 export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>
+  return <html lang="en" className={geist.variable}><body>
     <AppShell />
     <div className="presentation-stage">
       <div className="presentation-phone" data-testid="presentation-phone">

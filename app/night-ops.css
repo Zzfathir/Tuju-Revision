@@ -1,0 +1,205 @@
+/*
+ * NIGHT OPS ("Mod Misi"): dark map theme with glowing diamond pins and a red accent. Tokens only; the designer eyedrops
+ * the final palette here (see DESIGN_HANDOFF.md). Applied by data-theme="night-ops" on .app (map, HUD and sheets all follow
+ * the tokens). The light theme stays the default for daytime driving.
+ * Original look, inspired by dark map selectors; no third-party game art, names, icons or fonts.
+ */
+[data-theme="night-ops"] {
+  color-scheme: dark;
+  /* surfaces */
+  --color-bg: #111112;
+  --color-surface: #19191b;
+  --color-panel: #0e0e0f;
+  --color-panel-border: #2a1a1a;
+  --color-grid: #1a1a1b;
+  --color-border: #4a4a4e;
+  --color-border-subtle: #2a2a2d;
+  /* text and accent */
+  --color-text: #ffffff;
+  --color-text-muted: #a0a0a5;          /* ≥ 4.5:1 on --color-panel at 12–14 px */
+  --color-accent: #c8232b;
+  --color-accent-text: #ffffff;
+  --color-accent-glow: #8f1f14;
+  --color-route: #ffffff;
+  --color-stop: #111112;
+  --color-status-live: #34d233;
+  --color-status-estimate: #f3d51a;
+  --color-status-muted: #8c8c90;
+  --color-status-warn: #e0252b;
+  --focus-ring: 2px solid #ffffff;
+  /* map */
+  --map-land: #0d0d0e;
+  --map-water: #0b0b0c;
+  --map-coast-glow: #d6d6d6;
+  --map-road-minor: #4a4a4c;
+  --map-road-major: #8a8a8d;
+  --map-road-motorway: #b5b5b8;
+  --map-label: #9a9a9d;
+  --map-building: #1c1c1e;
+  --map-paper: #0d0d0e;
+  --map-horizon: #0d0d0e;
+  --map-route-halo: #ffffff55;
+  --map-route-halo-width: 10;
+  --map-route-halo-blur: 6;
+  --map-route-core-width: 5;
+  --map-route-shine: #ffffff;
+  --map-route-passed: #ffffff59;
+  --map-live: #3b8fe0;
+  --map-control-border: #3a3a3e;
+  --map-control-shadow: 0 3px 14px #000000a0;
+  --sheet-shadow: 0 -4px 24px #000000b0;
+  /* category colours (pins) */
+  --pin-green: #34d233;
+  --pin-blue: #3b8fe0;
+  --pin-yellow: #f3d51a;
+  --pin-red: #e0252b;
+  --pin-orange: #f28a1e;
+  /* effects */
+  --glow-sm: 0 0 8px;
+  --glow-md: 0 0 16px;
+  --glow-lg: 0 0 32px;
+  --pin-radius: 8px;
+  --pin-size: 30px;
+  --pin-size-active: 44px;
+  --blur-glass: 12px;
+  --dur-fast: 120ms;
+  --dur-med: 240ms;
+  /* type */
+  --font-display: var(--font-barlow-condensed), "Barlow Condensed", "Fira Sans Condensed", Oswald, system-ui, sans-serif;
+  --font-body: var(--font-barlow), Barlow, "Fira Sans", system-ui, sans-serif;
+  --tracking-display: 0.02em;
+}
+
+/* Lite: no glow, no blur, no animation. Also for Save-Data / reduced-data visitors. */
+[data-theme="night-ops"][data-lite="true"] { --glow-sm: 0 0 0; --glow-md: 0 0 0; --glow-lg: 0 0 0; --blur-glass: 0px; --dur-fast: 0ms; --dur-med: 0ms; }
+@media (prefers-reduced-data: reduce) {
+  [data-theme="night-ops"] { --glow-sm: 0 0 0; --glow-md: 0 0 0; --glow-lg: 0 0 0; --blur-glass: 0px; }
+}
+
+/* ---- surfaces and type ---- */
+.app[data-theme="night-ops"] {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+.app[data-theme="night-ops"] :is(h1, h2, h3, .drive-mode, .drive-context, .btn[data-variant="primary"], .cruise-stats strong) {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-display);
+}
+.app[data-theme="night-ops"] :is(.map-stage, .map-wrap) {
+  background:
+    linear-gradient(var(--color-grid) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px) 0 0 / 48px 48px,
+    var(--map-land);
+}
+.app[data-theme="night-ops"] .panel { background: var(--color-panel); border-top: 1px solid var(--color-panel-border); }
+.app[data-theme="night-ops"] .map-masthead::before {
+  content: ""; position: absolute; inset: -40px -40px auto auto; width: 70%; height: 180px; pointer-events: none; z-index: -1;
+  background: radial-gradient(circle at 100% 0, var(--color-accent-glow) 0%, transparent 70%);
+  opacity: 0.8; animation: nightGlowIn 1.2s ease-out 1;
+}
+@keyframes nightGlowIn { from { opacity: 0; } }
+
+/* primary button: red slab with a double-line accent on its left edge, sinks when pressed */
+.app[data-theme="night-ops"] .btn[data-variant="primary"] {
+  position: relative; background: var(--color-accent); border-color: transparent; border-radius: 4px; color: #fff;
+  min-height: 56px; font-weight: 700; transition: transform var(--dur-fast), background-color var(--dur-fast);
+}
+.app[data-theme="night-ops"] .btn[data-variant="primary"]::before {
+  content: ""; position: absolute; inset-block: 12px; inset-inline-start: 10px; width: 6px;
+  border-inline: 2px solid #ffffff99;
+}
+.app[data-theme="night-ops"] .btn[data-variant="primary"]:active { transform: translateY(2px); background: color-mix(in srgb, var(--color-accent) 80%, black); }
+
+/* ---- diamond pins: the outer button is positioned by the map, the inner span is the rotated diamond ---- */
+.app[data-theme="night-ops"] .map-pin {
+  width: var(--pin-size); height: var(--pin-size); border: 0; border-radius: 0; background: transparent; box-shadow: none; outline: none;
+  display: grid; place-items: center; color: #fff;
+}
+.app[data-theme="night-ops"] .map-pin[data-selected="true"] { background: transparent; outline: none; width: var(--pin-size-active); height: var(--pin-size-active); z-index: 2; }
+.pin-diamond { display: none; }
+.app[data-theme="night-ops"] .pin-diamond {
+  --c: var(--pin-green);
+  display: grid; place-items: center; width: 100%; height: 100%; box-sizing: border-box;
+  transform: rotate(45deg); border-radius: var(--pin-radius);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--c) 85%, white 15%), var(--c));
+  border: 1.5px solid color-mix(in srgb, var(--c) 60%, white 40%);
+  box-shadow: var(--glow-md) color-mix(in srgb, var(--c) 70%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition: box-shadow var(--dur-med), transform var(--dur-med);
+}
+.pin-diamond[data-category="blue"] { --c: var(--pin-blue); }
+.pin-diamond[data-category="yellow"] { --c: var(--pin-yellow); color: #111; }
+.pin-diamond[data-category="red"] { --c: var(--pin-red); }
+.pin-diamond[data-category="orange"] { --c: var(--pin-orange); }
+.pin-diamond[data-category="neutral"] { --c: #8a8a8d; box-shadow: none; }
+.pin-diamond > .pin-icon { display: grid; place-items: center; transform: rotate(-45deg); color: #fff; }
+.pin-diamond[data-category="yellow"] > .pin-icon { color: #111; }
+.pin-diamond[data-unverified="true"] { border-style: dashed; box-shadow: none; filter: saturate(0.6); }
+.pin-diamond[data-unverified="true"]::after {
+  content: "?"; position: absolute; top: -6px; right: -6px; width: 14px; height: 14px; border-radius: 50%;
+  display: grid; place-items: center; transform: rotate(-45deg); background: #fff; color: #111; font: 700 10px/1 var(--font-body);
+}
+.map-pin[data-selected="true"] > .pin-diamond { box-shadow: var(--glow-lg) color-mix(in srgb, var(--c) 80%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+@media (prefers-reduced-motion: no-preference) {
+  .app[data-theme="night-ops"][data-lite="false"] .map-pin[data-selected="true"] > .pin-diamond { animation: pinPulse 1.6s ease-in-out infinite; }
+}
+@keyframes pinPulse { 50% { transform: rotate(45deg) scale(1.08); } }
+/* cap on glowing pins: the map adds data-dim to the rest when there are many on screen */
+.pin-diamond[data-dim="true"] { box-shadow: none; }
+
+/* legend */
+.pin-legend {
+  position: absolute; z-index: 3; inset-inline-start: var(--space-3); bottom: calc(var(--space-4) + 28px); display: none; gap: 4px;
+  margin: 0; padding: var(--space-2) var(--space-3); list-style: none; border-radius: 12px;
+  background: color-mix(in srgb, var(--color-panel) 90%, transparent); border: 1px solid var(--color-panel-border); font-size: var(--text-xs); color: var(--color-text-muted);
+}
+.app[data-theme="night-ops"]:not([data-driving="true"]) .pin-legend { display: grid; }
+.pin-legend li { display: flex; align-items: center; gap: var(--space-2); }
+.pin-legend i { width: 10px; height: 10px; transform: rotate(45deg); border-radius: 2px; background: var(--c); box-shadow: 0 0 6px var(--c); }
+.app:not([data-theme="night-ops"]) .pin-legend { display: none; }
+
+/* route vehicle and map chrome */
+.app[data-theme="night-ops"] .map-vehicle { filter: drop-shadow(0 0 10px #ffffff80); }
+.app[data-theme="night-ops"] .map-credit { background: color-mix(in srgb, var(--color-panel) 85%, transparent); color: var(--color-text-muted); }
+.app[data-theme="night-ops"] .map-credit a { color: var(--color-text-muted); }
+.masthead-actions { display: flex; gap: var(--space-2); pointer-events: auto; }
+.masthead-actions .language-button { width: auto; min-width: var(--tap-min); padding-inline: var(--space-3); }
+.mode-toggle[aria-pressed="true"] { background: var(--color-accent); color: #fff; border-color: var(--color-accent); }
+
+/* ---- cruise HUD ---- */
+.app[data-theme="night-ops"] .drive-instruction {
+  background: color-mix(in srgb, var(--color-panel) 90%, transparent); color: var(--color-text);
+  border: 1px solid var(--color-panel-border); backdrop-filter: blur(var(--blur-glass));
+}
+.app[data-theme="night-ops"] .drive-next > strong { font-family: var(--font-display); font-weight: 700; border-inline-end-color: var(--color-panel-border); }
+.app[data-theme="night-ops"] .cruise-banner[data-level="3"] {
+  background: var(--pin-red); border-color: var(--pin-red); text-transform: uppercase; font-family: var(--font-display);
+}
+.app[data-theme="night-ops"] .cruise-banner[data-level="off"] { background: color-mix(in srgb, var(--pin-orange) 35%, var(--color-panel)); }
+.app[data-theme="night-ops"] .cruise-banner[data-level="arriving"] { background: var(--color-accent); box-shadow: var(--glow-md) var(--color-accent); }
+.app[data-theme="night-ops"] .cruise-chips li,
+.app[data-theme="night-ops"] .cruise-notice,
+.app[data-theme="night-ops"] .cruise-card {
+  background: color-mix(in srgb, var(--color-panel) 92%, transparent); color: var(--color-text); border: 1px solid var(--color-panel-border);
+}
+.app[data-theme="night-ops"] .cruise-chips li::before {
+  content: ""; display: inline-block; width: 8px; height: 8px; margin-inline-end: 8px; transform: rotate(45deg); border-radius: 2px;
+  background: var(--pin-green); box-shadow: 0 0 6px var(--pin-green);
+}
+.app[data-theme="night-ops"] .cruise-card[data-planned="true"] { box-shadow: var(--glow-md) color-mix(in srgb, var(--pin-green) 60%, transparent), var(--map-control-shadow); }
+.app[data-theme="night-ops"] .drive-summary { background: color-mix(in srgb, var(--color-panel) 92%, transparent); border: 1px solid var(--color-panel-border); }
+.app[data-theme="night-ops"] .cruise-stats > div:first-child strong { font-size: 44px; }
+.app[data-theme="night-ops"] .cruise-round {
+  background: color-mix(in srgb, var(--color-panel) 80%, transparent); color: #fff; border: 1px solid #ffffff40; backdrop-filter: blur(var(--blur-glass));
+}
+.app[data-theme="night-ops"] .drive-end { background: transparent; border: 1px solid var(--pin-red); color: #fff; }
+.app[data-theme="night-ops"] .drive-end[data-armed="true"] { background: var(--pin-red); }
+.app[data-theme="night-ops"] .cruise-reroute { background: #fff; color: #111; }
+.app[data-theme="night-ops"] .cruise-arrived { background: var(--color-panel); border: 1px solid var(--color-panel-border); }
+@media (prefers-reduced-motion: no-preference) {
+  .app[data-theme="night-ops"] .cruise-banner[data-level="3"] { animation: cruise-pulse 1.1s ease-in-out infinite; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app[data-theme="night-ops"] .map-masthead::before, .pin-diamond { animation: none !important; }
+}

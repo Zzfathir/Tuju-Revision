@@ -7,7 +7,7 @@ import type { Fix } from "@/lib/cruise/pipeline";
 import { createSimulator } from "@/lib/cruise/simulator";
 import { createVoice, phrase } from "@/lib/cruise/voice";
 import { createWakeLock, type WakeStatus } from "@/lib/cruise/wakelock";
-import type { DriveFrame } from "@/lib/drive-camera";
+import type { DriveFrame, DrivePose } from "@/lib/drive-camera";
 import type { Lang } from "@/lib/i18n";
 import type { RouteLine } from "@/lib/route";
 
@@ -51,10 +51,10 @@ export function useCruise(options: Options) {
   const [gpsLost, setGpsLost] = useState(false);
   const controls = useRef({ voice: "normal" as VoiceLevel, muted: false });
 
-  const publish = useCallback((next: CruiseSnapshot) => {
+  const publish = useCallback((next: CruiseSnapshot, replay?: DriveFrame["replay"]) => {
     setSnapshot(next);
     if (next.point) {
-      opts.current.onFrame({ point: next.point, course: next.course, fraction: next.fraction, speedKmh: next.speedKmh });
+      opts.current.onFrame({ point: next.point, course: next.course, fraction: next.fraction, speedKmh: next.speedKmh, replay });
     }
     if (next.speak) {
       voice.current?.speak(phrase(opts.current.lang, next.speak), { interrupt: next.speak.interrupt });
@@ -102,21 +102,29 @@ export function useCruise(options: Options) {
       const sim = createSimulator(line, routeKm, { slowZonesKm });
       simulator.current = sim;
       clockBase.current = Date.now();
+      let previousPose: DrivePose | undefined;
       publish(cruise.snapshot());
       timer.current = window.setInterval(() => {
         const current = engine.current;
         if (!current) return;
         const burst = sim.tick(Math.round((SIM_SPEEDUP * SIM_TICK_MS) / 1000));
         let last = current.snapshot();
+        const poses: DrivePose[] = previousPose ? [previousPose] : [];
         const reached: CruiseSnapshot["reached"] = [];
         let speak: CruiseSnapshot["speak"] = null;
         for (const fix of burst) {
           last = current.push({ ...fix, t: fix.t + clockBase.current }, controls.current);
+          // Draw the simulated path itself so changing the route-match state cannot teleport the car.
+          previousPose = { point: [fix.lng, fix.lat], course: fix.heading, speedKmh: last.speedKmh };
+          poses.push(previousPose);
           reached.push(...last.reached);
           // Fast-forwarding produces many lines at once; keep the most urgent.
           if (last.speak && (!speak || last.speak.level > speak.level)) speak = last.speak;
         }
-        if (burst.length) publish({ ...last, reached, speak });
+        if (burst.length) {
+          // Play the fixes over the next tick while the HUD keeps its existing update cadence.
+          publish({ ...last, reached, speak }, { startedAt: performance.now(), sampleMs: 1000 / SIM_SPEEDUP, poses });
+        }
         if (sim.done() && last.arrived && timer.current !== null) { window.clearInterval(timer.current); timer.current = null; }
       }, SIM_TICK_MS);
       return;

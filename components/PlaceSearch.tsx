@@ -5,11 +5,13 @@ import { inMalaysia } from "@/lib/bounds";
 import { t, type Lang } from "@/lib/i18n";
 import { POPULAR, searchFallback, type Place } from "@/lib/places";
 import { readRecents } from "@/lib/recents";
+import { parseRoadGame, ROAD_GAME_KEY } from "@/lib/road-game";
+import type { Stop } from "@/lib/schemas";
 
 type Found = { places: Place[]; approx: boolean };
 
-export function PlaceSearch({ lang, field, onPick, onClose }: {
-  lang: Lang; field: "from" | "to"; onPick: (place: Place) => void; onClose: () => void;
+export function PlaceSearch({ lang, field, onPick, onClose, savedCandidates }: {
+  lang: Lang; field: "from" | "to"; onPick: (place: Place) => void; onClose: () => void; savedCandidates?: Stop[];
 }) {
   const [query, setQuery] = useState("");
   const [found, setFound] = useState<Found | null>(null);
@@ -17,6 +19,12 @@ export function PlaceSearch({ lang, field, onPick, onClose }: {
   const [locating, setLocating] = useState(false);
   const [locationFailed, setLocationFailed] = useState(false);
   const [recents] = useState<Place[]>(() => readRecents());
+  const [saved] = useState<Place[]>(() => {
+    try {
+      const { saved } = parseRoadGame(localStorage.getItem(ROAD_GAME_KEY));
+      return (savedCandidates ?? []).filter(({ id }) => saved.includes(id)).map(({ id, name, lat, lng }) => ({ id, name, lat, lng, detail: "Rest area" }));
+    } catch { return []; }
+  });
   const input = useRef<HTMLInputElement>(null);
   const title = t(lang, field === "from" ? "searchFromTitle" : "searchToTitle");
 
@@ -96,6 +104,7 @@ export function PlaceSearch({ lang, field, onPick, onClose }: {
           <span className="place-text"><strong>{t(lang, locating ? "locating" : "myLocation")}</strong></span>
         </button>}
         {locationFailed && <p className="small" role="alert">{t(lang, "locationFailed")}</p>}
+        {saved.length > 0 && <><h3 className="place-heading">Saved places</h3><ul className="place-list">{saved.map((place) => item(place, "place-saved"))}</ul></>}
         {recents.length > 0 && <>
           <h3 className="place-heading">{t(lang, "recentTitle")}</h3>
           <ul className="place-list">{recents.map((place) => item(place, "place-recent"))}</ul>

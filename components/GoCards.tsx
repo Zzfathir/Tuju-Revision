@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
 import { t, type Lang } from "@/lib/i18n";
 import { googleMapsUrl, wazeLegs, telUrl } from "@/lib/deeplinks";
@@ -14,11 +14,13 @@ import { CruiseHud } from "./CruiseHud";
 import { useCruise } from "./useCruise";
 import { Source } from "./ui/Source";
 import type { DriveFrame } from "@/lib/drive-camera";
+import type { RoadGame, RoadQuest } from "@/lib/road-game";
+import { QuestDriveStatus, XpBadge } from "./RoadGame";
 
 export type DriveMode = "idle" | "gps" | "sim" | "finished";
 const plusLine = { number: "1-800-88-0000", source_url: "https://www.plus.com.my/customer-feedback/", retrieved_at: "2026-11-20" };
 
-export function GoCards({ config, line, routeKm, tolls, entry, stops, plannedStops, rnrStops, needs, lang, onShare, setDriveFrame, mode, setMode, driveMount, headingUp, setHeadingUp }: {
+export function GoCards({ config, line, routeKm, tolls, entry, stops, plannedStops, rnrStops, needs, lang, onShare, setDriveFrame, mode, setMode, driveMount, headingUp, setHeadingUp, game, quest, reward, onQuestProgress }: {
   config: RouteConfig; line: RouteLine; routeKm: number; tolls: TollFile;
   entry: string;
   /** Planned stops that are real places (used for handoff to Google Maps and Waze). */
@@ -32,6 +34,7 @@ export function GoCards({ config, line, routeKm, tolls, entry, stops, plannedSto
   setDriveFrame: (frame: DriveFrame | null) => void;
   mode: DriveMode; setMode: (mode: DriveMode) => void; driveMount: HTMLDivElement | null;
   headingUp: boolean; setHeadingUp: (value: boolean) => void;
+  game: RoadGame; quest?: RoadQuest; reward?: RoadQuest; onQuestProgress: (km: number) => void;
 }) {
   const trigger = useRef<HTMLButtonElement | null>(null);
   const navigationStops = stops.filter((stop) => !stop.id.startsWith("break-"));
@@ -63,6 +66,9 @@ export function GoCards({ config, line, routeKm, tolls, entry, stops, plannedSto
   });
   const snapshot = cruise.snapshot;
   const km = mode === "idle" ? null : snapshot?.km ?? null;
+  useEffect(() => {
+    if (quest && km !== null && (snapshot?.state === "CRUISING" || snapshot?.state === "ARRIVING")) onQuestProgress(km);
+  }, [km, onQuestProgress, quest, snapshot?.state]);
 
   const choose = (next: "gps" | "sim") => {
     if (next === "sim") track("sim_drive");
@@ -81,6 +87,7 @@ export function GoCards({ config, line, routeKm, tolls, entry, stops, plannedSto
         muted={cruise.muted} onMute={cruise.setMuted} voiceLevel={cruise.voiceLevel} onVoiceLevel={cruise.setVoiceLevel}
         wakeStatus={cruise.wakeStatus} voiceInfo={cruise.voiceInfo} gpsLost={cruise.gpsLost} rerouteUrl={rerouteUrl}
         onExit={cruise.exit} onShare={onShare} onDetour={cruise.injectDetour}
+        questStatus={<QuestDriveStatus quest={quest} reward={reward} km={km} />} xpBadge={<XpBadge game={game} />}
         tollInfo={nextToll && km !== null ? <>
           {t(lang, "nextToll", { n: Math.ceil(nextToll.distanceAlongRoute_km - km), name: nextToll.name })}
           {toll?.ok && toll.verified && <> · {t(lang, "tollIfExit", { n: toll.fare.toFixed(2) })}</>}
@@ -90,9 +97,9 @@ export function GoCards({ config, line, routeKm, tolls, entry, stops, plannedSto
         <h3>{t(lang, "liveTitle")}</h3>
         <p className="small muted">{t(lang, "locationBadge")}</p>
         <div className="go-actions">
-          <button type="button" className="btn" data-variant="primary" data-testid="btn-start-drive"
+          <button type="button" className="btn" data-testid="btn-start-drive"
             onClick={(event) => { trigger.current = event.currentTarget; choose("gps"); }}>{t(lang, "driveStart")}</button>
-          <button type="button" className="btn" data-testid="btn-simulate"
+          <button type="button" className="btn" data-variant="primary" data-testid="btn-simulate"
             onClick={(event) => { trigger.current = event.currentTarget; choose("sim"); }}>{t(lang, "simulate")}</button>
         </div>
         {cruise.gpsError && <p role="alert">{t(lang, "gpsDenied")}</p>}

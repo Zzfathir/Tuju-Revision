@@ -22,13 +22,14 @@ const urgency = (a: Alert, b: Alert) => b.level - a.level || a.distKm - b.distKm
 
 export function CruiseHud({
   lang, snapshot, destination, stops, simulated, headingUp, onHeadingUp, muted, onMute, voiceLevel, onVoiceLevel,
-  wakeStatus, voiceInfo, gpsLost = false, rerouteUrl, onExit, onShare, onDetour, tollInfo,
+  wakeStatus, voiceInfo, gpsLost = false, rerouteUrl, onExit, onShare, onDetour, tollInfo, questStatus, xpBadge,
 }: {
   lang: Lang; snapshot: CruiseSnapshot; destination: string; stops: Stop[]; simulated: boolean;
   headingUp: boolean; onHeadingUp: (value: boolean) => void; muted: boolean; onMute: (value: boolean) => void;
   voiceLevel: VoiceLevel; onVoiceLevel: (value: VoiceLevel) => void;
   wakeStatus: WakeStatus; voiceInfo: { available: boolean; fellBack: boolean }; gpsLost?: boolean;
   rerouteUrl: string; onExit: () => void; onShare: () => void; onDetour?: () => void; tollInfo?: ReactNode;
+  questStatus?: ReactNode; xpBadge?: ReactNode;
 }) {
   const { state, alerts, remainingKm, km, offRouteM } = snapshot;
   const [now, setNow] = useState(() => Date.now());
@@ -84,7 +85,7 @@ export function CruiseHud({
     <div className="cruise-top">
       <div className="drive-instruction cruise-banner" data-testid="cruise-banner" data-level={banner ? 3 : state === "OFF_ROUTE" ? "off" : state === "ARRIVING" ? "arriving" : 1}>
         <h2 id="drive-heading" className="drive-mode" ref={heading} tabIndex={-1}>
-          {t(lang, simulated ? "simulation" : "driveView")} · <span data-testid="cruise-state">{state}</span>
+          {t(lang, simulated ? "simulation" : "driveView")}<span className="sr-only" data-testid="cruise-state">{state}</span>
         </h2>
         {state === "ARMED" ? <p className="drive-message" role="status" data-testid="drive-status">{t(lang, "cruiseArming")}</p>
           : state === "OFF_ROUTE" ? <div className="cruise-off">
@@ -111,6 +112,7 @@ export function CruiseHud({
         {recovered && state === "CRUISING" && <p className="cruise-recovered" data-testid="cruise-recovered" role="status">{t(lang, "cruiseBack")}</p>}
       </div>
 
+      {questStatus}
       {chips.length > 0 && <ul className="cruise-chips" aria-label={t(lang, "cruiseNextUp")}>
         {chips.map((a) => <li key={a.event.id} data-testid="cruise-chip">{name(a)} · {distance(a.distKm)}</li>)}
       </ul>}
@@ -145,6 +147,7 @@ export function CruiseHud({
       </div>
     </div>}
 
+    <div className="road-drive-xp">{xpBadge}</div>
     <div className="drive-summary cruise-strip" data-testid="drive-progress">
       {tollInfo && state === "CRUISING" && <p className="drive-toll">{tollInfo}</p>}
       <div className="cruise-stats">
@@ -156,7 +159,7 @@ export function CruiseHud({
       <div className="cruise-actions">
         {simulated && onDetour && state === "CRUISING" && <button type="button" className="btn" data-testid="cruise-detour" onClick={onDetour}>{t(lang, "cruiseDetour")}</button>}
         <button type="button" className="btn drive-end" data-testid={simulated ? "btn-stop-replay" : "btn-stop-drive"}
-          data-armed={exitArmed} onClick={confirmExit}>{exitArmed ? t(lang, "cruiseExitConfirm") : t(lang, "cruiseExit")}</button>
+          data-armed={exitArmed} onClick={confirmExit}>{exitArmed ? t(lang, "cruiseExitConfirm") : simulated ? "Stop simulation" : t(lang, "cruiseExit")}</button>
       </div>
     </div>
     <p className="sr-only" aria-live="polite">{announcement}</p>

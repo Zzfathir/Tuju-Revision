@@ -1,28 +1,50 @@
 /*
  * DESIGN TOKENS — the ONLY place colours, spacing, type and sizes are defined.
  * Designer: restyle the whole app by editing this file. Components reference only these vars.
- * Journey controls use warm white surfaces and a deep teal accent.
+ * Jalan Pulang mobile design system.
  */
 :root {
   /* colour */
-  --color-bg: #ffffff;
-  --color-surface: #f1f6f4;        /* panels, placeholders */
-  --color-text: #152a25;
-  --color-text-muted: #48645c;     /* ≥ 4.5:1 on white */
-  --color-border: #77918a;
-  --color-border-subtle: #d4dfda;
-  --color-accent: #114d42;         /* primary button fill + focus outline only */
+  --color-bg: #f2f3f7;
+  --color-surface: #fff;
+  --color-text: #222;
+  --color-text-muted: #6d7178;
+  --color-border: #e4e6eb;
+  --color-border-subtle: var(--color-border);
+  --color-accent: #2468c5;
   --color-accent-text: #ffffff;
-  --color-route: #168873;          /* map route line */
-  --color-stop: #ffffff;           /* map stop marker fill */
+  --color-route: #6431b4;
+  --color-stop: var(--color-quest);
 
-  /* state hooks (greyscale for now; designer maps to colour) */
-  --color-state-live: var(--color-text);
+  --color-surface-muted: #ecedf1;
+  --color-surface-selected: #eaf2ff;
+  --color-surface-warning: #fff6db;
+  --color-action: #4496f7;
+  --color-link: #2763b7;
+  --color-route-casing: #4608a3;
+  --color-route-alt: #b68bf7;
+  --color-quest: #f6c743;
+  --color-xp: #5dc579;
+  --color-warning-text: #7a5300;
+  --color-positive: #1e8a44;
+  --color-danger: #ec605b;
+  --color-report: #f5a05a;
+  --color-stop-button: #f09594;
+  --color-hud: #1f2123;
+  --color-hud-text: #fff;
+  --color-hud-street: #66c9fa;
+  --color-hud-banner: #000;
+  --color-chart: #a9cffb;
+  --radius-pill: 999px;
+  --card-shadow: 0 1px 3px rgb(0 0 0 / 0.06);
+
+  /* status */
+  --color-state-live: var(--color-positive);
   --color-state-cached: var(--color-text-muted);
   --color-state-estimate: var(--color-text-muted);
   --color-state-unverified: var(--color-text-muted);
   --color-state-stale: var(--color-text);
-  --color-state-error: var(--color-text);
+  --color-state-error: var(--color-danger);
 
   /* spacing scale */
   --space-1: 4px;
@@ -33,18 +55,18 @@
   --space-6: 32px;
 
   /* shape */
-  --radius: 11px;
+  --radius: 16px;
   --border-width: 1px;
 
   /* type */
-  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: var(--font-geist), system-ui, sans-serif;
   --font-display: var(--font-body);
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-mono: var(--font-body);
   --text-xs: 12px;
-  --text-sm: 14px;
-  --text-md: 16px;
-  --text-lg: 20px;
-  --text-xl: 24px;
+  --text-sm: 15px;
+  --text-md: 18px;
+  --text-lg: 26px;
+  --text-xl: 30px;
   --line: 1.4;
 
   /* layout */
@@ -54,20 +76,23 @@
   --map-line-width: 3;
   --placeholder-min: 80px;
   --content-max-w: 640px;
-  --control-radius: 13px;
-  --small-radius: 8px;
-  --sheet-radius: 22px;
-  --map-paper: #dfede7;
-  --map-grid: #b7d0c480;
-  --map-horizon: #f4f9f7;
-  --map-live: #2675c4;
-  --map-route-halo: #f9fffc;
-  --map-route-shine: #8ee3c9;
-  --map-route-passed: #839b94;
+  --control-radius: 16px;
+  --small-radius: 12px;
+  --sheet-radius: 24px;
+  --map-paper: #edeae2;
+  --map-grid: #d8d9db;
+  --map-horizon: #f4f1e9;
+  --map-live: var(--color-action);
+  --map-route-halo: var(--color-route-casing);
+  --map-route-shine: var(--color-route-alt);
+  --map-route-passed: var(--color-route-alt);
+  --map-route-halo-width: 13;
+  --map-route-halo-blur: 0;
+  --map-route-core-width: 8;
   --drive-car-width: 56px;
-  --map-control-border: #adc5bc;
-  --map-control-shadow: 0 3px 10px #16392d20;
-  --sheet-shadow: 0 -4px 18px #183f3320;
+  --map-control-border: var(--color-border);
+  --map-control-shadow: 0 2px 8px rgb(0 0 0 / 0.12), 0 0 1px rgb(0 0 0 / 0.04);
+  --sheet-shadow: 0 -2px 16px rgb(0 0 0 / 0.1);
   --journey-map-height: clamp(300px, 51svh, 580px);
   --journey-plan-width: clamp(405px, 38vw, 560px);
   --journey-button-height: 52px;
