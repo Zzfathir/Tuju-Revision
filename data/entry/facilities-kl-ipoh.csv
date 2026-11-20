@@ -1,0 +1,8 @@
+stop_id,stop_name,direction,km,osm_hint,surau,toilet,fuel,ev_charger,food,atm,source_url,checked_on
+osm-way-307663997,Kawasan Rehat Rawang Arah Utara,north,28.8,,,yes,,,yes,,https://www.plus.com.my/cashless-rsa/,2026-11-20
+osm-way-541712592,Hentian Sebelah Tanjung Malim,north,72.53,,,yes,yes,,,,https://www.plus.com.my/our-facilities/,2026-11-20
+osm-way-857846130,Hentian Sebelah Behrang,north,86.02,toilet,,,,,,,,
+osm-way-339101032,Hentian Sebelah Ladang Bikam,north,121.72,toilet,,,,,,,,
+osm-way-339101076,Kawasan Rehat Tapah,north,137.27,,yes,yes,yes,yes,yes,yes,https://www.plus.com.my/our-facilities/,2026-11-20
+osm-way-339101040,Kawasan Rehat RTC Perak,north,178.17,,,,,,,,,
+osm-way-339101034,Hentian Sebelah Simpang Pulai Arah Utara,north,178.65,,,,,,,,,

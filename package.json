@@ -9,7 +9,10 @@
     "test": "vitest run",
     "probe": "tsx scripts/probe-apis.ts",
     "build:route": "tsx scripts/build-route.ts",
-    "build:eta": "tsx scripts/build-eta-grid.ts"
+    "build:eta": "tsx scripts/build-eta-grid.ts",
+    "entry:templates": "tsx scripts/import-entry.ts templates",
+    "entry:tolls": "tsx scripts/import-entry.ts tolls",
+    "entry:facilities": "tsx scripts/import-entry.ts facilities"
   },
   "dependencies": {
     "@turf/turf": "^7.4.0",
