@@ -8,9 +8,7 @@ import { zoomForSpeed } from "@/lib/cruise/zoom";
 import type { Stop } from "@/lib/schemas";
 import { t, type Lang } from "@/lib/i18n";
 import { MAP_TOKEN_NAMES, PIN_LEGEND, patchNightOps, pinGlyph, stopPin, type MapTokens } from "@/lib/night-ops";
-import type { GarageCar } from "@/lib/road-game";
 import { applyMapTheme, mapPaletteTokens, type MapPalette } from "@/lib/map-theme";
-import { loadGarage, spriteUrl } from "@/lib/garage";
 
 /** A side quest drawn on the map. */
 export type QuestPin = { id: string; lng: number; lat: number; title: string; active: boolean; done: boolean };
@@ -109,8 +107,8 @@ function installOverlay(map: MapInstance, line: RouteLine, token: (name: string)
 export function RouteMap({
   line, quests = [], onSelectQuest, stops, driveFrame, simulated, lang, places, online, preview,
   selectedStopId, onSelectStop, focus, padding, driving = false, headingUp = true, browsing,
-  startNorthUp, night = false, lite = false, questPins, activeQuestPin, car, showRoute = true,
-  alternatives, vehicleSprite: vehicleSpriteProp, plate,
+  startNorthUp, night = false, lite = false, showRoute = true,
+  alternatives, vehicleSprite = "/drive-car.png", plate = "",
 }: {
   line: RouteLine; quests?: QuestPin[]; onSelectQuest?: (id: string) => void; stops: Stop[]; driveFrame: DriveFrame | null; simulated: boolean; lang: Lang;
   places: [string, string]; online: boolean; preview?: string;
@@ -124,8 +122,9 @@ export function RouteMap({
   focus?: { id: string; lat: number; lng: number } | null;
   /** Pixels of the map hidden under floating UI (the sheet, the from/to card). The camera frames the visible part. */
   padding?: { top: number; right: number; bottom: number; left: number };
-  questPins?: string[]; activeQuestPin?: string; car?: GarageCar; showRoute?: boolean;
+  showRoute?: boolean;
   alternatives?: RouteLine[];
+  /** The car picked in the Garage (lib/garage.ts sprite) and its number plate. */
   vehicleSprite?: string; plate?: string;
 }) {
   const container = useRef<HTMLDivElement>(null);
@@ -205,8 +204,6 @@ export function RouteMap({
   }, [browsing, failed, online, requested]);
 
   // The car the driver picked in the Garage (read after mount: it lives in this browser's storage).
-  const [vehicleSprite, setVehicleSprite] = useState(vehicleSpriteProp ?? "/drive-car.png");
-  useEffect(() => { setVehicleSprite(vehicleSpriteProp ?? spriteUrl(loadGarage())); }, [vehicleSpriteProp]);
   const spriteRef = useRef(vehicleSprite);
   spriteRef.current = vehicleSprite;
   const onQuest = useRef(onSelectQuest);
@@ -259,11 +256,12 @@ export function RouteMap({
       const css = getComputedStyle(container.current);
       const token = (name: string) => css.getPropertyValue(name).trim();
       routeColors.current = { ahead: token("--color-route"), passed: token("--map-route-passed"), shine: token("--map-route-shine") };
-      let style = nightNow.current ? patchNightOps(plain, mapTokens(token), { bands: liteNow.current ? 1 : undefined }) : plain;
+      // Daytime colours first (LaPan palette); the night theme, when on, restyles this base.
       if (vector) {
         const palette = Object.fromEntries(Object.entries(mapPaletteTokens).map(([key, name]) => [key, token(name)])) as MapPalette;
-        applyMapTheme(style, palette);
+        applyMapTheme(plain, palette);
       }
+      const style = nightNow.current ? patchNightOps(plain, mapTokens(token), { bands: liteNow.current ? 1 : undefined }) : plain;
       instance = new libre.Map({
         container: container.current, style,
         center: line.geometry.coordinates[0] as Point, zoom: startNorthUp ? 12.8 : 14.5,
@@ -446,8 +444,8 @@ export function RouteMap({
 
   const fraction = driveFrame?.fraction ?? null;
   useEffect(() => {
-    if (vehicleMarker.current && map) vehicleMarker.current.getElement().dataset.plate = plate ?? car?.plate ?? "";
-  }, [plate, car?.plate, map]);
+    if (vehicleMarker.current && map) vehicleMarker.current.getElement().dataset.plate = plate;
+  }, [plate, map]);
   const totalKm = useMemo(() => routeLengthKm(line), [line]);
   const lastAhead = useRef(-1);
   useEffect(() => {
@@ -481,15 +479,13 @@ export function RouteMap({
   useEffect(() => {
     for (const [id, pin] of pins.current) {
       pin.dataset.selected = String(id === selectedStopId);
-      pin.dataset.quest = String(questPins?.includes(id) ?? false);
-      pin.dataset.questActive = String(id === activeQuestPin);
-      pin.tabIndex = driving || (browsing && !questPins?.includes(id)) ? -1 : 0;
+      pin.tabIndex = driving || browsing ? -1 : 0;
     }
     const stop = focus && focus.id === selectedStopId ? focus : stops.find((item) => item.id === selectedStopId);
     if (!map || !stop || driving) return;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     map.easeTo({ center: [stop.lng, stop.lat], zoom: Math.max(map.getZoom(), 13), duration: reduceMotion ? 0 : 600 });
-  }, [activeQuestPin, browsing, driving, focus, map, questPins, selectedStopId, stops]);
+  }, [browsing, driving, focus, map, selectedStopId, stops]);
 
   // Expose the zoom level on the map element (used by the browser checks).
   useEffect(() => {
@@ -523,14 +519,13 @@ export function RouteMap({
   };
   return <section className="map-wrap" aria-label={t(lang, "map")} data-testid="route-map"
     data-angle={angled ? "3d" : "2d"} data-frame={simulated ? "replay" : !driving && overview ? "overview" : "drive"}
-    data-follow={driving ? following : undefined} data-car-paint={car?.paint} data-car-body={car?.body} data-car-trail={car?.trail}>
+    data-follow={driving ? following : undefined}>
     <div className="map-outline" aria-hidden="true">
       <svg viewBox="0 0 390 340" preserveAspectRatio="xMidYMid meet">
         {(showRoute || overview || driving) && <><polyline className="outline-halo" points={geometry.outline} />
           <polyline className="outline-route" points={geometry.outline} /></>}
         {stops.map((stop) => {
           const [x, y] = geometry.project([stop.lng, stop.lat]);
-          if (questPins?.includes(stop.id) && (!driving || stop.id === activeQuestPin)) return <image key={stop.id} href="/road-ui/quest-marker.svg" x={x - 20} y={y - 24} width="40" height="48" />;
           if (!showRoute) return null;
           return <circle className="outline-stop" key={stop.id} cx={x} cy={y} r="3" />;
         })}

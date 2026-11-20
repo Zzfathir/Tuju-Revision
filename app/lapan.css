@@ -1,0 +1,27 @@
+/* LaPan additions on top of the design-system UI (road-ui.css): Blender sprites and our quest markers. */
+
+/* 3D stop icons rendered in Blender (design/blender/build_icons.py), shown when a stop pin is visible */
+.road-ui .map-pin[data-kind]:not([data-selected="true"]), .road-ui .map-endpoint[data-destination="true"] {
+  width: 34px; height: 34px; border: 0; border-radius: 0; box-shadow: none; background: transparent center / contain no-repeat;
+}
+.road-ui .map-pin[data-kind="rnr"]:not([data-selected="true"]) { background-image: url("/stops/rnr.png"); }
+.road-ui .map-pin[data-kind="layby"]:not([data-selected="true"]) { background-image: url("/stops/layby.png"); }
+.road-ui .map-endpoint[data-destination="true"] { width: 44px; height: 44px; background-image: url("/stops/home.png"); }
+.road-ui .map-pin[data-kind]::before, .road-ui .map-pin[data-kind]::after { display: none; }
+
+/* Game / Quest marker for every side quest (rest stops and places off the highway) */
+.map-quest { width: 40px; height: 48px; padding: 0; border: 0; background: url("/road-ui/quest-marker.svg") center / contain no-repeat; cursor: pointer; }
+.map-quest[data-done="true"] { filter: grayscale(1) opacity(0.6); }
+.map-quest[data-active="true"] { scale: 1.15; }
+
+/* Garage: Blender turntable frames instead of the flat placeholder */
+.road-turntable > img.garage-render { width: min(100%, 320px); height: auto; transform: none; filter: none; }
+.road-garage-preview .garage-plate {
+  position: absolute; top: var(--space-4); right: var(--space-4); z-index: 1; padding: 3px 8px; border-radius: 6px;
+  background: var(--color-hud); color: var(--color-hud-text); font: 700 var(--text-xs)/1.3 var(--font-mono); letter-spacing: 0.08em;
+}
+.garage-plate-input { font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; }
+.road-extra[data-locked="true"] { color: var(--color-text-muted); }
+
+/* the driving car is a Blender sprite set inline; keep its aspect */
+.road-ui .map-vehicle { background-size: contain; background-repeat: no-repeat; background-position: center; }

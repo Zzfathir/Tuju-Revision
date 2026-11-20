@@ -5,7 +5,7 @@ import { inMalaysia } from "@/lib/bounds";
 import { t, type Lang } from "@/lib/i18n";
 import { POPULAR, searchFallback, type Place } from "@/lib/places";
 import { readRecents } from "@/lib/recents";
-import { parseRoadGame, ROAD_GAME_KEY } from "@/lib/road-game";
+import { loadSaved } from "@/lib/saved-places";
 import type { Stop } from "@/lib/schemas";
 
 type Found = { places: Place[]; approx: boolean };
@@ -21,7 +21,7 @@ export function PlaceSearch({ lang, field, onPick, onClose, savedCandidates }: {
   const [recents] = useState<Place[]>(() => readRecents());
   const [saved] = useState<Place[]>(() => {
     try {
-      const { saved } = parseRoadGame(localStorage.getItem(ROAD_GAME_KEY));
+      const saved = loadSaved();
       return (savedCandidates ?? []).filter(({ id }) => saved.includes(id)).map(({ id, name, lat, lng }) => ({ id, name, lat, lng, detail: "Rest area" }));
     } catch { return []; }
   });

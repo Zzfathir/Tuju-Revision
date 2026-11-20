@@ -1,12 +1,7 @@
-import type { Metadata } from "next";
-import { Garage } from "@/components/Garage";
-import { prefsQuery } from "@/lib/onboarding";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = { title: "Garage · LaPan" };
-
-export default async function GaragePage({ searchParams }: { searchParams: Promise<{ lang?: string; from?: string }> }) {
-  const query = await searchParams;
-  const lang = query.lang === "bm" ? "bm" : "en";
-  const back = (query.from === "plan" ? "/plan" : "/") + prefsQuery({ lang }, query.from === "plan" ? {} : { home: "1" });
-  return <Garage lang={lang} back={back} />;
+/** The Garage lives in a sheet over the map (DESIGN.md); old links open it there. */
+export default async function Page({ searchParams }: { searchParams: Promise<{ lang?: string }> }) {
+  const lang = (await searchParams).lang === "bm" ? "&lang=bm" : "";
+  redirect(`/?sheet=garage${lang}`);
 }
