@@ -87,7 +87,7 @@ Open `http://localhost:3000`. To check the service worker, offline flow or a pro
 | Planner shell, search, route options | `components/Planner.tsx`, `TripShell.tsx`, `Trip.tsx`, `PlaceSearch.tsx`, `RouteCard.tsx`, `RouteOptions.tsx`, `lib/trip-route.ts`, `lib/enrich.ts`, `lib/breaks.ts`, `lib/plan-fixes.ts` |
 | Server proxies | `app/api/places/route.ts`, `app/api/route/route.ts`, `lib/cache.ts`, `lib/limiter.ts` |
 | Cruise mode | `lib/cruise/*`, `components/useCruise.ts`, `components/CruiseHud.tsx`, `components/GoCards.tsx`, `app/cruise.css` |
-| Map | `components/RouteMap.tsx`, `lib/drive-camera.ts`, `lib/drive-progress.ts`, `public/drive-car.svg` |
+| Map | `components/RouteMap.tsx`, `lib/drive-camera.ts`, `lib/drive-progress.ts`, `public/drive-car.png` (rendered by `design/blender/build_car.py`) |
 | Styling | `app/tokens.css` (designer edits here), `app/map-first.css`, `app/presentation.css` |
 | Data | `data/routes/kl-ipoh`, `data/entry/*.csv`, `data/places-my.json`, `scripts/import-entry.ts` |
 | Group Arrival, counters, offline | `components/GroupArrival.tsx`, `app/api/group-arrival`, `lib/counter.ts`, `public/sw.js` |
