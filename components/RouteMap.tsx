@@ -7,16 +7,13 @@ import { pointAt, routeLengthKm, sliceAhead, type RouteLine } from "@/lib/route"
 import { zoomForSpeed } from "@/lib/cruise/zoom";
 import type { Stop } from "@/lib/schemas";
 import { t, type Lang } from "@/lib/i18n";
-<<<<<<< Updated upstream
 import { MAP_TOKEN_NAMES, PIN_LEGEND, patchNightOps, pinGlyph, stopPin, type MapTokens } from "@/lib/night-ops";
 import type { GarageCar } from "@/lib/road-game";
-=======
 import { applyMapTheme, mapPaletteTokens, type MapPalette } from "@/lib/map-theme";
 import { loadGarage, spriteUrl } from "@/lib/garage";
 
 /** A side quest drawn on the map. */
 export type QuestPin = { id: string; lng: number; lat: number; title: string; active: boolean; done: boolean };
->>>>>>> Stashed changes
 
 const libertyUrl = "https://tiles.openfreemap.org/styles/liberty";
 const defaultTileUrl = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
@@ -44,7 +41,6 @@ async function streetStyle(): Promise<{ style: StyleSpecification; vector: boole
   }
 }
 
-<<<<<<< Updated upstream
 function diamond(category: string, icon: Parameters<typeof pinGlyph>[0], unverified: boolean, dim: boolean): HTMLElement {
   const shape = document.createElement("span");
   shape.className = "pin-diamond";
@@ -110,12 +106,13 @@ function installOverlay(map: MapInstance, line: RouteLine, token: (name: string)
   });
 }
 
-export function RouteMap({ line, stops, driveFrame, simulated, lang, places, online, preview, selectedStopId, onSelectStop, focus, padding, driving = false, headingUp = true, browsing, startNorthUp, night = false, lite = false, questPins, activeQuestPin, car, showRoute = true, alternatives }: {
-  line: RouteLine; stops: Stop[]; driveFrame: DriveFrame | null; simulated: boolean; lang: Lang;
-=======
-export function RouteMap({ line, quests = [], onSelectQuest, stops, driveFrame, simulated, lang, places, online, preview, selectedStopId, onSelectStop, focus, padding, driving = false, headingUp = true, browsing, startNorthUp }: {
+export function RouteMap({
+  line, quests = [], onSelectQuest, stops, driveFrame, simulated, lang, places, online, preview,
+  selectedStopId, onSelectStop, focus, padding, driving = false, headingUp = true, browsing,
+  startNorthUp, night = false, lite = false, questPins, activeQuestPin, car, showRoute = true,
+  alternatives, vehicleSprite: vehicleSpriteProp, plate,
+}: {
   line: RouteLine; quests?: QuestPin[]; onSelectQuest?: (id: string) => void; stops: Stop[]; driveFrame: DriveFrame | null; simulated: boolean; lang: Lang;
->>>>>>> Stashed changes
   places: [string, string]; online: boolean; preview?: string;
   selectedStopId: string | null; onSelectStop?: (id: string | null) => void; driving?: boolean;
   /** While driving: turn the map with the car (true) or keep north at the top (false). */
@@ -129,6 +126,7 @@ export function RouteMap({ line, quests = [], onSelectQuest, stops, driveFrame, 
   padding?: { top: number; right: number; bottom: number; left: number };
   questPins?: string[]; activeQuestPin?: string; car?: GarageCar; showRoute?: boolean;
   alternatives?: RouteLine[];
+  vehicleSprite?: string; plate?: string;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const outlineVehicle = useRef<SVGImageElement>(null);
@@ -207,8 +205,8 @@ export function RouteMap({ line, quests = [], onSelectQuest, stops, driveFrame, 
   }, [browsing, failed, online, requested]);
 
   // The car the driver picked in the Garage (read after mount: it lives in this browser's storage).
-  const [vehicleSprite, setVehicleSprite] = useState("/drive-car.png");
-  useEffect(() => { setVehicleSprite(spriteUrl(loadGarage())); }, []);
+  const [vehicleSprite, setVehicleSprite] = useState(vehicleSpriteProp ?? "/drive-car.png");
+  useEffect(() => { setVehicleSprite(vehicleSpriteProp ?? spriteUrl(loadGarage())); }, [vehicleSpriteProp]);
   const spriteRef = useRef(vehicleSprite);
   spriteRef.current = vehicleSprite;
   const onQuest = useRef(onSelectQuest);
@@ -261,14 +259,11 @@ export function RouteMap({ line, quests = [], onSelectQuest, stops, driveFrame, 
       const css = getComputedStyle(container.current);
       const token = (name: string) => css.getPropertyValue(name).trim();
       routeColors.current = { ahead: token("--color-route"), passed: token("--map-route-passed"), shine: token("--map-route-shine") };
-<<<<<<< Updated upstream
-      const style = nightNow.current ? patchNightOps(plain, mapTokens(token), { bands: liteNow.current ? 1 : undefined }) : plain;
-=======
+      let style = nightNow.current ? patchNightOps(plain, mapTokens(token), { bands: liteNow.current ? 1 : undefined }) : plain;
       if (vector) {
         const palette = Object.fromEntries(Object.entries(mapPaletteTokens).map(([key, name]) => [key, token(name)])) as MapPalette;
         applyMapTheme(style, palette);
       }
->>>>>>> Stashed changes
       instance = new libre.Map({
         container: container.current, style,
         center: line.geometry.coordinates[0] as Point, zoom: startNorthUp ? 12.8 : 14.5,
@@ -327,12 +322,8 @@ export function RouteMap({ line, quests = [], onSelectQuest, stops, driveFrame, 
         vehicle.className = "map-vehicle";
         vehicle.dataset.testid = "drive-car";
         vehicle.setAttribute("aria-hidden", "true");
-<<<<<<< Updated upstream
-        vehicleMarker.current = new libre.Marker({ element: vehicle, rotationAlignment: "map", pitchAlignment: "viewport", subpixelPositioning: true });
-=======
         vehicle.style.backgroundImage = `url("${spriteRef.current}")`;
-        vehicleMarker.current = new libre.Marker({ element: vehicle, rotationAlignment: "map", pitchAlignment: "viewport" });
->>>>>>> Stashed changes
+        vehicleMarker.current = new libre.Marker({ element: vehicle, rotationAlignment: "map", pitchAlignment: "viewport", subpixelPositioning: true });
         routeReady = true;
         showMap();
       });
@@ -455,8 +446,8 @@ export function RouteMap({ line, quests = [], onSelectQuest, stops, driveFrame, 
 
   const fraction = driveFrame?.fraction ?? null;
   useEffect(() => {
-    if (vehicleMarker.current && map) vehicleMarker.current.getElement().dataset.plate = car?.plate ?? "";
-  }, [car?.plate, map]);
+    if (vehicleMarker.current && map) vehicleMarker.current.getElement().dataset.plate = plate ?? car?.plate ?? "";
+  }, [plate, car?.plate, map]);
   const totalKm = useMemo(() => routeLengthKm(line), [line]);
   const lastAhead = useRef(-1);
   useEffect(() => {
@@ -550,13 +541,8 @@ export function RouteMap({ line, quests = [], onSelectQuest, stops, driveFrame, 
             <text x={x + (index ? -13 : 13)} y={y + 5} textAnchor={index ? "end" : "start"}>{places[1 - index]}</text>
           </g>;
         })}
-<<<<<<< Updated upstream
-        {driving && driveFrame && <image className="road-outline-car" ref={outlineVehicle} href="/road-ui/map-car.svg" x="-16" y="-20" width="32" height="42" />}
-        {!driving && browsing && <image className="road-outline-car" href="/road-ui/map-car.svg" x={geometry.project(geometry.start)[0] - 16} y={geometry.project(geometry.start)[1] - 20} width="32" height="42" />}
-=======
-        {outlinePosition && <image href={vehicleSprite} x={outlinePosition[0] - 16} y={outlinePosition[1] - 20}
-          width="32" height="42" transform={`rotate(${driveFrame?.course ?? 0} ${outlinePosition[0]} ${outlinePosition[1]})`} />}
->>>>>>> Stashed changes
+        {driving && driveFrame && <image className="road-outline-car" ref={outlineVehicle} href={vehicleSprite} x="-16" y="-20" width="32" height="42" />}
+        {!driving && browsing && <image className="road-outline-car" href={vehicleSprite} x={geometry.project(geometry.start)[0] - 16} y={geometry.project(geometry.start)[1] - 20} width="32" height="42" />}
       </svg>
     </div>
     {showPreview && <img className="map-preview" src={previewImage} alt="" fetchPriority="high"

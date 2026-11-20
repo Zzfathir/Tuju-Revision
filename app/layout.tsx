@@ -8,7 +8,6 @@ import "./map-first.css";
 import "./presentation.css";
 import "./cruise.css";
 import "./road-ui.css";
-import "./lapan.css";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AppShell } from "@/components/AppShell";
 
