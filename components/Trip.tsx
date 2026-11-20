@@ -4,7 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { parsePrefs, prefsQuery, type Prefs } from "@/lib/onboarding";
 import { t, fmtDur, fmtTime, type Lang } from "@/lib/i18n";
-import { planStops, type Need } from "@/lib/planner";
+import { planStops, type Need, type PlanInput } from "@/lib/planner";
+import { applyFix, noStopsPlan, suggestFixes, type Fix } from "@/lib/plan-fixes";
 import { APPROX, windowsFor } from "@/lib/prayer";
 import { track } from "@/lib/events";
 import { quoteToll } from "@/lib/tolls";
@@ -60,6 +61,7 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
   const [replay, setReplay] = useState<Replay | null>(null);
   const [driveMode, setDriveMode] = useState<DriveMode>("idle");
   const [selectedStopId, setSelectedStopId] = useState<string | null>(null);
+  const [skipStops, setSkipStops] = useState(false);
   const sheet = useRef<HTMLDivElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const visited = useRef(false);
@@ -137,7 +139,7 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
   const prayerLoading = prayerAware && prayerResult?.date !== selectedDate;
   const weatherLoading = weatherResult?.date !== selectedDate;
   const baseMinutes = Number(line.properties?.duration_s_freeflow) / 60 || routeKm / 90 * 60;
-  const plan = useMemo(() => {
+  const planInput = useMemo<PlanInput | null>(() => {
     if (prayerLoading) return null;
     const byZone = prayers.map(({ zone, date: prayerDate, times }) => windowsFor({ zone, date: prayerDate, ...times }));
     const prayerWindows = byZone[0]?.map(({ name }, index) => ({
@@ -145,12 +147,27 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
       start: new Date(Math.max(...byZone.map((windows) => windows[index].start.getTime()))),
       end: new Date(Math.min(...byZone.map((windows) => windows[index].end.getTime()))),
     }));
-    return planStops({
+    return {
       stops: rnr.items, routeKm, departureTime: new Date(departure + ":00+08:00"),
       avgSpeedKmh: routeKm * 60 / baseMinutes, vehicleType: vehicle, range_km: Number(range),
       maxDrivingMinutes: maxDrive, needs, prayerAware, prayerWindows,
-    });
+    };
   }, [baseMinutes, departure, maxDrive, needs, prayerAware, prayerLoading, prayers, range, rnr.items, routeKm, vehicle]);
+  const strictPlan = useMemo(() => planInput && planStops(planInput), [planInput]);
+  // Never a dead end: an infeasible plan offers one-tap fixes, or the tester can go on without planned stops.
+  const fixes = useMemo(() => planInput && strictPlan && !strictPlan.ok ? suggestFixes(planInput) : [], [planInput, strictPlan]);
+  useEffect(() => { setSkipStops(false); }, [planInput]);
+  const plan = useMemo(() => skipStops && planInput && strictPlan && !strictPlan.ok ? noStopsPlan(planInput) : strictPlan, [planInput, skipStops, strictPlan]);
+  const applyPlanFix = (fix: Fix) => {
+    if (fix.kind === "max-drive") setMaxDrive(fix.minutes);
+    else if (fix.kind === "range") setRange(String(fix.km));
+    else if (fix.kind === "prayer-off") setPrayerAware(false);
+    else setNeeds({ ...needs, [fix.need]: false });
+  };
+  const fixLabel = (fix: Fix) => fix.kind === "max-drive" ? t(lang, "fixMaxDrive", { n: fix.minutes })
+    : fix.kind === "range" ? t(lang, "fixRange", { n: fix.km })
+    : fix.kind === "prayer-off" ? t(lang, "fixPrayerOff")
+    : t(lang, "fixDropNeed", { need: t(lang, fix.need === "ev" ? "evCharger" : fix.need) });
 
   const move = (target: number) => {
     if (target === 2) track("plan_made");
@@ -285,10 +302,15 @@ export function Trip({ config, line, rnr, tolls, routeKm, date, tester, eta, ini
           source={<Source label="Jalan Pulang / OpenStreetMap" status="estimate" ts={rnr.retrieved_at} lang={lang} />}
           state={!plan ? "loading" : !plan.ok ? "error" : plan.stops.length ? "default" : "empty"}>
           {!plan ? <p role="status">{t(lang, "loading")}</p> : !plan.ok ? <><p><strong>{t(lang, "infeasible")}</strong></p>
-            <p>{t(lang, ("plan_" + plan.reason) as "plan_range" | "plan_max-driving" | "plan_needs" | "plan_prayer" | "plan_no-stops")}</p></> : <>
+            <p>{t(lang, ("plan_" + plan.reason) as "plan_range" | "plan_max-driving" | "plan_needs" | "plan_prayer" | "plan_no-stops")}</p>
+            {fixes.length > 0 && <><p className="small">{t(lang, "fixIntro")}</p>
+              <div className="stack">{fixes.map((fix) => <button type="button" className="btn" key={fix.kind + (fix.kind === "drop-need" ? fix.need : "")}
+                data-testid="plan-fix" onClick={() => applyPlanFix(fix)}>{fixLabel(fix)}</button>)}</div></>}
+            <button type="button" className="btn" data-testid="plan-skip" onClick={() => setSkipStops(true)}>{t(lang, "continueNoStops")}</button></> : <>
             <p>{t(lang, "arrive", { t: fmtTime(plan.arrival) })} MYT · {t(lang, "totalTime", { d: fmtDur(plan.totalMinutes) })}</p>
+            {skipStops && !plan.stops.length && <p className="small">{t(lang, "noStopsPlanned")}</p>}
             {plan.stops.length ? <ul className="list">{plan.stops.map((item) => <li key={item.stop.id}><StopCard stop={item.stop} planned={item} lang={lang} onShow={() => showStop(item.stop.id)} /></li>)}</ul> :
-              <p>{t(lang, "planNone")}</p>}
+              skipStops ? null : <p>{t(lang, "planNone")}</p>}
             {prayerAware && <p className="small">{t(lang, "prayerPlanningNote")}</p>}
           </>}
         </Card>
