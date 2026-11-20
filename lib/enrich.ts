@@ -30,10 +30,12 @@ export function makeProjector(line: RouteLine) {
   for (let i = 1; i < c.length; i++) cum.push(cum[i - 1] + haversineKm(c[i - 1], c[i]));
   return {
     totalKm: cum[cum.length - 1],
-    project(lng: number, lat: number) {
+    /** Nearest point on the line. With `window`, only that stretch (km along the line) is searched, so a route that passes close to itself cannot snap to the wrong branch. */
+    project(lng: number, lat: number, window?: { from: number; to: number }) {
       const k = Math.cos(rad(lat)) * 111320;
       let best = Infinity, index = 0, along = 0, bearing = 0;
       for (let i = 0; i < c.length - 1; i++) {
+        if (window && (cum[i + 1] < window.from || cum[i] > window.to)) continue;
         const ax = (c[i][0] - lng) * k, ay = (c[i][1] - lat) * 110540;
         const dx = (c[i + 1][0] - c[i][0]) * k, dy = (c[i + 1][1] - c[i][1]) * 110540;
         const len2 = dx * dx + dy * dy;
