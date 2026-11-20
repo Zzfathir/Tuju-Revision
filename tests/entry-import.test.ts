@@ -106,6 +106,44 @@ describe("templates", () => {
   });
 });
 
+describe("hardening", () => {
+  const facilityHead = "stop_id,surau,toilet,fuel,ev_charger,food,atm,source_url,checked_on\n";
+
+  it("parseCsv: a quote inside an unquoted field is literal, and an unterminated quote is an error", () => {
+    expect(parseCsv('a\nx"y\n')).toEqual([{ a: 'x"y' }]);
+    expect(() => parseCsv('a,b\n1,"oops')).toThrow(/quote/i);
+  });
+
+  it("templates: cells that spreadsheets would run as formulas are neutralised", () => {
+    const evil = rnr();
+    evil.items[0].name = '=HYPERLINK("https://evil.example","click")';
+    evil.items[1].name = "+1+1";
+    const text = buildFacilitiesTemplate(evil);
+    expect(text).not.toMatch(/(^|,)"?=HYPERLINK/m);
+    expect(text).toContain("'=HYPERLINK");
+    expect(text).toContain("'+1+1");
+    const rows = parseCsv(text);
+    expect(rows.map((r) => r.stop_id)).toEqual(["s1", "s2"]); // ids still round-trip
+  });
+
+  it("source_url must be https and carry no credentials", () => {
+    const base = `${facilityHead}s1,yes,,,,,,`;
+    for (const bad of ["http://example.org/x", "javascript:alert(1)", "https://user:pw@example.org/", "ftp://example.org", "not a url"]) {
+      const { applied, errors } = applyFacilityRows(rnr(), parseCsv(`${base}${bad},2026-11-21\n`));
+      expect(applied, bad).toBe(0);
+      expect(errors, bad).toHaveLength(1);
+    }
+  });
+
+  it("facilities: reports the validated entries, taken from the row that was actually applied", () => {
+    const csv = `${facilityHead}s1,maybe,,,,,,${SRC},2026-11-21\ns1,yes,,no,,,,${SRC},2026-11-22\n`;
+    const { applied, errors, entries } = applyFacilityRows(rnr(), parseCsv(csv));
+    expect(applied).toBe(1);
+    expect(errors).toHaveLength(1);
+    expect(entries).toEqual([{ stopId: "s1", facilities: { surau: true, fuel: false }, source_url: SRC, checked_on: "2026-11-22" }]);
+  });
+});
+
 describe("re-applying identical values", () => {
   const facilityHead = "stop_id,surau,toilet,fuel,ev_charger,food,atm,source_url,checked_on\n";
 

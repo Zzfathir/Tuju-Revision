@@ -18,6 +18,15 @@ const write = (file: string, value: unknown) => fs.writeFileSync(file, JSON.stri
 const tollsPath = path.join(dir, "tolls.json"), rnrPath = path.join(dir, "rnr.json"), overridesPath = path.join(dir, "rnr-overrides.json");
 const tollsCsv = path.join(entryDir, `tolls-${routeId}.csv`), facilitiesCsv = path.join(entryDir, `facilities-${routeId}.csv`);
 
+/** A sheet that cannot be read at all (for example an unterminated quote) stops the run with a clear message. */
+function parseSheet(file: string) {
+  try { return parseCsv(fs.readFileSync(file, "utf8")); }
+  catch (error) {
+    console.log(`✗ ${file}: ${error instanceof Error ? error.message : error}`);
+    process.exit(1);
+  }
+}
+
 function report(label: string, applied: number, errors: string[]) {
   console.log(`${label}: ${applied} row(s) applied, ${errors.length} problem(s).`);
   for (const error of errors) console.log("  ✗ " + error);
@@ -30,25 +39,21 @@ if (mode === "templates") {
   if (!fs.existsSync(tollsCsv)) { fs.writeFileSync(tollsCsv, buildTollTemplate(tolls)); console.log("wrote " + tollsCsv); } else console.log("kept existing " + tollsCsv);
   if (!fs.existsSync(facilitiesCsv)) { fs.writeFileSync(facilitiesCsv, buildFacilitiesTemplate(rnr)); console.log("wrote " + facilitiesCsv); } else console.log("kept existing " + facilitiesCsv);
 } else if (mode === "tolls") {
-  const { file, applied, errors } = applyTollRows(read<TollFile>(tollsPath), parseCsv(fs.readFileSync(tollsCsv, "utf8")));
+  const { file, applied, errors } = applyTollRows(read<TollFile>(tollsPath), parseSheet(tollsCsv));
   if (applied) write(tollsPath, file);
   report("tolls", applied, errors);
 } else if (mode === "facilities") {
-  const rows = parseCsv(fs.readFileSync(facilitiesCsv, "utf8"));
-  const before = read<RnrFile>(rnrPath);
-  const { file, applied, errors } = applyFacilityRows(before, rows);
+  const { file, applied, errors, entries } = applyFacilityRows(read<RnrFile>(rnrPath), parseSheet(facilitiesCsv));
   if (applied) {
     write(rnrPath, file);
     // Keep the overrides file in step so rebuilding the stops from OpenStreetMap never loses hand-checked facts.
+    // Built only from entries the importer validated and applied; the last applied row for a stop wins, as in rnr.json.
     const overrides = fs.existsSync(overridesPath) ? read<{ _readme?: string; overrides: Record<string, unknown> }>(overridesPath) : { overrides: {} };
-    for (const stop of file.items) {
-      const old = before.items.find((s) => s.id === stop.id);
-      if (!old || JSON.stringify(old) === JSON.stringify(stop)) continue;
-      const row = rows.find((r) => r.stop_id === stop.id)!;
-      const entered = Object.fromEntries(["surau", "toilet", "fuel", "ev_charger", "food", "atm"]
-        .filter((column) => row[column])
-        .map((column) => [column === "ev_charger" ? "evCharger" : column, ["yes", "y", "true"].includes(row[column].toLowerCase())]));
-      overrides.overrides[stop.id] = { facilities: entered, source_url: row.source_url, checked_at: row.checked_on, note: "Hand-checked via data/entry sheet. Only the listed fields count." };
+    for (const entry of entries) {
+      overrides.overrides[entry.stopId] = {
+        facilities: entry.facilities, source_url: entry.source_url, checked_at: entry.checked_on,
+        note: "Hand-checked via data/entry sheet. Only the listed fields count.",
+      };
     }
     write(overridesPath, overrides);
   }

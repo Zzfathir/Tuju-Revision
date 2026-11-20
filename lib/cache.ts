@@ -24,9 +24,12 @@ export async function cachedFetch<T>(opts: {
   url: string;
   ttlMs: number;
   schema: ZodType<T>;
-  fixture: () => Promise<unknown>;
+  /** Last-resort data when the upstream is down and nothing is cached. Omit to surface the error instead of faking data. */
+  fixture?: () => Promise<unknown>;
   fixtureFetchedAt?: string;
   timeoutMs?: number;
+  /** Awaited before each upstream call; throw to refuse (rate cap). Cache hits never reach it. */
+  beforeFetch?: () => Promise<void> | void;
 }): Promise<Fetched<T>> {
   const now = Date.now();
   const hit = store.get(opts.key);
@@ -35,6 +38,7 @@ export async function cachedFetch<T>(opts: {
 
   const p = (async (): Promise<Fetched<T>> => {
     try {
+      await opts.beforeFetch?.();
       const res = await fetch(opts.url, {
         headers: { "User-Agent": "jalan-pulang/0.1 (hackathon demo)", Accept: "application/json" },
         signal: AbortSignal.timeout(opts.timeoutMs ?? 6000),
@@ -53,6 +57,7 @@ export async function cachedFetch<T>(opts: {
         store.set(opts.key, { value, expires: Date.now() + 60_000 });
         return value;
       }
+      if (!opts.fixture) throw e;
       const fx = opts.schema.parse(await opts.fixture());
       const value: Fetched<T> = { data: fx, status: "cached", fixture: true, fetchedAt: opts.fixtureFetchedAt ?? "unknown", error };
       // cache fixture briefly so a dead upstream isn't hammered
