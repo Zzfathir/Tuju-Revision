@@ -1,27 +1,34 @@
-/* Landing + onboarding. Mobile-first; uses only tokens from tokens.css. */
-.landing, .onboarding { display: flex; flex-direction: column; min-height: 100dvh; position: relative; background: var(--color-surface); }
-.landing-hero { position: absolute; inset: 0 0 auto 0; width: 100%; height: 62dvh; object-fit: cover; object-position: 50% 54%; }
-.landing-top { position: absolute; z-index: 2; inset-inline: var(--space-4); top: calc(var(--space-3) + env(safe-area-inset-top)); display: flex; justify-content: space-between; align-items: center; }
-.landing-brand { margin: 0; padding: var(--space-2) var(--space-3); border-radius: var(--control-radius); background: var(--color-bg); font-weight: 700; box-shadow: var(--map-control-shadow); }
-.landing .language-button { min-width: var(--tap-min); min-height: var(--tap-min); border-radius: var(--control-radius); box-shadow: var(--map-control-shadow); }
-.landing-sheet {
-  position: relative; z-index: 1; margin-top: auto; background: var(--color-bg);
-  border-radius: var(--sheet-radius) var(--sheet-radius) 0 0; box-shadow: var(--sheet-shadow);
-  padding: var(--space-5) var(--space-4) calc(var(--space-4) + env(safe-area-inset-bottom));
-  max-width: var(--content-max-w); width: 100%; align-self: center;
+/* Landing + onboarding */
+.landing, .onboarding { display: flex; flex-direction: column; min-height: var(--app-screen-height); position: relative; background: var(--color-surface); }
+.landing {
+  align-items: center;
+  padding: calc(var(--space-4) + env(safe-area-inset-top)) var(--space-5) calc(var(--space-5) + env(safe-area-inset-bottom));
 }
-.landing-sheet h1 { font-size: var(--text-xl); margin-bottom: var(--space-2); }
-.landing-sub { color: var(--color-text-muted); }
+.landing[data-view="welcome"] { background: var(--color-text); color: var(--color-accent-text); }
+.landing-top, .landing-home, .landing-welcome { width: min(100%, 480px); }
+.landing-top { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); }
+.landing-brand { display: flex; align-items: center; gap: var(--space-2); margin: 0; font-weight: 750; }
+.landing .language-button { min-width: var(--tap-min); border-radius: var(--control-radius); padding-inline: var(--space-3); font-size: var(--text-sm); }
+.landing[data-view="welcome"] .language-button { background: transparent; color: inherit; }
+.landing-welcome { flex: 1; display: grid; grid-template-rows: 1fr auto; align-items: center; }
+.welcome-art { min-height: 180px; height: 100%; margin-inline: calc(-1 * var(--space-5)); background: url("/welcome-route.svg") center / contain no-repeat; }
+.welcome-content { padding-block: var(--space-5) var(--space-2); }
+.landing h1 { font-size: clamp(30px, 9cqw, 40px); letter-spacing: -0.045em; line-height: 1.08; }
+.welcome-content h1 { max-width: 13ch; }
+.welcome-content p { max-width: 30ch; margin-block: var(--space-3) var(--space-5); }
+.welcome-cta { background: var(--map-route-shine); border-color: var(--map-route-shine); }
+.landing-home { margin-block-start: var(--space-6); }
+.landing-home > p { color: var(--color-text-muted); }
+.home-map { display: block; width: 100%; height: clamp(132px, calc(var(--app-screen-height) * 0.26), 220px); object-fit: cover; object-position: center 56%; border-radius: var(--sheet-radius); margin-block: var(--space-5) var(--space-4); }
 .landing-tester { margin: 0 0 var(--space-3); padding: var(--space-2) var(--space-3); border-radius: var(--small-radius); background: var(--color-surface); font-size: var(--text-sm); font-weight: 600; }
-.landing-steps { list-style: none; margin: var(--space-3) 0 var(--space-4); padding: 0; display: grid; gap: var(--space-2); font-size: var(--text-sm); }
-.landing-steps li { display: flex; gap: var(--space-3); align-items: center; }
-.landing-step-n { flex: 0 0 var(--space-5); height: var(--space-5); display: grid; place-items: center; border-radius: 50%; background: var(--color-accent); color: var(--color-accent-text); font-weight: 700; font-size: var(--text-sm); }
 .landing-cta { display: flex; justify-content: center; align-items: center; gap: var(--space-2); width: 100%; min-height: calc(var(--tap-min) + var(--space-2)); border-radius: var(--control-radius); text-decoration: none; font-weight: 700; }
-.landing-friends { margin: var(--space-3) 0 0; text-align: center; font-size: var(--text-sm); }
-@media (min-width: 720px) {
-  .landing-hero { height: 70dvh; }
-  .landing-sheet { border-radius: var(--sheet-radius); margin-bottom: var(--space-5); }
+.landing-links { margin-top: var(--space-5); background: var(--color-bg); border-radius: var(--control-radius); }
+.landing-links a {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  min-height: var(--tap-min); padding: var(--space-3) var(--space-4); font-weight: 600; text-decoration: none;
 }
+.landing-links a + a { border-top: 1px solid var(--color-border-subtle); }
+.landing-links a::after { content: ""; flex: 0 0 7px; height: 7px; border: solid var(--color-text-muted); border-width: 1.5px 1.5px 0 0; rotate: 45deg; }
 
 /* onboarding */
 .onboarding { background: var(--color-bg); max-width: var(--content-max-w); width: 100%; margin: 0 auto; }
@@ -68,8 +75,8 @@
 .map-callout .map-control { flex: 0 0 auto; }
 .step-progress button:disabled { opacity: 0.5; cursor: not-allowed; }
 .step-progress button:not(:disabled):hover { color: var(--color-accent); }
-@media (min-width: 900px) { .map-callout { inset-inline-start: var(--space-5); } }
-@media (max-width: 899px) {
+@container app-screen (min-width: 900px) { .map-callout { inset-inline-start: var(--space-5); } }
+@container app-screen (width < 900px) {
   /* keep the callout clear of the map controls and the attribution */
   .map-callout { inset-inline-end: calc(var(--space-4) + 8rem); bottom: calc(var(--space-4) + 2.5rem); }
   .map-stage:has(.map-callout) .map-legend { display: none; }

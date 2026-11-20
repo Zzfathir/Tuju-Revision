@@ -12,7 +12,7 @@ export function Source({ label, ts, status, maxAge, now, url, lang = "en" }: {
     ? ts.length === 10 ? ts : new Date(time + 8 * 3600_000).toISOString().slice(0, 10) + " " + fmtTime(new Date(time))
     : undefined;
   const statusLabel = state ? t(lang, state === "offline" ? "statusOffline" : state) : undefined;
-  const contents = "[" + [label, date, statusLabel].filter(Boolean).join(" · ") + "]";
+  const contents = [label, date, statusLabel].filter(Boolean).join(" · ");
   return url
     ? <a className="source" data-testid="badge-source" data-status={state} href={url}>{contents}</a>
     : <span className="source" data-testid="badge-source" data-status={state}>{contents}</span>;

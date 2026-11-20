@@ -1,0 +1,52 @@
+.presentation-screen {
+  --app-screen-height: 100dvh;
+  container: app-screen / inline-size;
+  min-height: var(--app-screen-height);
+}
+
+/* Frame the live app on desktop displays. Touch devices use their own screen. */
+@media screen and (min-width: 720px) and (hover: hover) and (pointer: fine) {
+  .presentation-stage {
+    display: grid;
+    place-items: center;
+    min-height: 100dvh;
+    padding: var(--space-4);
+    background: radial-gradient(ellipse at 50% 36%, var(--map-horizon), var(--map-paper));
+  }
+
+  .presentation-phone {
+    position: relative;
+    width: 414px;
+    height: min(876px, max(450px, calc(100dvh - 2 * var(--space-4))));
+    border: 9px solid var(--color-text);
+    border-block-start-width: 17px;
+    border-radius: 42px;
+    background: var(--color-text);
+    box-shadow: 0 0 0 1px var(--color-border), 0 18px 48px #152a2538;
+  }
+
+  .presentation-phone::before {
+    position: absolute;
+    inset: -10px 0 auto;
+    width: 48px;
+    height: 3px;
+    margin-inline: auto;
+    border-radius: 999px;
+    background: var(--color-border);
+    content: "";
+  }
+
+  .presentation-screen {
+    --app-screen-height: 100cqh;
+    container-type: size;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    border-radius: 29px 29px 33px 33px;
+    background: var(--color-bg);
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    transform: translateZ(0);
+  }
+}

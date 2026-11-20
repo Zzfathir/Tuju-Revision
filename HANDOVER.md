@@ -1,48 +1,63 @@
 # Jalan Pulang handover
 
-Jalan Pulang helps people plan the Kuala Lumpur → Ipoh drive along the North–South Expressway. It combines tolls, rest stops, weather and prayer times, then hands the trip off to Google Maps or Waze. Group Arrival is a separate shared event page for coordinating when guests are running late.
+Jalan Pulang is a Malaysian drive companion. A tester picks any start and destination in Malaysia, gets route options and a rest plan, sees tolls, weather and prayer information where we have data for the road, and can then start **Cruise mode**: a hands-free driving screen with look-ahead alerts. Navigation itself is handed to Google Maps or Waze; the app never routes turn by turn. The verified KL → Ipoh corridor (tolls, R&Rs with confirmed facilities) enhances any route that follows it. Group Arrival is a separate shared event page for coordinating late guests.
 
-## Current release
+## State of the work (read this first)
 
-| Item | Location |
+| Item | Status |
 | --- | --- |
-| Production app | [Jalan Pulang](https://jalan-pulang.vercel.app/) |
-| Group Arrival | [Create an event](https://jalan-pulang.vercel.app/group-arrival) |
-| Tester entry | [Tester mode](https://jalan-pulang.vercel.app/?t=1) |
-| Print material | [Tester QR](https://jalan-pulang.vercel.app/qr) |
-| Hosting | [Vercel project](https://vercel.com/aarntns-projects/jalan-pulang) |
-| Source state | Local `main`, production feature commit `8969f1b` |
-| Scope and design | [Original brief checklist](FEATURES.md) · [Design handoff](DESIGN_HANDOFF.md) · [README](README.md) |
+| Production | https://jalan-pulang.vercel.app serves deployment `jalan-pulang-cdo2dt1st` (the "interactive map and working step tabs" build). **Nothing after that is deployed.** |
+| Branch | `feat/landing-onboarding`. Not merged to `main`. |
+| Working tree | **Large and uncommitted.** It mixes your own changes (`Planner`, `DriveHud`, `drive-camera`, `drive-progress`, `presentation.css`, a new landing/onboarding look, `GoCards`, `RouteMap`, `Trip`, `Source`, `sw.js`) with the cruise-mode work described below. Review with `git status` and commit in logical groups before deploying. |
+| Automated tests | 232 unit tests in 29 files, all passing on the working tree. Typecheck clean. |
+| Browser checks | Run with throwaway Playwright scripts that are **not in the repository** (they lived in a temp folder). Adding them to the repo as an end-to-end suite is a recommended next step. |
+| Real phone | **Not tested on a physical phone.** Everything was checked in desktop Chrome with phone-sized viewports and emulated GPS. |
 
-The release passed 38 automated tests and a production browser test with a host and two separate guests. The host published a revised start time after both guests reported delays. The test also verified that a guest could not reschedule the event. The homepage, Group Arrival, tester mode and QR page returned HTTP 200 on 20 November 2026.
+## What exists
 
-The 65-second demo covers the original trip flow. The mobile comparison captures the perspective-map redesign. Both predate Group Arrival. [Demo video](../Jalan%20Pulang%20Demo.mp4) · [Mobile comparison](../Jalan%20Pulang%20Mobile%20Comparison.png)
+### Trip planner (any route in Malaysia)
+- **Entry:** `/` (landing, then onboarding, then `/plan`). `/plan` takes `from`, `fromName`, `to`, `toName` parameters, so a trip is a link. The default trip is the verified KL → Ipoh corridor.
+- **Place search:** `/api/places` (Photon, capped and cached, with a labelled approximate list of major towns as fallback) and `components/PlaceSearch.tsx`. Recent places are kept in the browser only.
+- **Routes:** `/api/route` (OSRM public demo behind a 40 calls/minute cap, 6 hour cache, validated to a Malaysia bounding box; up to 3 alternatives; **never a fake straight line**: it returns 404 `no-route`, 429 `busy` or 503 `unavailable`).
+- **Corridor enhancement:** `lib/enrich.ts` gives any route the verified stops and toll plazas it actually *follows* (within 100 m of the highway line for at least 1 km, correct carriageway for R&Rs). A road merely running beside the expressway gets nothing. `lib/trip-route.ts` assembles the trip; the toll is marked partial (`RM 20.34+`) when the route runs beyond the stretch our fares cover.
+- **Roads with no verified stops:** `lib/breaks.ts` spaces breaks by drive time with "search near here" links to Google Maps. Break points are never used as navigation waypoints.
+- **Never a dead end:** `lib/plan-fixes.ts` offers up to four planner-verified one-tap fixes, simple breaks, or continuing with no planned stops.
+- **Weather and prayer times** use the curated corridor only; elsewhere the app says plainly they are not covered yet.
 
-## First-visit flow
+### Cruise mode (new)
+Built from `CRUISE_MODE_SPEC.md`. The engine is pure and has no React or map imports:
 
-`/` (landing) → `/onboarding` (vehicle, then needs; Skip available) → `/plan` (Plan → Road → Go). The landing is a map-first sheet showing the real distance, drive time and toll. Onboarding answers travel as URL parameters (`lang`, `vehicle`, `needs`) and pre-fill the planner. Tester links (`/?t=1`) show a tester strip on the landing and keep `t=1` through every step. A browser that finished onboarding once (`localStorage` flag `jalan-pulang-onboarded`) goes straight to `/plan`. Links with `?route=…` still redirect to `/plan`. Designers restyle everything through [tokens](app/tokens.css) and [landing styles](app/landing.css).
+| Module (`lib/cruise/`) | Role |
+| --- | --- |
+| `machine.ts`, `config.ts` | State machine IDLE → ARMED → CRUISING ⇄ OFF_ROUTE → ARRIVING → ENDED, and every threshold in one file |
+| `pipeline.ts` | Accuracy filter, smoothing, snapping to the route (windowed so a route that doubles back cannot snap to the wrong branch) |
+| `intent.ts` | Enter CRUISING (5 good fixes and a matching heading), OFF_ROUTE (over 120 m for 10 s), recovery (3 fixes), NEAR_END |
+| `lookahead.ts` | L1 chip at 5 km, L2 card at 2 km, L3 banner at 500 m or 30 s; once per level per event; 8 s voice cooldown; L3 interrupts; Full/Normal/Reduced voice; cards suppressed over 110 km/h |
+| `simulator.ts` | Deterministic 1 Hz fake GPS with a speed profile, slow zones at tolls, an injectable detour and a slow-down at the destination |
+| `engine.ts` | Composes all of the above; one `push(fix)` returns a snapshot for the screen |
+| `voice.ts`, `wakelock.ts`, `zoom.ts` | Browser speech with a Malay-to-English fallback, screen wake lock with visible fallback, speed-based map zoom |
 
-Map and tabs: the live map loads automatically (the static preview stays for Save-Data or 2G/3G connections, and tapping it loads the map). On wide screens with a mouse the wheel zooms; on phones two fingers move the map so the page still scrolls, and the +/− buttons always work. Stop pins are buttons that open a callout, and each stop in the Road list has **Show on map**. Plan, Road and Go are real tabs, locked only while the inputs they need are invalid.
+UI: `components/useCruise.ts` (connects GPS or the simulator, voice and wake lock), `components/CruiseHud.tsx` (banner, chips, cards, strip, round controls, off-route Reroute pill, arrived screen), `app/cruise.css`, and in `RouteMap.tsx` the lit ribbon with chevrons ahead of the car, heading-up/north-up and speed zoom. Start it from **Go**: *Start drive view* (real GPS) or *Simulate drive* (60× real time; about two minutes for KL → Ipoh; a *Simulate detour* button appears in simulation only).
 
-## What shipped
+Privacy: location is read in the browser and never sent to a server.
 
-- **Plan → Road → Go** covers the precomputed KL → Ipoh corridor, PLUS Class 1 toll lookup, and rest-stop planning for vehicle range, fuel, EV charging, facilities and prayer timing.
-- **Trip information** includes MET Malaysia forecasts and best-effort warning matching, source and freshness labels, and heuristic departure estimates with calendar export.
-- **Navigation and sharing** include Google Maps waypoints, Waze leg links, browser-only GPS progress, drive simulation, tap-to-call PLUSLine and a downloadable PNG trip card.
-- **Mobile and offline** include English and Bahasa Malaysia, a lightweight 3D preview, an interactive map that loads on tap, 2D and full-route views, and an offline route outline. The installed app shell can reuse previously fetched weather and prayer responses.
-- **Engagement** includes three tester tasks, optional anonymous feedback, a printable QR and a protected stats page.
+### Other features
+Landing and onboarding, Group Arrival, tester mode and counters (Blob-backed, durable once deployed), share page, offline shell, English and Bahasa Malaysia. See [FEATURES.md](FEATURES.md).
 
-The default corridor leaves the expressway at Simpang Pulai. The confirmed Jalan Duta → Simpang Pulai Class 1 fare in the bundled table is RM20.34. Unknown fares link out to PLUS. Tapah Northbound is the known stop for demonstrating a surau and an EV charger. Facility listings describe available facilities, with live occupancy and charger uptime outside the dataset.
+## Hand-checked data (tolls and R&R facilities)
+We never scrape or guess. Fill the sheets in `data/entry/` and import them. See [docs/DATA-ENTRY.md](docs/DATA-ENTRY.md). Toll fares exist for only one of the 13 entry plazas (Jalan Duta); the other 12 are blank and need your hand-checked values. R&R facilities are known for few stops (Tapah is complete).
 
-## Group Arrival
-
-1. Open **Group Arrival** from **Trip details**, or visit the event creation page. Enter the event name, meeting place and scheduled time in Malaysia time.
-2. Share the guest invite link. Save the separate private host link for restoring host access on another device.
-3. Guests join using a nickname and can mark themselves on track, delayed by traffic or arrived. A delay report includes an expected arrival time and an optional road stretch.
-4. The event page groups two or more reports for the same stretch after normalizing case and spacing. The late count compares reported arrival times with the published start time.
-5. The host selects **Change start time**, then **Publish new start time**. The host and joined guests get refreshed updates every 30 seconds while the page is visible. **Refresh** is available for an immediate check.
-
-Group Arrival uses guest-entered information and needs a network connection. Guests with the invite can see shared nicknames and arrival updates. Host and guest credentials are separate, and the app sends no GPS coordinates with reports. Event links close two days after the scheduled start. The private Blob store schedules deletion using whole-day expiration.
+## Decisions and limits you should know about
+- **PLUS fare calculator:** it calls a backend that answers only its own website. Retrying with forged `Origin` and `Referer` headers would impersonate their site, so it was refused. The PLUS facilities page shows only 10 entries without script-driven filters; that was also left alone. Both are replaced by the entry sheets.
+- **Cruise thresholds are starting values** from the spec, not validated on a real drive. Tune them in `lib/cruise/config.ts`.
+- **Hairpin ramps** (for example the Sungai Buloh interchange) can read well off the route for a few seconds under the smoothing filter. This is why OFF_ROUTE needs 10 sustained seconds. It is documented in `tests/cruise-pipeline.test.ts`.
+- **Simulated time:** the simulator emits true 1 Hz fixes in fast bursts, so its ETA is on a simulated clock. Real GPS uses real time.
+- **A transient GPS loss no longer ends a drive** (it did before): only a permission refusal does. A "GPS signal lost" notice shows instead.
+- **Simulation is a source, not a state.** The spec's table and acceptance criteria contradicted each other; the ruling is recorded in [the cruise plan](docs/superpowers/plans/2026-11-21-cruise-mode.md).
+- **No speed-limit badge:** there is no verified speed-limit data (spec 14.3).
+- **Not verified:** iOS installed-app wake lock behaviour, Bahasa Malaysia voice availability on real phones, background tracking (not supported, and not claimed), Singapore is inside the bounding box so a route there simply finds no road.
+- **No Figma URL** was found in the repository. Cruise visuals follow the existing UI and your Amap reference image; compare against the Figma file and adjust `app/cruise.css` and the tokens.
+- **A file was overwritten by mistake:** `tests/drive-camera.test.ts` was your untracked file and was replaced without being read. Coverage was rebuilt for all three functions in `lib/drive-camera.ts` (12 tests), but if you have the original, compare it.
 
 ## Local setup
 
@@ -50,43 +65,44 @@ Use Node.js 22 or 24 and npm.
 
 ```sh
 npm ci
-npm test
+npm test            # 232 unit tests
 npm run dev
 ```
 
-Open `http://localhost:3000`. Local Group Arrival rooms use process memory during development unless Blob credentials are configured. Use separate browser profiles to test a host and guests. To check the service worker and offline trip flow, run `npm run build` and `npm start`.
+Open `http://localhost:3000`. To check the service worker, offline flow or a production build, run `npm run build` and `npm start`. Group Arrival refuses in-memory rooms in a production build without a Blob token (by design), so create events in `npm run dev` or on the deployed site.
 
 | Setting | Usage |
 | --- | --- |
-| `BLOB_READ_WRITE_TOKEN` | Server-only credential for the linked private `jalan-pulang-arrivals` Blob store in production. Group Arrival uses it for events. Tester counters and feedback also use it (`stats/counters.json`) when Redis is not configured. |
-| `STATS_KEY` | Server-only key for `/stats?key=…`. The production value is configured in Vercel. The Vercel storage setup replaced the local `.env.local` copy. Keep any stats link private. |
-| `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` | Optional. When set, tester counters use Redis (preferred under heavy load). The app also accepts the corresponding `KV_REST_API_*` names. Without Redis the counters use the Blob store, then process memory when no Blob token exists (local dev only). |
-| `NEXT_PUBLIC_TILE_URL` | Optional raster tile override. The default vector map uses OpenFreeMap with OpenStreetMap data. |
-| `GOOGLE_MAPS_API_KEY` | Optional server-side key for generating a dated departure grid with the capped offline script. The current deployment uses the heuristic profile. |
+| `BLOB_READ_WRITE_TOKEN` | Server-only. Group Arrival events and tester counters/feedback (`stats/counters.json`). |
+| `STATS_KEY` | Server-only key for `/stats?key=…`. Keep any stats link private. |
+| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | Optional durable counters (also accepts `KV_REST_API_*`). Without Redis the counters use Blob. |
+| `NEXT_PUBLIC_TILE_URL` | Optional raster tile override. Default is OpenFreeMap vector tiles. |
+| `GOOGLE_MAPS_API_KEY` | Optional, offline scripts only, for a dated departure grid. |
 
 ## Where to make changes
 
 | Area | Files |
 | --- | --- |
-| Landing and onboarding (`/`, `/onboarding`) | [Landing](components/Landing.tsx), [Onboarding](components/Onboarding.tsx), [preference parsing](lib/onboarding.ts), [styles](app/landing.css) and the copy keys `landing*` / `onb*` in [i18n](lib/i18n.ts) |
-| Main trip, map and mobile layout | [Trip](components/Trip.tsx), [RouteMap](components/RouteMap.tsx), [journey styles](app/journey.css) and [design tokens](app/tokens.css) |
-| Group Arrival | [Room and create screens](components/GroupArrival.tsx), [API](app/api/group-arrival/route.ts), [event rules](lib/group-arrival.ts) and [storage](lib/group-store.ts) |
-| Data and planner | [Route bundle](data/routes/kl-ipoh), [data registry](lib/data.ts), [planner](lib/planner.ts) and [fixtures](fixtures) |
-| Live data and offline | [Weather API](app/api/weather/route.ts), [prayer API](app/api/prayer/route.ts) and [service worker](public/sw.js) |
-| Tests | [Test suite](tests) |
+| Landing and onboarding | `components/Landing.tsx`, `components/Onboarding.tsx`, `lib/onboarding.ts`, `app/landing.css` |
+| Planner shell, search, route options | `components/Planner.tsx`, `TripShell.tsx`, `Trip.tsx`, `PlaceSearch.tsx`, `RouteCard.tsx`, `RouteOptions.tsx`, `lib/trip-route.ts`, `lib/enrich.ts`, `lib/breaks.ts`, `lib/plan-fixes.ts` |
+| Server proxies | `app/api/places/route.ts`, `app/api/route/route.ts`, `lib/cache.ts`, `lib/limiter.ts` |
+| Cruise mode | `lib/cruise/*`, `components/useCruise.ts`, `components/CruiseHud.tsx`, `components/GoCards.tsx`, `app/cruise.css` |
+| Map | `components/RouteMap.tsx`, `lib/drive-camera.ts`, `lib/drive-progress.ts`, `public/drive-car.svg` |
+| Styling | `app/tokens.css` (designer edits here), `app/map-first.css`, `app/presentation.css` |
+| Data | `data/routes/kl-ipoh`, `data/entry/*.csv`, `data/places-my.json`, `scripts/import-entry.ts` |
+| Group Arrival, counters, offline | `components/GroupArrival.tsx`, `app/api/group-arrival`, `lib/counter.ts`, `public/sw.js` |
 
-Run `npm run probe` to check MET Malaysia and JAKIM endpoints. Pass `--save` to replace fixtures, then update their retrieval timestamps in the matching route handlers. The route builder requests fresh OSRM geometry. The POI builder uses saved inputs and fetches fresh Overpass amenities only with `--fetch-amenities`. Review and retain provenance when changing tolls or facilities.
-
-## Release and demo checks
-
-1. Run `npm test` and `npm run build` from a clean working tree. Check the linked Vercel project and its production environment before deploying. The last release used the Vercel CLI. Confirm that the production alias points to the intended deployment.
-2. On a phone, open **Explore 3D map**, switch to 2D, and tap **Full route**. Plan for a toilet, surau and EV charger, then verify Tapah Northbound, weather, navigation links, simulation and trip-card export.
-3. In three separate browser profiles, create a Group Arrival event and join from two guest profiles. Have both report the same stretch, publish a later start as host and confirm both guests see it. Check that guest links provide guest controls and that the private link restores host controls.
-4. Open tester mode from the QR. Confirm counters using the protected stats page. Counts are approximate sessions, and the memory-backed store can reset.
+## Release checklist
+1. Review and commit the working tree in logical groups. Run `npm test`, `npx tsc --noEmit` and `npm run build`.
+2. Confirm production has `BLOB_READ_WRITE_TOKEN` and `STATS_KEY` (`vercel env ls production`). Deploy with the Vercel CLI and confirm the alias points to the new deployment.
+3. On a **physical phone**: plan KL → Penang and KL → Kota Bharu, confirm weather says "not covered" on the second; start Cruise with real GPS in a moving car if possible, otherwise Simulate; check voice, mute, the screen staying on, off-route and arrived.
+4. In three browser profiles run a Group Arrival event with two guests and a host reschedule.
+5. Open tester mode from the QR and confirm counts on the protected stats page. Subtract any test traffic you generated.
 
 ## Open items
-
-- F11 GTFS-Realtime remains deferred. See the full status of each numbered feature in [FEATURES.md](FEATURES.md).
-- Tester counters are Blob-backed in code (ETag-guarded read-modify-write, covered by `tests/counter.test.ts`) but **not yet deployed**. Until the next deploy, production still counts in per-instance memory, so completions from outside testers can be lost. Deploy before sharing the QR. Blob writes serialize, so switch to Redis if traffic becomes heavy.
-- A scripted check on 20 November 2026 found the production Plan → Road → Go flow, tester tasks, handoff links, live MET/JAKIM data and Group Arrival host/guest views all working in fresh Chrome profiles. Reports of a "static" or broken flow have not been reproduced. Get the tester's device, browser and URL, since a stale installed service worker is the remaining suspect.
-- The outstanding hackathon work recorded in the handoff includes five outside tester completions, checks on physical phones and publishing the social post. Use verified tester results in the [draft post](README.md#demo-and-social-post).
+- Hand-check toll fares and R&R facilities into the entry sheets, then import.
+- Real-phone test of Cruise (GPS accuracy, speech, wake lock) and tune `lib/cruise/config.ts`.
+- Add the browser checks to the repository as a proper end-to-end suite.
+- Weather and prayer times for arbitrary routes (needs a gazetteer or reverse lookup; today they cover only the KL → Ipoh corridor).
+- F11 GTFS-Realtime remains deferred. Five outside tester completions and the social post are still outstanding.
+- Earlier review minors still deferred: Blob error-text matching on first write, no retry backoff, planner home link drops `route`, collapsing the tester card drops a feedback draft, onboarding focus management, brief hydration window on the returning-visitor button.

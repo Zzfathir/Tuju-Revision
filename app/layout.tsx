@@ -4,6 +4,9 @@ import "./tokens.css";
 import "./wireframe.css";
 import "./journey.css";
 import "./landing.css";
+import "./map-first.css";
+import "./presentation.css";
+import "./cruise.css";
 import { AppShell } from "@/components/AppShell";
 
 export const metadata: Metadata = {
@@ -16,5 +19,12 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#f5faf8", viewportFit: "cover" };
 
 export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><AppShell />{children}</body></html>;
+  return <html lang="en"><body>
+    <AppShell />
+    <div className="presentation-stage">
+      <div className="presentation-phone" data-testid="presentation-phone">
+        <div className="presentation-screen" data-testid="presentation-screen">{children}</div>
+      </div>
+    </div>
+  </body></html>;
 }

@@ -18,7 +18,7 @@ export function Onboarding({ initial, tester }: { initial: Prefs; tester: boolea
     try { localStorage.setItem("jalan-pulang-onboarded", "1"); } catch { /* storage may be blocked */ }
     window.location.assign("/plan" + prefsQuery(prefs, extra));
   };
-  const back = () => step === 2 ? setStep(1) : window.location.assign("/" + prefsQuery({ lang }, extra));
+  const back = () => step === 2 ? setStep(1) : window.location.assign("/" + prefsQuery(initial, { ...extra, home: "1" }));
   const next = () => step === 1 ? setStep(2) : go({ lang, vehicle, needs });
   const toggle = (need: Need) => setNeeds((old) => old.includes(need) ? old.filter((item) => item !== need) : [...old, need]);
 

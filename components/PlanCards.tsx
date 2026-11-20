@@ -69,6 +69,6 @@ export function LeaveTimeBar({ config, departure, setDeparture, baseMinutes, eta
       <button type="button" className="btn" onClick={() => setDeparture(date + "T" + active.depart)}>{t(lang, "useThisTime")}</button>
       <button type="button" className="btn" onClick={save}>{t(lang, "addCalendar")}</button>
     </div>
-    <p className="small">{t(lang, options.predicted ? "predictionNote" : "adviceNote")} <a href={config.links.operatorTta}>MyPLUS-TTA</a></p>
+    <p className="small">{t(lang, options.predicted ? "predictionNote" : "adviceNote")} {config.links.operatorTta && <a href={config.links.operatorTta}>MyPLUS-TTA</a>}</p>
   </Card>;
 }

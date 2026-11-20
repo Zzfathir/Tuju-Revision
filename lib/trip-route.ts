@@ -7,6 +7,10 @@ import type { RnrFile, RouteConfig, TollFile } from "./schemas";
 
 /** Weather and prayer zones come from the curated corridor, so they only apply when the trip mostly follows it. */
 const CORRIDOR_SHARE = 0.6;
+/** The highway is named in the trip header only when at least this much of the trip follows it. */
+const NAME_SHARE = 0.5;
+/** At or above this share of the route on the corridor, the corridor's tolls are the whole toll story. */
+const WHOLE_SHARE = 0.9;
 
 /** The verified corridor the app ships with. The weather gazetteer stays on the server. */
 export type CuratedBundle = Pick<RouteBundle, "config" | "line" | "rnr" | "tolls">;
@@ -24,6 +28,8 @@ export type TripRoute = {
   hasVerifiedStops: boolean;
   /** Curated weather and prayer-zone data apply to this route. */
   corridorWeather: boolean;
+  /** The route runs beyond the stretch our toll data covers, so any toll shown is a lower bound. */
+  tollPartial: boolean;
   source: string;
 };
 
@@ -42,13 +48,14 @@ export function buildTripRoute({ from, to, option, source, fetchedAt, curated }:
   };
   const found = enrichRoute(line, curated);
   const hasPlazas = found.tolls.plazas.length > 0;
-  const corridorWeather = overlapShare(line, curated.line) >= CORRIDOR_SHARE;
+  const share = overlapShare(line, curated.line);
+  const corridorWeather = share >= CORRIDOR_SHARE;
   const name = `${from.name} → ${to.name}`;
 
   const config: RouteConfig = {
     id: key,
     name: { en: name, bm: name },
-    highway: hasPlazas ? curated.config.highway : "Driving route",
+    highway: hasPlazas && share >= NAME_SHARE ? curated.config.highway : "Driving route",
     direction: "",
     origin: { name: from.name, lat: from.lat, lng: from.lng },
     destination: { name: to.name, lat: to.lat, lng: to.lng },
@@ -65,6 +72,7 @@ export function buildTripRoute({ from, to, option, source, fetchedAt, curated }:
     curated: found.stops.length > 0 || found.tolls.plazas.length >= 2,
     hasVerifiedStops: found.stops.length > 0,
     corridorWeather,
+    tollPartial: found.tolls.plazas.length >= 2 && share < WHOLE_SHARE,
     source,
   };
 }

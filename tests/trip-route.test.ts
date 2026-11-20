@@ -51,6 +51,24 @@ describe("buildTripRoute", () => {
     expect(String(trip.line.properties?.source)).toMatch(/OSRM/);
   });
 
+  it("only names the highway when the trip mostly follows it, even if it touches the highway briefly", () => {
+    const brief = [...curated.line.geometry.coordinates.slice(0, 40), [103.5, 3.2]]; // leaves the expressway almost at once
+    const trip = build(kl, { id: "k", name: "Somewhere east", detail: "", lat: 3.2, lng: 103.5 }, optionFrom(brief));
+    expect(trip.config.highway).toBe("Driving route");
+    expect(build(kl, ipoh, optionFrom(curated.line.geometry.coordinates)).config.highway).toBe(curated.config.highway);
+  });
+
+  it("flags the toll as partial when the trip runs beyond the stretch our fares cover, and only then", () => {
+    const whole = build(kl, ipoh, optionFrom(curated.line.geometry.coordinates));
+    expect(whole.tollPartial).toBe(false);
+    const beyond = [...curated.line.geometry.coordinates, [100.5, 5.0], [100.3, 5.4]];
+    const toPenang = build(kl, { id: "p", name: "George Town", detail: "", lat: 5.4141, lng: 100.3288 }, optionFrom(beyond));
+    expect(toPenang.curated).toBe(true);
+    expect(toPenang.tollPartial).toBe(true);
+    const elsewhere = build(johor, muar, optionFrom([[103.7414, 1.4927], [102.5689, 2.0442]]));
+    expect(elsewhere.tollPartial).toBe(false); // no tolls known at all is "unknown", not "partial"
+  });
+
   it("never labels an OSRM-derived line as verified, and says how the toll plazas were matched", () => {
     const trip = build(kl, ipoh, optionFrom(curated.line.geometry.coordinates));
     expect(trip.line.properties?.verified).toBe(false);

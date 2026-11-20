@@ -6,6 +6,8 @@ import type { CorridorWarning } from "@/lib/weather";
 import type { FacilityKey, Stop } from "@/lib/schemas";
 import type { PlannedStop } from "@/lib/planner";
 import { fmtTime, forecastSummary, t, type Key, type Lang } from "@/lib/i18n";
+import { searchTerms, searchUrl } from "@/lib/breaks";
+import type { Need } from "@/lib/planner";
 
 export type WeatherResponse = {
   source: string;
@@ -40,11 +42,30 @@ export function StopCard({ stop, planned, lang, onShow }: { stop: Stop; planned?
   </Card>;
 }
 
-export function WeatherCard({ data, loading, retry, now, lang, offline }: {
-  data: WeatherResponse | null; loading: boolean; retry: () => void; now: number; lang: Lang; offline: boolean;
+/** An evenly spaced rest point on a road with no verified stops. We say where to look, never what is there. */
+export function BreakCard({ stop, planned, needs, lang, onShow }: {
+  stop: Stop; planned: PlannedStop; needs: Partial<Record<Need, boolean>>; lang: Lang; onShow?: () => void;
+}) {
+  const number = stop.id.replace("break-", "");
+  return <Card id="card-break" title={t(lang, "breakAt", { n: number })}>
+    <p className="small">{t(lang, "kmFromStart", { n: stop.distanceAlongRoute_km })}</p>
+    <p>{t(lang, "stopAt", { t: fmtTime(planned.arrive), m: Math.round((planned.depart.getTime() - planned.arrive.getTime()) / 60_000) })}</p>
+    <p className="small">{t(lang, "searchNearby")}</p>
+    <div className="row">{searchTerms(needs).map((term) => <a key={term} className="chip chip-link" data-testid="break-search"
+      href={searchUrl(term, stop.lat, stop.lng)} target="_blank" rel="noopener noreferrer">{term}</a>)}</div>
+    {onShow && <button type="button" className="btn" data-size="sm" data-testid="stop-show-on-map" onClick={onShow}>{t(lang, "showOnMap")}</button>}
+  </Card>;
+}
+
+export function WeatherCard({ data, loading, retry, now, lang, offline, noCoverage = false }: {
+  data: WeatherResponse | null; loading: boolean; retry: () => void; now: number; lang: Lang; offline: boolean; noCoverage?: boolean;
 }) {
   const weatherUrl = "https://data.gov.my/data-catalogue/weather_warning";
   const freshness = 15 * 60_000;
+  if (noCoverage) return <Card id="card-weather" title={t(lang, "weatherTitle")} state="empty">
+    <p>{t(lang, "weatherNoCoverage")}</p>
+    <a className="btn" data-size="sm" href="https://www.met.gov.my/" target="_blank" rel="noopener noreferrer">MET Malaysia</a>
+  </Card>;
   return <Card id="card-weather" title={t(lang, "weatherTitle")}
     state={loading ? "loading" : !data ? "error" : offline ? "offline" : now - Date.parse(data.warnings.fetchedAt) > freshness ? "stale" : "default"}>
     {loading ? <p role="status">{t(lang, "loading")}</p> : !data ? <>
@@ -73,9 +94,13 @@ export function WeatherCard({ data, loading, retry, now, lang, offline }: {
   </Card>;
 }
 
-export function PrayerCard({ data, loading, now, lang, retry }: {
-  data: PrayerResponse[]; loading: boolean; now: number; lang: Lang; retry: () => void;
+export function PrayerCard({ data, loading, now, lang, retry, noCoverage = false }: {
+  data: PrayerResponse[]; loading: boolean; now: number; lang: Lang; retry: () => void; noCoverage?: boolean;
 }) {
+  if (noCoverage) return <Card id="card-prayer" title={t(lang, "prayerTitle")} state="empty">
+    <p>{t(lang, "prayerNoCoverage")}</p>
+    <a className="btn" data-size="sm" href="https://www.e-solat.gov.my/" target="_blank" rel="noopener noreferrer">JAKIM e-Solat</a>
+  </Card>;
   let body: ReactNode;
   if (loading) body = <p role="status">{t(lang, "loading")}</p>;
   else if (!data.length) body = <><p>{t(lang, "unavailable")}</p><button type="button" className="btn" onClick={retry}>{t(lang, "retry")}</button></>;

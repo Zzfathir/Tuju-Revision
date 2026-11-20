@@ -1,0 +1,86 @@
+/*
+ * Cruise HUD (glanceable, minimal touch). Extends the existing .drive-hud look: dark-green banner on top, white strip below.
+ * Patterns from the references in CRUISE_MODE_SPEC.md section 14: top banner (Grab), round edge controls and Exit (Google Maps),
+ * a single short red L3 banner (Forest), calm arriving/arrived screens (Tesla Robotaxi, Waymo). Tokens only: restyle in tokens.css.
+ */
+.app[data-driving="true"] { --drive-bottom-clearance: 236px; --drive-top-clearance: 176px; }
+
+.cruise-hud { gap: var(--space-2); }
+.cruise-top { display: grid; gap: var(--space-2); justify-items: start; width: 100%; pointer-events: none; }
+.cruise-top > * { pointer-events: auto; }
+
+/* ---- banner: one event at a time, large type ---- */
+.cruise-banner { transition: background-color 0.2s ease; }
+.cruise-banner .drive-next > strong { font-size: clamp(30px, 8cqw, 42px); }
+.cruise-banner[data-level="3"] { background: var(--color-status-warn); }
+.cruise-banner[data-level="off"] { background: var(--color-status-estimate); }
+.cruise-banner[data-level="arriving"] { background: var(--color-accent); box-shadow: 0 0 0 3px var(--map-route-shine), var(--map-control-shadow); }
+@media (prefers-reduced-motion: no-preference) {
+  .cruise-banner[data-level="3"] { animation: cruise-pulse 1.1s ease-in-out infinite; }
+}
+@keyframes cruise-pulse { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-status-warn) 35%, transparent), var(--map-control-shadow); } }
+.cruise-off { display: grid; gap: var(--space-3); }
+.cruise-reroute { min-height: 56px; background: var(--color-bg); color: var(--color-text); border-color: transparent; font-weight: 700; }
+.cruise-facilities { margin: var(--space-1) 0 0; font-size: var(--text-sm); }
+.cruise-recovered { margin: var(--space-3) 0 0; font-weight: 700; font-size: var(--text-sm); }
+
+/* ---- L1 chips and L2 cards ---- */
+.cruise-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+.cruise-chips li {
+  padding: 6px var(--space-3); border-radius: 999px; background: var(--color-bg); color: var(--color-text);
+  font-size: var(--text-sm); font-weight: 650; box-shadow: var(--map-control-shadow);
+}
+.cruise-card {
+  display: grid; grid-template-columns: 1fr auto; gap: 2px var(--space-3); align-items: baseline;
+  width: min(100%, 410px); padding: var(--space-3) var(--space-4); border-radius: 18px;
+  background: var(--color-bg); color: var(--color-text); box-shadow: var(--map-control-shadow);
+}
+.cruise-card strong { font-size: var(--text-md); }
+.cruise-card span { font-size: var(--text-lg); font-weight: 800; font-variant-numeric: tabular-nums; }
+.cruise-card p { grid-column: 1 / -1; margin: 0; color: var(--color-text-muted); font-size: var(--text-sm); }
+.cruise-card[data-planned="true"] { box-shadow: 0 0 0 2px var(--color-accent), var(--map-control-shadow); }
+
+.cruise-notice { margin: 0; padding: 6px var(--space-3); border-radius: 12px; background: var(--color-bg); color: var(--color-text); font-size: var(--text-xs); box-shadow: var(--map-control-shadow); }
+
+/* ---- round controls on the right edge, 56 px or larger ---- */
+.cruise-controls {
+  position: absolute; z-index: 5; inset-inline-end: var(--space-3);
+  bottom: calc(env(safe-area-inset-bottom) + var(--drive-bottom-clearance) + var(--space-3));
+  display: grid; gap: var(--space-3); pointer-events: auto;
+}
+.cruise-round {
+  width: 56px; height: 56px; border: 1px solid var(--map-control-border); border-radius: 50%;
+  background: var(--color-bg); color: var(--color-text); box-shadow: var(--map-control-shadow);
+  font: 700 var(--text-md)/1 var(--font-body); cursor: pointer;
+}
+.cruise-round[aria-pressed="true"][data-testid="cruise-mute"] { background: var(--color-surface); color: var(--color-text-muted); }
+.cruise-voice { font-size: var(--text-xs); }
+.cruise-round:focus-visible, .cruise-actions .btn:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; }
+
+/* ---- bottom strip: speed, ETA, km left ---- */
+.cruise-strip { grid-template-columns: 1fr; gap: var(--space-2); }
+.cruise-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); text-align: center; }
+.cruise-stats strong { display: block; font-size: 26px; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; line-height: 1.1; }
+.cruise-stats > div:first-child strong { font-size: 34px; }
+.cruise-stats span { display: block; color: var(--color-text-muted); font-size: var(--text-xs); }
+.cruise-actions { display: flex; gap: var(--space-2); justify-content: flex-end; }
+.cruise-actions .btn { min-height: 56px; pointer-events: auto; }
+.cruise-actions .drive-end { grid-column: auto; }
+.drive-end[data-armed="true"] { background: var(--color-status-warn); border-color: transparent; color: #fff; font-weight: 700; }
+
+/* ---- arrived: calm, one clear next step ---- */
+.cruise-arrived {
+  position: absolute; z-index: 6; inset-inline: var(--space-3);
+  bottom: calc(env(safe-area-inset-bottom) + var(--drive-bottom-clearance) + var(--space-5));
+  max-width: 410px; padding: var(--space-4) var(--space-4) var(--space-3); border-radius: var(--sheet-radius);
+  background: var(--color-bg); color: var(--color-text); box-shadow: var(--sheet-shadow); pointer-events: auto;
+}
+.cruise-arrived h3 { margin: 0 0 var(--space-1); font-size: var(--text-xl); }
+.cruise-arrived p { margin: 0 0 var(--space-3); color: var(--color-text-muted); }
+.cruise-arrived-actions { display: grid; gap: var(--space-2); }
+.cruise-arrived-actions .btn { min-height: 56px; }
+
+@container app-screen (min-width: 900px) {
+  .cruise-controls { bottom: calc(var(--drive-bottom-clearance) + var(--space-4)); inset-inline-end: var(--space-4); }
+  .cruise-arrived { inset-inline-start: auto; inset-inline-end: calc(var(--space-4) + 72px); }
+}

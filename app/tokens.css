@@ -63,6 +63,8 @@
   --map-live: #2675c4;
   --map-route-halo: #f9fffc;
   --map-route-shine: #8ee3c9;
+  --map-route-passed: #839b94;
+  --drive-car-width: 56px;
   --map-control-border: #adc5bc;
   --map-control-shadow: 0 3px 10px #16392d20;
   --sheet-shadow: 0 -4px 18px #183f3320;
@@ -70,7 +72,7 @@
   --journey-plan-width: clamp(405px, 38vw, 560px);
   --journey-button-height: 52px;
   --journey-actions-height: 70px;
-  --trip-title-size: clamp(23px, 6vw, 34px);
-  --metric-size: clamp(14px, 4vw, 19px);
+  --trip-title-size: clamp(23px, 6cqw, 34px);
+  --metric-size: clamp(14px, 4cqw, 19px);
   --focus-ring: 2px solid var(--color-accent);
 }
